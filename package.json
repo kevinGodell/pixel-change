@@ -1,0 +1,52 @@
+{
+  "name": "pixel-change",
+  "version": "0.0.0",
+  "description": "Measure differences between 2 buffer arrays of gray, rgb, or rgba pixels.",
+  "main": "index.js",
+  "scripts": {
+    "pretest": "node-gyp rebuild",
+    "test": "node test/test && node test/test2 && node test/test3 && node test/test4",
+    "preversion": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kevinGodell/pixel-change.git"
+  },
+  "keywords": [
+    "pixel",
+    "pixels",
+    "change",
+    "gray",
+    "grey",
+    "grayscale",
+    "greyscale",
+    "rgb",
+    "rgba",
+    "diff",
+    "difference",
+    "region",
+    "regions",
+    "motion",
+    "detection"
+  ],
+  "author": "Kevin Godell <kevin.godell@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinGodell/pixel-change/issues"
+  },
+  "homepage": "https://github.com/kevinGodell/pixel-change#readme",
+  "private": false,
+  "files": [
+    "lib/",
+    "src/"
+  ],
+  "engines": {
+    "node": ">=8.5"
+  },
+  "dependencies": {
+    "node-addon-api": "^1.2.0"
+  },
+  "devDependencies": {
+    "pipe2pam": "^0.6.2"
+  }
+}

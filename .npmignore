@@ -1,0 +1,8 @@
+.idea/
+node_modules/
+docs/
+test/
+build/
+.travis.yml
+appveyor.yml
+.jshintrc
