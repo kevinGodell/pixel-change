@@ -31,7 +31,7 @@ const percent = PixelChange.compareRgbaPixels(width, height, difference, buffer1
 //create a new instance to access convenience methods
 const pc = new PixelChange({width: 1920, height: 1080, depth: 3, difference: 25, percent: 12});
 
-//listen to change event when percent of differnet pixels is detected
+//listen to change event when percent of different pixels is detected
 pc.on('change', (percent)=>{
     //do something when change event is dispatched because of percent
 });
