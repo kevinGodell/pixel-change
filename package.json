@@ -38,7 +38,8 @@
   "private": false,
   "files": [
     "lib/",
-    "src/"
+    "src/",
+    "binding.gyp"
   ],
   "engines": {
     "node": ">=8.5"
