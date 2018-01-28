@@ -6,7 +6,8 @@
   "scripts": {
     "pretest": "node-gyp rebuild",
     "test": "node test/test && node test/test2 && node test/test3 && node test/test4",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "jsdoc": "jsdoc lib/pixel-change.js -d docs"
   },
   "repository": {
     "type": "git",
