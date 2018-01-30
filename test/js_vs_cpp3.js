@@ -72,9 +72,7 @@ function jsCompareRgbaPixels(width, height, diff, buf0, buf1) {
     const abs = Math.abs;
     for (let y = 0, i = 0; y < height; y++) {
         for (let x = 0; x < width; x++, i+=4) {
-            if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3)) >= diff) {
-                diffs++;
-            }
+            if (abs((buf0[i] - buf1[i] + buf0[i+1] - buf1[i+1] + buf0[i+2] - buf1[i+2])/3) >= diff) { diffs++;}
         }
     }
     return Math.floor(100 * diffs / wxh);

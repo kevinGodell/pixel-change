@@ -71,9 +71,7 @@ function jsCompareGrayPixels(width, height, diff, buf0, buf1) {
     let diffs = 0;
     for (let y = 0, i = 0; y < height; y++) {
         for (let x = 0; x < width; x++, i++) {
-            if (Math.abs(buf0[i] - buf1[i]) >= diff) {
-                diffs++;
-            }
+            if (Math.abs(buf0[i] - buf1[i]) >= diff) { diffs++;}
         }
     }
     return Math.floor(100 * diffs / wxh);
