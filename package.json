@@ -4,9 +4,11 @@
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
-    "pretest": "node-gyp rebuild",
-    "test": "node test/test && node test/test2 && node test/test3 && node test/test4 && node test/test5 && node test/js_vs_cpp",
+    "install": "node-gyp rebuild",
+    "pretest": "npm install",
+    "test": "node test/test && node test/test2 && node test/test3 && node test/test4 && node test/test5 && node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
     "preversion": "npm test",
+    "postversion": "npm run jsdoc && git commit docs",
     "jsdoc": "jsdoc lib/pixel-change.js -d docs"
   },
   "repository": {
@@ -42,6 +44,7 @@
     "src/",
     "binding.gyp"
   ],
+  "gypfile": true,
   "engines": {
     "node": ">=8.5"
   },
