@@ -48,8 +48,8 @@ const params = [
     '-c:v',
     'pam',
     '-pix_fmt',
-    'gray',
-    //'rgb24',
+    //'gray',
+    'rgb24',
     //'rgba',
     '-f',
     'image2pipe',
@@ -60,7 +60,7 @@ const params = [
     'pipe:1'
 ];
 
-function jsCompareGrayPixels(width, height, diff, buf0, buf1) {
+function jsCompareRgbPixels(width, height, diff, buf0, buf1) {
     const wxh = width * height;
     if(buf0.length !== buf1.length && buf0.length !== wxh) {
         throw new Error('Buffers must be same length and equal to width * height');
@@ -69,9 +69,11 @@ function jsCompareGrayPixels(width, height, diff, buf0, buf1) {
         throw new Error('diff must range from 1 to 255');
     }
     let diffs = 0;
+    //const arr = [];
+    const abs = Math.abs;
     for (let y = 0, i = 0; y < height; y++) {
-        for (let x = 0; x < width; x++, i++) {
-            if (Math.abs(buf0[i] - buf1[i]) >= diff) {
+        for (let x = 0; x < width; x++, i+=3) {
+            if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3)) >= diff) {
                 diffs++;
             }
         }
@@ -91,13 +93,13 @@ p2p.once('pam', (pam)=> {
         buf0 = buf1;
         buf1 = pam.pixels;
 
-        console.time('js gray compare');
-        const percent1 = jsCompareGrayPixels(width, height, 3, buf0, buf1);
-        console.timeEnd('js gray compare');
+        console.time('js rgb compare');
+        const percent1 = jsCompareRgbPixels(width, height, 3, buf0, buf1);
+        console.timeEnd('js rgb compare');
 
-        console.time('cpp gray compare');
-        const percent0 = PixelChange.compareGrayPixels(width, height, 3, buf0, buf1);
-        console.timeEnd('cpp gray compare');
+        console.time('cpp rgb compare');
+        const percent0 = PixelChange.compareRgbPixels(width, height, 3, buf0, buf1);
+        console.timeEnd('cpp rgb compare');
 
         console.log(percent0);
         console.log(percent1);
