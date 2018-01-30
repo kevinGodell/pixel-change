@@ -8,8 +8,8 @@
     "pretest": "npm install",
     "test": "node test/test && node test/test2 && node test/test3 && node test/test4 && node test/test5 && node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
     "preversion": "npm test",
-    "postversion": "npm run jsdoc && git commit -m 'update docs for new version' -- docs",
-    "jsdoc": "jsdoc lib/pixel-change.js -d docs"
+    "postversion": "npm run jsdoc",
+    "jsdoc": "jsdoc lib/pixel-change.js -d docs && git commit -m 'update docs' -- docs"
   },
   "repository": {
     "type": "git",
