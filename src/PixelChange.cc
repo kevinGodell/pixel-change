@@ -7,26 +7,26 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, difference, buffer0, buffer1").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint_fast32_t difference = info[2].As<Napi::Number>().Uint32Value();
+    const uint32_t difference = info[2].As<Napi::Number>().Uint32Value();
     if (difference > 255 || difference < 1) {
         Napi::TypeError::New(env, "Difference value must range from 1 to 255").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint_fast8_t diff = difference;
-    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
-    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
-    const uint_fast32_t len0 = buf0.Length();
-    const uint_fast32_t len1 = buf1.Length();
-    const uint_fast32_t wxh = width * height;
+    const uint8_t diff = difference;
+    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
+    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
+    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
+    const uint32_t len0 = buf0.Length();
+    const uint32_t len1 = buf1.Length();
+    const uint32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh) {
         Napi::TypeError::New(env, "Pixel buffers must be the same length and equal to width * height").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    uint_fast32_t diffs = 0;
-    for (uint_fast32_t y = 0, i = 0; y < height; y++) {
-        for (uint_fast32_t x = 0; x < width; x++, i++) {
+    uint32_t diffs = 0;
+    for (uint32_t y = 0, i = 0; y < height; y++) {
+        for (uint32_t x = 0; x < width; x++, i++) {
             if (abs(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
@@ -40,26 +40,26 @@ Napi::Value CompareRgbPixels(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, difference, buffer0, buffer1").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint_fast32_t difference = info[2].As<Napi::Number>().Uint32Value();
+    const uint32_t difference = info[2].As<Napi::Number>().Uint32Value();
     if (difference > 255 || difference < 1) {
         Napi::TypeError::New(env, "Difference value must range from 1 to 255").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint_fast8_t diff = difference;
-    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
-    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
-    const uint_fast32_t len0 = buf0.Length();
-    const uint_fast32_t len1 = buf1.Length();
-    const uint_fast32_t wxh = width * height;
+    const uint8_t diff = difference;
+    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
+    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
+    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
+    const uint32_t len0 = buf0.Length();
+    const uint32_t len1 = buf1.Length();
+    const uint32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 3) {
         Napi::TypeError::New(env, "Pixel buffers must be the same length and equal to width * height * 3").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    uint_fast32_t diffs = 0;
-    for (uint_fast32_t y = 0, i = 0; y < height; y++) {
-        for (uint_fast32_t x = 0; x < width; x++, i+=3) {
+    uint32_t diffs = 0;
+    for (uint32_t y = 0, i = 0; y < height; y++) {
+        for (uint32_t x = 0; x < width; x++, i+=3) {
             if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
         }
     }
@@ -73,26 +73,26 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, diff, buffer0, buffer1").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint_fast32_t difference = info[2].As<Napi::Number>().Uint32Value();
+    const uint32_t difference = info[2].As<Napi::Number>().Uint32Value();
     if (difference > 255 || difference < 1) {
         Napi::TypeError::New(env, "Difference value must range from 1 to 255").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint_fast8_t diff = difference;
-    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
-    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
-    const uint_fast32_t len0 = buf0.Length();
-    const uint_fast32_t len1 = buf1.Length();
-    const uint_fast32_t wxh = width * height;
+    const uint8_t diff = difference;
+    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
+    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
+    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
+    const uint32_t len0 = buf0.Length();
+    const uint32_t len1 = buf1.Length();
+    const uint32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 4) {
         Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height * 4").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    uint_fast32_t diffs = 0;
-    for (uint_fast32_t y = 0, i = 0; y < height; y++) {
-        for (uint_fast32_t x = 0; x < width; x++, i+=4) {
+    uint32_t diffs = 0;
+    for (uint32_t y = 0, i = 0; y < height; y++) {
+        for (uint32_t x = 0; x < width; x++, i+=4) {
             if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
         }
     }
