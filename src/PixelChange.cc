@@ -15,10 +15,8 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     const uint_fast8_t diff = difference;
     const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
     const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint8_t * data0 = buf0.Data();
-    const uint8_t * data1 = buf1.Data();
+    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
     const uint_fast32_t len0 = buf0.Length();
     const uint_fast32_t len1 = buf1.Length();
     const uint_fast32_t wxh = width * height;
@@ -29,14 +27,14 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     uint_fast32_t diffs = 0;
     for (uint_fast32_t y = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, i++) {
-            if (abs(data0[i] - data1[i]) >= diff) diffs++;
+            if (abs(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
     return num;
 }
 
-Napi::Number CompareRgbPixels(const Napi::CallbackInfo& info) {
+Napi::Value CompareRgbPixels(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     if (info.Length() != 5 || !info[0].IsNumber() || !info[1].IsNumber() || !info[2].IsNumber() || !info[3].IsBuffer() || !info[4].IsBuffer() ) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, difference, buffer0, buffer1").ThrowAsJavaScriptException();
@@ -50,10 +48,8 @@ Napi::Number CompareRgbPixels(const Napi::CallbackInfo& info) {
     const uint_fast8_t diff = difference;
     const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
     const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint8_t * data0 = buf0.Data();
-    const uint8_t * data1 = buf1.Data();
+    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
     const uint_fast32_t len0 = buf0.Length();
     const uint_fast32_t len1 = buf1.Length();
     const uint_fast32_t wxh = width * height;
@@ -64,7 +60,7 @@ Napi::Number CompareRgbPixels(const Napi::CallbackInfo& info) {
     uint_fast32_t diffs = 0;
     for (uint_fast32_t y = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, i+=3) {
-            if (abs(((data0[i] + data0[i+1] + data0[i+2])/3) - ((data1[i] + data1[i+1] + data1[i+2])/3)) >= diff) diffs++;
+            if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
@@ -85,10 +81,8 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
     const uint_fast8_t diff = difference;
     const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
     const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint8_t * data0 = buf0.Data();
-    const uint8_t * data1 = buf1.Data();
+    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
     const uint_fast32_t len0 = buf0.Length();
     const uint_fast32_t len1 = buf1.Length();
     const uint_fast32_t wxh = width * height;
@@ -99,7 +93,7 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
     uint_fast32_t diffs = 0;
     for (uint_fast32_t y = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, i+=4) {
-            if (abs(((data0[i] + data0[i+1] + data0[i+2])/3) - ((data1[i] + data1[i+1] + data1[i+2])/3)) >= diff) diffs++;
+            if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
