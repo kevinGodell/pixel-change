@@ -69,7 +69,6 @@ function jsCompareRgbaPixels(width, height, diff, buf0, buf1) {
         throw new Error('diff must range from 1 to 255');
     }
     let diffs = 0;
-    //const arr = [];
     const abs = Math.abs;
     for (let y = 0, i = 0; y < height; y++) {
         for (let x = 0; x < width; x++, i+=4) {
