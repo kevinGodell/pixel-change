@@ -60,7 +60,8 @@ Napi::Value CompareRgbPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=3) {
-            if (std::fabs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
+            //if (std::fabs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
+            if (std::abs((((66 * buf0[i] + 129 * buf0[i+1] + 25 * buf0[i+2] + 128) >> 8) + 16) - (((66 * buf1[i] + 129 * buf1[i+1] + 25 * buf1[i+2] + 128) >> 8) + 16)) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
