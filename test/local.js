@@ -12,7 +12,7 @@ const PixelChange = require('../index');
 
 const { spawn } = require('child_process');
 
-const pamCount = 25;
+const pamCount = 100;
 
 let buf0, buf1;
 
@@ -20,7 +20,7 @@ let pamCounter = 0;
 
 let pixelChangeCounter = 0;
 
-const pixelChangeResults = [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15, 12, 12, 12, 12 ];
+//const pixelChangeResults = [ 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 15, 12, 12, 12, 12 ];
 
 const width = 1920;
 
@@ -33,24 +33,25 @@ const params = [
     //'-stats',
     
     /* use an artificial video input */
-    '-re',
+    /*'-re',
     '-f',
     'lavfi',
     '-i',
-    'testsrc=size=1920x1080:rate=15',
-    /*'-rtsp_transport',
+    'testsrc=size=1920x1080:rate=15',*/
+    '-rtsp_transport',
     'tcp',
     '-i',
-    'rtsp://192.168.1.22:554/user=admin_password=pass_channel=1_stream=1.sdp',*/
+    //'rtsp://192.168.1.22:554/user=admin_password=pass_channel=1_stream=1.sdp',
+    'rtsp://131.95.3.162:554/axis-media/media.3gp',
 
     /* set output flags */
     '-an',
     '-c:v',
     'pam',
     '-pix_fmt',
-    //'gray',
+    'gray',
     //'rgb24',
-    'rgba',
+    //'rgba',
     '-f',
     'image2pipe',
     '-vf',
@@ -72,18 +73,19 @@ p2p.once('pam', (pam)=> {
         buf0 = buf1;
         buf1 = pam.pixels;
 
-        console.time('cpp rgba compare');
-        const percent0 = PixelChange.compareRgbaPixels(width, height, 3, buf0, buf1);
-        console.timeEnd('cpp rgba compare');
+        console.time('cpp gray compare');
+        const percent0 = PixelChange.compareGrayPixels(width, height, 8, buf0, buf1);
+        console.timeEnd('cpp gray compare');
 
-        console.time('js rgba compare');
-        const percent1 = PixelChange.jsCompareRgbaPixels(width, height, 3, buf0, buf1);
-        console.timeEnd('js rgba compare');
+        console.time('js gray compare');
+        const percent1 = PixelChange.jsCompareGrayPixels(width, height, 8, buf0, buf1);
+        console.timeEnd('js gray compare');
 
         console.log(percent0, percent1);
 
         assert(percent0 === percent1, 'percent0 and percent 1 must be equal');
-        assert(percent0 === pixelChangeResults[pixelChangeCounter++], 'pixel change percent is not correct');
+        pixelChangeCounter++;
+        //assert(percent0 === pixelChangeResults[pixelChangeCounter++], 'pixel change percent is not correct');
     });
 
 });

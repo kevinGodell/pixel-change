@@ -60,23 +60,6 @@ const params = [
     'pipe:1'
 ];
 
-function jsCompareGrayPixels(width, height, diff, buf0, buf1) {
-    const wxh = width * height;
-    if(buf0.length !== buf1.length && buf0.length !== wxh) {
-        throw new Error('Buffers must be same length and equal to width * height');
-    }
-    if (diff < 1 || diff > 255) {
-        throw new Error('diff must range from 1 to 255');
-    }
-    let diffs = 0;
-    for (let y = 0, i = 0; y < height; y++) {
-        for (let x = 0; x < width; x++, i++) {
-            if (Math.abs(buf0[i] - buf1[i]) >= diff) { diffs++;}
-        }
-    }
-    return Math.floor(100 * diffs / wxh);
-}
-
 const p2p = new P2P();
 
 p2p.once('pam', (pam)=> {
@@ -89,16 +72,15 @@ p2p.once('pam', (pam)=> {
         buf0 = buf1;
         buf1 = pam.pixels;
 
-        console.time('js gray compare');
-        const percent1 = jsCompareGrayPixels(width, height, 3, buf0, buf1);
-        console.timeEnd('js gray compare');
-
         console.time('cpp gray compare');
         const percent0 = PixelChange.compareGrayPixels(width, height, 3, buf0, buf1);
         console.timeEnd('cpp gray compare');
 
-        console.log(percent0);
-        console.log(percent1);
+        console.time('js gray compare');
+        const percent1 = PixelChange.jsCompareGrayPixels(width, height, 3, buf0, buf1);
+        console.timeEnd('js gray compare');
+
+        console.log(percent0, percent1);
 
         assert(percent0 === percent1, 'percent0 and percent 1 must be equal');
         assert(percent0 === pixelChangeResults[pixelChangeCounter++], 'pixel change percent is not correct');
@@ -114,7 +96,7 @@ ffmpeg.on('error', (error) => {
 
 ffmpeg.on('exit', (code, signal) => {
     assert(code === 0, `FFMPEG exited with code ${code} and signal ${signal}`);
-    //assert(pixelChangeCounter === pamCount - 1, `did not get ${pamCount - 1} pixel changes`);
+    assert(pixelChangeCounter === pamCount - 1, `did not get ${pamCount - 1} pixel changes`);
     console.timeEnd('=====> testing pixel changes with no region set');
 });
 
