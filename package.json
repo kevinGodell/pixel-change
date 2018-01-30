@@ -10,7 +10,7 @@
     "preversion": "npm test",
     "postversion": "npm run jsdoc",
     "jsdoc": "jsdoc lib/pixel-change.js -d docs && git commit -m 'update docs' -- docs",
-    "local": "node test/local && node test/local2 && node test/local3"
+    "local": "npm install && node test/local && node test/local2 && node test/local3"
   },
   "repository": {
     "type": "git",
