@@ -1,7 +1,7 @@
 {
   "targets": [
     {
-      "target_name": "pixelchange",
+      "target_name": "pixel_change",
       "cflags!": [ "-fno-exceptions" ],
       "cflags_cc!": [ "-fno-exceptions" ],
       "sources": [ "src/PixelChange.cc" ],
