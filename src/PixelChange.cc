@@ -27,7 +27,7 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i++) {
-            if (abs(buf0[i] - buf1[i]) >= diff) diffs++;
+            if (std::fabs(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
@@ -60,7 +60,7 @@ Napi::Value CompareRgbPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=3) {
-            if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
+            if (std::fabs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
@@ -93,7 +93,7 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=4) {
-            if (abs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
+            if (std::fabs(((buf0[i] + buf0[i+1] + buf0[i+2])/3.0) - ((buf1[i] + buf1[i+1] + buf1[i+2])/3.0)) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
