@@ -1,18 +1,6 @@
 #include <napi.h>
 #include <cmath>
 
-uint8_t Abs(uint8_t x) {
-    return x < 0 ? -x : x;
-}
-
-uint8_t Diff(uint8_t p1, uint8_t p2, uint8_t diff) {
-    return Abs(p1 - p2) >= diff;
-}
-
-uint8_t Diff(uint8_t r1, uint8_t r2, uint8_t g1, uint8_t g2, uint8_t b1, uint8_t b2, uint8_t diff) {
-    return Abs((r1 - r2 + g1 - g2 + b1 - b2)/3) >= diff;
-}
-
 Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
     if (info.Length() != 5 || !info[0].IsNumber() || !info[1].IsNumber() || !info[2].IsNumber() || !info[3].IsBuffer() || !info[4].IsBuffer() ) {
@@ -39,7 +27,7 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i++) {
-            if (Diff(buf0[i], buf1[i], diff)) diffs++;
+            if (std::abs(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
@@ -72,7 +60,7 @@ Napi::Value CompareRgbPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=3) {
-            if (Diff(buf0[i], buf1[i], buf0[i+1], buf1[i+1], buf0[i+2], buf1[i+2], diff)) diffs++;
+            if(std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
@@ -105,7 +93,7 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=4) {
-            if (Diff(buf0[i], buf1[i], buf0[i+1], buf1[i+1], buf0[i+2], buf1[i+2], diff)) diffs++;
+            if(std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     Napi::Number num = Napi::Number::New(env, 100 * diffs / wxh);
