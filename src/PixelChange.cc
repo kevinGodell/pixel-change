@@ -1,5 +1,6 @@
 #include <napi.h>
 #include <cmath>
+#include <algorithm>
 
 Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     Napi::Env env = info.Env();
@@ -187,7 +188,7 @@ Napi::Array CompareRgbRegions(const Napi::CallbackInfo& info) {
     const uint32_t len1 = buf1.Length();
     const uint32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 3) {
-        Napi::TypeError::New(env, "Pixel buffers must be the same length and equal to width * height * 3").ThrowAsJavaScriptException();
+        Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height * 3").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
     uint8_t minDiff = 255;
@@ -260,7 +261,7 @@ Napi::Array CompareRgbaRegions(const Napi::CallbackInfo& info) {
     const uint32_t len1 = buf1.Length();
     const uint32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 4) {
-        Napi::TypeError::New(env, "Pixel buffers must be the same length and equal to width * height * 4").ThrowAsJavaScriptException();
+        Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height * 4").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
     uint8_t minDiff = 255;
