@@ -9,8 +9,10 @@
     "test": "node test/test && node test/test2 && node test/test3 && node test/test4 && node test/test5 && node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
     "preversion": "npm test",
     "postversion": "npm run jsdoc",
-    "jsdoc": "jsdoc lib/pixel-change.js -d docs && git commit -m 'update docs' -- docs",
-    "local": "npm install && node test/local && node test/local2 && node test/local3"
+    "doc": "jsdoc lib/pixel-change.js -d docs && git commit -m 'update docs' -- docs",
+    "local": "npm install && node test/local && node test/local2 && node test/local3",
+    "compare": "npm install && node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
+    "regions": "npm install && node test/gray_regions && node test/rgb_regions && node test/rgba_regions"
   },
   "repository": {
     "type": "git",
