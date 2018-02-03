@@ -587,7 +587,371 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line133">line 133</a>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line131">line 131</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Returns the percentage of pixels that are different.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".compareGrayRegions"><span class="type-signature">(static) </span>compareGrayRegions<span class="signature">(width, height, regions, regions[i, buf0, buf1)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get the region specific percentage of different pixels between 2 rgba pixel buffers.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Width of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Height of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of regions.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Regions object.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Name of region.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].difference</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Pixel difference value 1 to 255.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].count</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Total number of pixels in region.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].bitset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer of 1's and 0's to use as bitset for each pixel of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buf0</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer array of pixels.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buf1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer array of pixels.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line184">line 184</a>
     </li></ul></dd>
     
 
@@ -836,7 +1200,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line165">line 165</a>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -1085,7 +1449,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line149">line 149</a>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line147">line 147</a>
     </li></ul></dd>
     
 
@@ -1265,7 +1629,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line89">line 89</a>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line87">line 87</a>
     </li></ul></dd>
     
 
@@ -1400,7 +1764,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line113">line 113</a>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line111">line 111</a>
     </li></ul></dd>
     
 
@@ -1450,7 +1814,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 30 2018 09:04:39 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 03 2018 10:47:44 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>

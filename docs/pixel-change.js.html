@@ -96,8 +96,6 @@ class PixelChange extends EventEmitter {
                     throw new Error('Invalid depth, value must be 1 for gray, 3 for rgb, or 4 for rgba');
             }
 
-
-
             //byte size of image will be width * height * depth
             this._size = this._width * this._height * this._depth;
 
@@ -158,7 +156,7 @@ class PixelChange extends EventEmitter {
      * @static
      * @public
      */
-    static compareGrayPixels (width, height, diff, buf0, buf1) {
+    static compareGrayPixels(width, height, diff, buf0, buf1) {
         return bindings.compareGrayPixels(width, height, diff, buf0, buf1);
     }
 
@@ -174,7 +172,7 @@ class PixelChange extends EventEmitter {
      * @static
      * @public
      */
-    static compareRgbPixels (width, height, diff, buf0, buf1) {
+    static compareRgbPixels(width, height, diff, buf0, buf1) {
         return bindings.compareRgbPixels(width, height, diff, buf0, buf1);
     }
 
@@ -190,8 +188,103 @@ class PixelChange extends EventEmitter {
      * @static
      * @public
      */
-    static compareRgbaPixels (width, height, diff, buf0, buf1) {
+    static compareRgbaPixels(width, height, diff, buf0, buf1) {
         return bindings.compareRgbaPixels(width, height, diff, buf0, buf1);
+    }
+
+    /**
+     * Get the region specific percentage of different pixels between 2 rgba pixel buffers.
+     *
+     * @param {Number} width - Width of image.
+     * @param {Number} height - Height of image.
+     * @param {Array} regions - Array of regions.
+     * @param {Object} regions[i] - Regions object.
+     * @param {string} regions[i].name - Name of region.
+     * @param {Number} regions[i].difference - Pixel difference value 1 to 255.
+     * @param {Number} regions[i].count - Total number of pixels in region.
+     * @param {Buffer} regions[i].bitset - Buffer of 1's and 0's to use as bitset for each pixel of image.
+     * @param {Buffer} buf0 - Buffer array of pixels.
+     * @param {Buffer} buf1 - Buffer array of pixels.
+     * @returns {Number} - Returns the percentage of pixels that are different.
+     * @static
+     * @public
+     */
+    static compareGrayRegions(width, height, regions, buf0, buf1) {
+        return bindings.compareGrayRegions(width, height, regions, buf0, buf1);
+    }
+
+    static compareRgbRegions(width, height, regions, buf0, buf1) {
+        return bindings.compareRgbRegions(width, height, regions, buf0, buf1);
+    }
+
+    static compareRgbaRegions(width, height, regions, buf0, buf1) {
+        return bindings.compareRgbaRegions(width, height, regions, buf0, buf1);
+    }
+
+    static jsCompareGrayPixels(width, height, diff, buf0, buf1) {
+        if (!width || !height || !diff || !buf0 || !buf1) {
+            throw new Error('Must be 5 args passed as width, height, diff, buffer0, buffer1');
+        }
+        if (diff &lt; 1 || diff > 255) {
+            throw new Error('Difference value must range from 1 to 255');
+        }
+        const wxh = width * height;
+        const len0 = buf0.length;
+        const len1 = buf1.length;
+        if (len0 !== len1 || len0 !== wxh) {
+            throw new Error('Pixels buffers must be the same length and equal to width * height');
+        }
+        let diffs = 0;
+        for (let y = 0, i = 0; y &lt; height; y++) {
+            for (let x = 0; x &lt; width; x++, i++) {
+                if (Math.abs(buf0[i] - buf1[i]) >= diff) {diffs++;}
+            }
+        }
+        return Math.floor(100 * diffs / wxh);
+    }
+
+    static jsCompareRgbPixels(width, height, diff, buf0, buf1) {
+        if (!width || !height || !diff || !buf0 || !buf1) {
+            throw new Error('Must be 5 args passed as width, height, diff, buffer0, buffer1');
+        }
+        if (diff &lt; 1 || diff > 255) {
+            throw new Error('Difference value must range from 1 to 255');
+        }
+        const wxh = width * height;
+        const len0 = buf0.length;
+        const len1 = buf1.length;
+        if (len0 !== len1 || len0 !== wxh * 3) {
+            throw new Error('Pixels buffers must be the same length and equal to width * height * 3');
+        }
+        let diffs = 0;
+        for (let y = 0, i = 0; y &lt; height; y++) {
+            for (let x = 0; x &lt; width; x++, i+=3) {
+                if (Math.abs(buf0[i] - buf1[i] + buf0[i+1] - buf1[i+1] + buf0[i+2] - buf1[i+2])/3 >= diff) { diffs++;}
+            }
+        }
+        return Math.floor(100 * diffs / wxh);
+    }
+
+    static jsCompareRgbaPixels(width, height, diff, buf0, buf1) {
+        if (!width || !height || !diff || !buf0 || !buf1) {
+            throw new Error('Must be 5 args passed as width, height, diff, buffer0, buffer1');
+        }
+        if (diff &lt; 1 || diff > 255) {
+            throw new Error('Difference value must range from 1 to 255');
+        }
+        const wxh = width * height;
+        const len0 = buf0.length;
+        const len1 = buf1.length;
+        if (len0 !== len1 || len0 !== wxh * 4) {
+            throw new Error('Pixels buffers must be the same length and equal to width * height * 4');
+        }
+        let diffs = 0;
+        for (let y = 0, i = 0; y &lt; height; y++) {
+            for (let x = 0; x &lt; width; x++, i+=4) {
+                if (Math.abs(buf0[i] - buf1[i] + buf0[i+1] - buf1[i+1] + buf0[i+2] - buf1[i+2])/3 >= diff) { diffs++;}
+            }
+        }
+        return Math.floor(100 * diffs / wxh);
     }
 
 }
@@ -212,7 +305,7 @@ module.exports = PixelChange;</code></pre>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Jan 30 2018 09:04:39 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 03 2018 10:47:44 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>
