@@ -56,7 +56,7 @@ p2p.once('pam', (pam)=> {
     pamCounter++;
 
     //grab some config settings from first pam and cache the pixels for next time
-    const pc = new PixelChange({width: pam.width, height: pam.height, depth: pam.depth, difference: 1, percent: 1}, (err, data)=>{
+    const pc = new PixelChange({width: pam.width, height: pam.height, depth: pam.depth, diff: 1, percent: 1}, (err, data)=>{
         if(err) {
             throw err;
         }

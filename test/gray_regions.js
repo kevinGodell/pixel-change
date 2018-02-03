@@ -84,7 +84,7 @@ for (let y = 0, i = 0; y < height; y++) {
     }
 }
 
-const regions = [{name: "one", difference: 1, count: pp1.pointsLength, bitset: region1}, {name: "two", difference: 1, count: pp2.pointsLength, bitset: region2}, {name: "three", difference: 1, count: pp3.pointsLength, bitset: region3}, {name: "four", difference: 1, count: pp4.pointsLength, bitset: region4}];
+const regions = [{name: "one", diff: 1, count: pp1.pointsLength, bitset: region1}, {name: "two", diff: 1, count: pp2.pointsLength, bitset: region2}, {name: "three", diff: 1, count: pp3.pointsLength, bitset: region3}, {name: "four", diff: 1, count: pp4.pointsLength, bitset: region4}];
 
 const params = [
     /* log info to console */
