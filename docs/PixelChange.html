@@ -818,7 +818,7 @@
 
             
 
-            <td class="description last">Total number of pixels in region.</td>
+            <td class="description last">Total number of pixels in region. (Number of 1's in bitset)</td>
         </tr>
 
     
@@ -1233,6 +1233,347 @@
     
 
     
+    <h4 class="name" id=".compareRgbaRegions"><span class="type-signature">(static) </span>compareRgbaRegions<span class="signature">(width, height, regions, buf0, buf1)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get the region specific percentage of different pixels between 2 rgba pixel buffers.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Width of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Height of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of regions. [{name: "reg1", diff: 5, count: 76800, bitset: Buffer}]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Name of region.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].diff</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Difference between 2 pixels, 1 to 255.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].count</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Total number of pixels in region. (Number of 1's in bitset)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].bitset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer of 1's and 0's to use as bitset for each pixel of image. 0 means that the index of the pixel is not in the region, while 1 indicates that it is. The pixel array is indexed from top left to bottom right. An image that is 640x480 will have 307200 pixels. The bitset for an image of that size is 307200, with 1's for each pixel that is in the targeted region, and 0 for the rest.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buf0</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer array of pixels.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buf1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer array of pixels.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line223">line 223</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Returns the percentage of pixels that are different.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id=".compareRgbPixels"><span class="type-signature">(static) </span>compareRgbPixels<span class="signature">(width, height, diff, buf0, buf1)</span><span class="type-signature"> &rarr; {Number}</span></h4>
     
 
@@ -1427,6 +1768,347 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line147">line 147</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    - Returns the percentage of pixels that are different.
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Number</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".compareRgbRegions"><span class="type-signature">(static) </span>compareRgbRegions<span class="signature">(width, height, regions, buf0, buf1)</span><span class="type-signature"> &rarr; {Number}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Get the region specific percentage of different pixels between 2 rgb pixel buffers.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>width</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Width of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>height</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Height of image.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Array of regions. [{name: "reg1", diff: 5, count: 76800, bitset: Buffer}]</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Name of region.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].diff</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Difference between 2 pixels, 1 to 255.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].count</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Total number of pixels in region. (Number of 1's in bitset)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>regions[i].bitset</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer of 1's and 0's to use as bitset for each pixel of image. 0 means that the index of the pixel is not in the region, while 1 indicates that it is. The pixel array is indexed from top left to bottom right. An image that is 640x480 will have 307200 pixels. The bitset for an image of that size is 307200, with 1's for each pixel that is in the targeted region, and 0 for the rest.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buf0</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer array of pixels.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>buf1</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Buffer</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Buffer array of pixels.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pixel-change.js.html">pixel-change.js</a>, <a href="pixel-change.js.html#line203">line 203</a>
     </li></ul></dd>
     
 
@@ -1791,7 +2473,7 @@
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 03 2018 11:31:31 GMT-0600 (CST)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Feb 03 2018 13:11:06 GMT-0600 (CST)
 </footer>
 
 <script> prettyPrint(); </script>
