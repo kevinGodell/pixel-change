@@ -8,7 +8,7 @@
     "pretest": "npm install",
     "test": "node test/test && node test/test2 && node test/test3 && node test/test4 && node test/test5 && node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
     "preversion": "npm test",
-    "postversion": "npm run jsdoc",
+    "postversion": "npm run doc",
     "doc": "jsdoc lib/pixel-change.js -d docs && git commit -m 'update docs' -- docs",
     "local": "npm install && node test/local && node test/local2 && node test/local3",
     "compare": "npm install && node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "node-addon-api": "^1.2.0",
-    "polygon-points": "^0.5.0"
+    "polygon-points": "^0.5.1"
   },
   "devDependencies": {
     "pipe2pam": "^0.6.2"
