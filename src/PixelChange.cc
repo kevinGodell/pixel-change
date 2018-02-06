@@ -12,22 +12,22 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Diff value must range from 1 to 255").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint8_t diff = info[2].As<Napi::Number>().Uint32Value();
-    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint32_t len0 = buf0.Length();
-    const uint32_t len1 = buf1.Length();
-    const uint32_t wxh = width * height;
+    const uint_fast8_t diff = info[2].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
+    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
+    const uint_fast32_t len0 = buf0.Length();
+    const uint_fast32_t len1 = buf1.Length();
+    const uint_fast32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh) {
         Napi::TypeError::New(env, "Pixel buffers must be the same length and equal to width * height").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    uint32_t diffs = 0;
-    for (uint32_t y = 0, i = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++, i++) {
-            if (std::abs(buf0[i] - buf1[i]) >= diff) diffs++;
+    uint_fast32_t diffs = 0;
+    for (uint_fast32_t y = 0, i = 0; y < height; y++) {
+        for (uint_fast32_t x = 0; x < width; x++, i++) {
+            if (std::fabs(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -43,22 +43,22 @@ Napi::Number CompareRgbPixels(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Diff value must range from 1 to 255").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint8_t diff = info[2].As<Napi::Number>().Uint32Value();
-    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint32_t len0 = buf0.Length();
-    const uint32_t len1 = buf1.Length();
-    const uint32_t wxh = width * height;
+    const uint_fast8_t diff = info[2].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
+    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
+    const uint_fast32_t len0 = buf0.Length();
+    const uint_fast32_t len1 = buf1.Length();
+    const uint_fast32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 3) {
         Napi::TypeError::New(env, "Pixel buffers must be the same length and equal to width * height * 3").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    uint32_t diffs = 0;
-    for (uint32_t y = 0, i = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++, i+=3) {
-            if(std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
+    uint_fast32_t diffs = 0;
+    for (uint_fast32_t y = 0, i = 0; y < height; y++) {
+        for (uint_fast32_t x = 0; x < width; x++, i+=3) {
+            if(std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -74,22 +74,22 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Diff value must range from 1 to 255").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    const uint8_t diff = info[2].As<Napi::Number>().Uint32Value();
-    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
-    Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint32_t len0 = buf0.Length();
-    const uint32_t len1 = buf1.Length();
-    const uint32_t wxh = width * height;
+    const uint_fast8_t diff = info[2].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
+    Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
+    const uint_fast32_t len0 = buf0.Length();
+    const uint_fast32_t len1 = buf1.Length();
+    const uint_fast32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 4) {
         Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height * 4").ThrowAsJavaScriptException();
         return Napi::Number::New(env, NAN);
     }
-    uint32_t diffs = 0;
-    for (uint32_t y = 0, i = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++, i+=4) {
-            if(std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
+    uint_fast32_t diffs = 0;
+    for (uint_fast32_t y = 0, i = 0; y < height; y++) {
+        for (uint_fast32_t x = 0; x < width; x++, i+=4) {
+            if(std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -103,22 +103,22 @@ Napi::Array CompareGrayRegions(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, regions, buffer0, buffer1").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
-    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
     const Napi::Array regionsArr = info[2].As<Napi::Array>();
-    const Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    const Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint32_t len0 = buf0.Length();
-    const uint32_t len1 = buf1.Length();
-    const uint32_t wxh = width * height;
+    const Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    const Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
+    const uint_fast32_t len0 = buf0.Length();
+    const uint_fast32_t len1 = buf1.Length();
+    const uint_fast32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh) {
         Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
-    uint8_t minDiff = 255;
-    const uint32_t regionsLen = regionsArr.Length();
-    std::vector<std::tuple<std::string, uint8_t, uint32_t, Napi::Buffer<uint8_t>, uint32_t>> regionsVec(regionsLen);
-    for (uint32_t i = 0; i < regionsLen; i++) {
+    uint_fast8_t minDiff = 255;
+    const uint_fast32_t regionsLen = regionsArr.Length();
+    std::vector<std::tuple<std::string, uint_fast8_t, uint_fast32_t, Napi::Buffer<uint_fast8_t>, uint_fast32_t>> regionsVec(regionsLen);
+    for (uint_fast32_t i = 0; i < regionsLen; i++) {
         if (
             !regionsArr.Get(i).IsObject() ||
             regionsArr.Get(i).As<Napi::Object>().GetPropertyNames().Length() != 4 ||
@@ -140,32 +140,32 @@ Napi::Array CompareGrayRegions(const Napi::CallbackInfo& info) {
             Napi::TypeError::New(env, "Diff value must range from 1 to 255.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
-        const uint8_t diff = regionsArr.Get(i).As<Napi::Object>().Get("diff").As<Napi::Number>().Uint32Value();
+        const uint_fast8_t diff = regionsArr.Get(i).As<Napi::Object>().Get("diff").As<Napi::Number>().Uint32Value();
         minDiff = std::min(minDiff, diff);
-        const uint32_t count = regionsArr.Get(i).As<Napi::Object>().Get("count").As<Napi::Number>().Uint32Value();
+        const uint_fast32_t count = regionsArr.Get(i).As<Napi::Object>().Get("count").As<Napi::Number>().Uint32Value();
         if (!(count < wxh && count > 0)) {
             Napi::TypeError::New(env, "Count should indicate the number of 1's in bitset.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
-        const Napi::Buffer<uint8_t> bitset = regionsArr.Get(i).As<Napi::Object>().Get("bitset").As<Napi::Buffer<uint8_t>>();
+        const Napi::Buffer<uint_fast8_t> bitset = regionsArr.Get(i).As<Napi::Object>().Get("bitset").As<Napi::Buffer<uint_fast8_t>>();
         if (bitset.Length() != wxh) {
             Napi::TypeError::New(env, "Pixel bitset must be the same length as width * height.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
         regionsVec[i] = std::make_tuple(regionsArr.Get(i).As<Napi::Object>().Get("name").As<Napi::String>(), diff, count, bitset, 0);
     }
-    for (uint32_t y = 0, p = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++, p++) {
-            const uint8_t diff = std::abs(buf0[p] - buf1[p]);
+    for (uint_fast32_t y = 0, p = 0; y < height; y++) {
+        for (uint_fast32_t x = 0; x < width; x++, p++) {
+            const uint_fast8_t diff = std::fabs(buf0[p] - buf1[p]);
             if (minDiff > diff) continue;
-            for (uint32_t i = 0; i < regionsLen; i++) {
+            for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
                 std::get<4>(regionsVec[i])++;
             }
         }
     }
     Napi::Array results = Napi::Array::New(env, regionsLen);
-    for(uint32_t i = 0; i < regionsLen; i++) {
+    for(uint_fast32_t i = 0; i < regionsLen; i++) {
         Napi::Object obj = Napi::Object::New(env);
         obj.Set("name", std::get<0>(regionsVec[i]));
         obj.Set("percent", 100 * std::get<4>(regionsVec[i]) / std::get<2>(regionsVec[i]));
@@ -180,22 +180,22 @@ Napi::Array CompareRgbRegions(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, regions, buffer0, buffer1").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
-    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
     const Napi::Array regionsArr = info[2].As<Napi::Array>();
-    const Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    const Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint32_t len0 = buf0.Length();
-    const uint32_t len1 = buf1.Length();
-    const uint32_t wxh = width * height;
+    const Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    const Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
+    const uint_fast32_t len0 = buf0.Length();
+    const uint_fast32_t len1 = buf1.Length();
+    const uint_fast32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 3) {
         Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height * 3").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
-    uint8_t minDiff = 255;
-    const uint32_t regionsLen = regionsArr.Length();
-    std::vector<std::tuple<std::string, uint8_t, uint32_t, Napi::Buffer<uint8_t>, uint32_t>> regionsVec(regionsLen);
-    for (uint32_t i = 0; i < regionsLen; i++) {
+    uint_fast8_t minDiff = 255;
+    const uint_fast32_t regionsLen = regionsArr.Length();
+    std::vector<std::tuple<std::string, uint_fast8_t, uint_fast32_t, Napi::Buffer<uint_fast8_t>, uint_fast32_t>> regionsVec(regionsLen);
+    for (uint_fast32_t i = 0; i < regionsLen; i++) {
         if (
             !regionsArr.Get(i).IsObject() ||
             regionsArr.Get(i).As<Napi::Object>().GetPropertyNames().Length() != 4 ||
@@ -217,32 +217,32 @@ Napi::Array CompareRgbRegions(const Napi::CallbackInfo& info) {
             Napi::TypeError::New(env, "Diff value must range from 1 to 255.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
-        const uint8_t diff = regionsArr.Get(i).As<Napi::Object>().Get("diff").As<Napi::Number>().Uint32Value();
+        const uint_fast8_t diff = regionsArr.Get(i).As<Napi::Object>().Get("diff").As<Napi::Number>().Uint32Value();
         minDiff = std::min(minDiff, diff);
-        const uint32_t count = regionsArr.Get(i).As<Napi::Object>().Get("count").As<Napi::Number>().Uint32Value();
+        const uint_fast32_t count = regionsArr.Get(i).As<Napi::Object>().Get("count").As<Napi::Number>().Uint32Value();
         if (!(count < wxh && count > 0)) {
             Napi::TypeError::New(env, "Count should indicate the number of 1's in bitset.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
-        const Napi::Buffer<uint8_t> bitset = regionsArr.Get(i).As<Napi::Object>().Get("bitset").As<Napi::Buffer<uint8_t>>();
+        const Napi::Buffer<uint_fast8_t> bitset = regionsArr.Get(i).As<Napi::Object>().Get("bitset").As<Napi::Buffer<uint_fast8_t>>();
         if (bitset.Length() != wxh) {
             Napi::TypeError::New(env, "Pixel bitset must be the same length as width * height.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
         regionsVec[i] = std::make_tuple(regionsArr.Get(i).As<Napi::Object>().Get("name").As<Napi::String>(), diff, count, bitset, 0);
     }
-    for (uint32_t y = 0, p = 0, i = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++, p++, i+=3) {
-            const uint8_t diff = std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+    for (uint_fast32_t y = 0, p = 0, i = 0; y < height; y++) {
+        for (uint_fast32_t x = 0; x < width; x++, p++, i+=3) {
+            const uint_fast8_t diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
-            for (uint32_t i = 0; i < regionsLen; i++) {
+            for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
                 std::get<4>(regionsVec[i])++;
             }
         }
     }
     Napi::Array results = Napi::Array::New(env, regionsLen);
-    for(uint32_t i = 0; i < regionsLen; i++) {
+    for(uint_fast32_t i = 0; i < regionsLen; i++) {
         Napi::Object obj = Napi::Object::New(env);
         obj.Set("name", std::get<0>(regionsVec[i]));
         obj.Set("percent", 100 * std::get<4>(regionsVec[i]) / std::get<2>(regionsVec[i]));
@@ -257,22 +257,22 @@ Napi::Array CompareRgbaRegions(const Napi::CallbackInfo& info) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, regions, buffer0, buffer1").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
-    const uint32_t width = info[0].As<Napi::Number>().Uint32Value();
-    const uint32_t height = info[1].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t width = info[0].As<Napi::Number>().Uint32Value();
+    const uint_fast32_t height = info[1].As<Napi::Number>().Uint32Value();
     const Napi::Array regionsArr = info[2].As<Napi::Array>();
-    const Napi::Buffer<uint8_t> buf0 = info[3].As<Napi::Buffer<uint8_t>>();
-    const Napi::Buffer<uint8_t> buf1 = info[4].As<Napi::Buffer<uint8_t>>();
-    const uint32_t len0 = buf0.Length();
-    const uint32_t len1 = buf1.Length();
-    const uint32_t wxh = width * height;
+    const Napi::Buffer<uint_fast8_t> buf0 = info[3].As<Napi::Buffer<uint_fast8_t>>();
+    const Napi::Buffer<uint_fast8_t> buf1 = info[4].As<Napi::Buffer<uint_fast8_t>>();
+    const uint_fast32_t len0 = buf0.Length();
+    const uint_fast32_t len1 = buf1.Length();
+    const uint_fast32_t wxh = width * height;
     if (len0 != len1 || len0 != wxh * 4) {
         Napi::TypeError::New(env, "Pixels buffers must be the same length and equal to width * height * 4").ThrowAsJavaScriptException();
         return Napi::Array::New(env);
     }
-    uint8_t minDiff = 255;
-    const uint32_t regionsLen = regionsArr.Length();
-    std::vector<std::tuple<std::string, uint8_t, uint32_t, Napi::Buffer<uint8_t>, uint32_t>> regionsVec(regionsLen);
-    for (uint32_t i = 0; i < regionsLen; i++) {
+    uint_fast8_t minDiff = 255;
+    const uint_fast32_t regionsLen = regionsArr.Length();
+    std::vector<std::tuple<std::string, uint_fast8_t, uint_fast32_t, Napi::Buffer<uint_fast8_t>, uint_fast32_t>> regionsVec(regionsLen);
+    for (uint_fast32_t i = 0; i < regionsLen; i++) {
         if (
             !regionsArr.Get(i).IsObject() ||
             regionsArr.Get(i).As<Napi::Object>().GetPropertyNames().Length() != 4 ||
@@ -294,32 +294,32 @@ Napi::Array CompareRgbaRegions(const Napi::CallbackInfo& info) {
             Napi::TypeError::New(env, "Diff value must range from 1 to 255.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
-        const uint8_t diff = regionsArr.Get(i).As<Napi::Object>().Get("diff").As<Napi::Number>().Uint32Value();
+        const uint_fast8_t diff = regionsArr.Get(i).As<Napi::Object>().Get("diff").As<Napi::Number>().Uint32Value();
         minDiff = std::min(minDiff, diff);
-        const uint32_t count = regionsArr.Get(i).As<Napi::Object>().Get("count").As<Napi::Number>().Uint32Value();
+        const uint_fast32_t count = regionsArr.Get(i).As<Napi::Object>().Get("count").As<Napi::Number>().Uint32Value();
         if (!(count < wxh && count > 0)) {
             Napi::TypeError::New(env, "Count should indicate the number of 1's in bitset.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
-        const Napi::Buffer<uint8_t> bitset = regionsArr.Get(i).As<Napi::Object>().Get("bitset").As<Napi::Buffer<uint8_t>>();
+        const Napi::Buffer<uint_fast8_t> bitset = regionsArr.Get(i).As<Napi::Object>().Get("bitset").As<Napi::Buffer<uint_fast8_t>>();
         if (bitset.Length() != wxh) {
             Napi::TypeError::New(env, "Pixel bitset must be the same length as width * height.").ThrowAsJavaScriptException();
             return Napi::Array::New(env);
         }
         regionsVec[i] = std::make_tuple(regionsArr.Get(i).As<Napi::Object>().Get("name").As<Napi::String>(), diff, count, bitset, 0);
     }
-    for (uint32_t y = 0, p = 0, i = 0; y < height; y++) {
-        for (uint32_t x = 0; x < width; x++, p++, i+=4) {
-            const uint8_t diff = std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+    for (uint_fast32_t y = 0, p = 0, i = 0; y < height; y++) {
+        for (uint_fast32_t x = 0; x < width; x++, p++, i+=4) {
+            const uint_fast8_t diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
-            for (uint32_t i = 0; i < regionsLen; i++) {
+            for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
                 std::get<4>(regionsVec[i])++;
             }
         }
     }
     Napi::Array results = Napi::Array::New(env, regionsLen);
-    for(uint32_t i = 0; i < regionsLen; i++) {
+    for(uint_fast32_t i = 0; i < regionsLen; i++) {
         Napi::Object obj = Napi::Object::New(env);
         obj.Set("name", std::get<0>(regionsVec[i]));
         obj.Set("percent", 100 * std::get<4>(regionsVec[i]) / std::get<2>(regionsVec[i]));
