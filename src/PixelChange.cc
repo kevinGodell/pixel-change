@@ -27,7 +27,7 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i++) {
-            if (abs(buf0[i] - buf1[i]) >= diff) diffs++;
+            if (std::abs(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -58,7 +58,7 @@ Napi::Number CompareRgbPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=3) {
-            if(abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
+            if(std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -89,7 +89,7 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
     uint32_t diffs = 0;
     for (uint32_t y = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, i+=4) {
-            if(abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
+            if(std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -156,7 +156,7 @@ Napi::Array CompareGrayRegions(const Napi::CallbackInfo& info) {
     }
     for (uint32_t y = 0, p = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, p++) {
-            const uint8_t diff = abs(buf0[p] - buf1[p]);
+            const uint8_t diff = std::abs(buf0[p] - buf1[p]);
             if (minDiff > diff) continue;
             for (uint32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
@@ -233,7 +233,7 @@ Napi::Array CompareRgbRegions(const Napi::CallbackInfo& info) {
     }
     for (uint32_t y = 0, p = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, p++, i+=3) {
-            const uint8_t diff = abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+            const uint8_t diff = std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
             for (uint32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
@@ -310,7 +310,7 @@ Napi::Array CompareRgbaRegions(const Napi::CallbackInfo& info) {
     }
     for (uint32_t y = 0, p = 0, i = 0; y < height; y++) {
         for (uint32_t x = 0; x < width; x++, p++, i+=4) {
-            const uint8_t diff = abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+            const uint8_t diff = std::abs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
             for (uint32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
