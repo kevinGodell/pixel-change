@@ -156,7 +156,7 @@ Napi::Array CompareGrayRegions(const Napi::CallbackInfo& info) {
     }
     for (uint_fast32_t y = 0, p = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, p++) {
-            const uint_fast8_t diff = std::fabs(buf0[p] - buf1[p]);
+            const auto diff = std::fabs(buf0[p] - buf1[p]);
             if (minDiff > diff) continue;
             for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
@@ -233,7 +233,7 @@ Napi::Array CompareRgbRegions(const Napi::CallbackInfo& info) {
     }
     for (uint_fast32_t y = 0, p = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, p++, i+=3) {
-            const uint_fast8_t diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+            const auto diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
             for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
@@ -310,7 +310,7 @@ Napi::Array CompareRgbaRegions(const Napi::CallbackInfo& info) {
     }
     for (uint_fast32_t y = 0, p = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, p++, i+=4) {
-            const uint_fast8_t diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+            const auto diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
             for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
