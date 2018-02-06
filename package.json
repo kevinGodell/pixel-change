@@ -52,10 +52,10 @@
     "node": ">=8.5"
   },
   "dependencies": {
-    "node-addon-api": "^1.2.0",
-    "polygon-points": "^0.5.1"
+    "node-addon-api": "^1.2.0"
   },
   "devDependencies": {
-    "pipe2pam": "^0.6.2"
+    "pipe2pam": "^0.6.2",
+    "polygon-points": "^0.5.1"
   }
 }
