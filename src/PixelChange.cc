@@ -2,7 +2,7 @@
 #include <cmath>
 #include <algorithm>
 
-inline int absv(int x) {
+inline uint_fast32_t absv(int_fast32_t x) {
     return (x > 0) ? x : -x;
 }
 
