@@ -2,7 +2,12 @@
 #include <cmath>
 #include <algorithm>
 
+inline int absv(int x) {
+    return (x > 0) ? x : -x;
+}
+
 Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
+
     Napi::Env env = info.Env();
     if (info.Length() != 5 || !info[0].IsNumber() || !info[1].IsNumber() || !info[2].IsNumber() || !info[3].IsBuffer() || !info[4].IsBuffer() ) {
         Napi::TypeError::New(env, "Must be 5 args passed as width, height, diff, buffer0, buffer1").ThrowAsJavaScriptException();
@@ -27,7 +32,7 @@ Napi::Number CompareGrayPixels(const Napi::CallbackInfo& info) {
     uint_fast32_t diffs = 0;
     for (uint_fast32_t y = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, i++) {
-            if (std::fabs(buf0[i] - buf1[i]) >= diff) diffs++;
+            if (absv(buf0[i] - buf1[i]) >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -58,7 +63,7 @@ Napi::Number CompareRgbPixels(const Napi::CallbackInfo& info) {
     uint_fast32_t diffs = 0;
     for (uint_fast32_t y = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, i+=3) {
-            if(std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
+            if(absv(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -89,7 +94,7 @@ Napi::Number CompareRgbaPixels(const Napi::CallbackInfo& info) {
     uint_fast32_t diffs = 0;
     for (uint_fast32_t y = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, i+=4) {
-            if(std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
+            if(absv(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3 >= diff) diffs++;
         }
     }
     return Napi::Number::New(env, 100 * diffs / wxh);
@@ -156,7 +161,7 @@ Napi::Array CompareGrayRegions(const Napi::CallbackInfo& info) {
     }
     for (uint_fast32_t y = 0, p = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, p++) {
-            const auto diff = std::fabs(buf0[p] - buf1[p]);
+            const auto diff = absv(buf0[p] - buf1[p]);
             if (minDiff > diff) continue;
             for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
@@ -233,7 +238,7 @@ Napi::Array CompareRgbRegions(const Napi::CallbackInfo& info) {
     }
     for (uint_fast32_t y = 0, p = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, p++, i+=3) {
-            const auto diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+            const auto diff = absv(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
             for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
@@ -310,7 +315,7 @@ Napi::Array CompareRgbaRegions(const Napi::CallbackInfo& info) {
     }
     for (uint_fast32_t y = 0, p = 0, i = 0; y < height; y++) {
         for (uint_fast32_t x = 0; x < width; x++, p++, i+=4) {
-            const auto diff = std::fabs(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
+            const auto diff = absv(buf0[i] + buf0[i+1] + buf0[i+2] - buf1[i] - buf1[i+1] - buf1[i+2])/3;
             if (minDiff > diff) continue;
             for (uint_fast32_t i = 0; i < regionsLen; i++) {
                 if (!std::get<3>(regionsVec[i])[p] || diff < std::get<1>(regionsVec[i])) continue;
