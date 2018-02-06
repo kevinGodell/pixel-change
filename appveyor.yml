@@ -41,4 +41,8 @@ test_script:
   - npm --version
   - npm test
 
+on_success:
+  - npm run compare
+  - npm run regions
+
 build: off
