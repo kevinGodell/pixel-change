@@ -18,18 +18,18 @@ const PixelChange = require('pixel-change');
 /* -- access static methods -- */
 
 //will return a percent of how many gray pixels are changed between the 2 buffer pixel arrays
-const percent = PixelChange.compareGrayPixels(width, height, difference, buffer1, buffer2);
+const percent = PixelChange.compareGrayPixels(width, height, diff, buffer1, buffer2);
 
 //will return a percent of how many rgb pixels are changed between the 2 buffer pixel arrays
-const percent = PixelChange.compareRgbPixels(width, height, difference, buffer1, buffer2);
+const percent = PixelChange.compareRgbPixels(width, height, diff, buffer1, buffer2);
 
 //will return a percent of how many rgba pixels are changed between the 2 buffer pixel arrays
-const percent = PixelChange.compareRgbaPixels(width, height, difference, buffer1, buffer2);
+const percent = PixelChange.compareRgbaPixels(width, height, diff, buffer1, buffer2);
 
 /* -- access instance methods -- */
 
 //create a new instance to access convenience methods
-const pc = new PixelChange({width: 1920, height: 1080, depth: 3, difference: 25, percent: 12});
+const pc = new PixelChange({width: 1920, height: 1080, depth: 3, diff: 25, percent: 12});
 
 //listen to change event when percent of different pixels is detected
 pc.on('change', (percent)=>{
@@ -46,7 +46,7 @@ pc.push(buffer);
 /* -- alternative to listening to "change" event
 
 //pass callback to new instance
-const pc = new PixelChange({width: 1920, height: 1080, depth: 3, difference: 25, percent: 12}, (err, percent)=>{
+const pc = new PixelChange({width: 1920, height: 1080, depth: 3, diff: 25, percent: 12}, (err, percent)=>{
     if (err) {
         throw err;
     }
