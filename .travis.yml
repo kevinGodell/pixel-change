@@ -3,10 +3,10 @@ node_js:
   - 11
 matrix:
   include:
-    - os: linux
-      dist: xenial
-    - os: osx
-      osx_image: xcode10.2
+#    - os: linux
+#      dist: xenial
+#    - os: osx
+#      osx_image: xcode10.2
     - os: windows
 sudo: required
 before_install:
@@ -17,9 +17,9 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ffmpeg; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then curl -O -J -L https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z x ffmpeg-latest-win64-static.zip -bb3; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo %PATH%; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo %cd%; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then dir /s; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo "%PATH%"; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo "%cd%"; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then dir; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then PATH=%PATH%;%cd%\ffmpeg-latest-win64-static\bin; fi
   - ffmpeg -hwaccels
   - ffmpeg -version
