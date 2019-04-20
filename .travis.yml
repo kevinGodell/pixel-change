@@ -20,10 +20,9 @@ before_install:
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then env|grep PATH; fi
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PWD}; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then export PATH=$PATH:"${PWD}/ffmpeg-latest-win64-static/bin";fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then export PATH=PATH:"${PWD}/ffmpeg-latest-win64-static/bin";fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ls -lR; fi
-  - ffmpeg -hwaccels
-  - ffmpeg -version
+  - ffmpeg
 after_success:
 #  - npm run compare
