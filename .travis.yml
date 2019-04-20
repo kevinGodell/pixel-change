@@ -17,9 +17,12 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ffmpeg; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then curl -O -J -L https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z x ffmpeg-latest-win64-static.zip -bb3; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo $env:path $env:cd $env:Path $env:Cd $env; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo path "%PATH%" $path PATH; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${env:path} ${env:cd} ${env:Path} ${env:Cd} ${env}; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${path} ${%PATH%} ${PATH}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then env|grep PATH; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo cd ${cd}; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo cd ${CD}; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo pwd ${pwd}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then dir; fi
   - ffmpeg -hwaccels
   - ffmpeg -version
