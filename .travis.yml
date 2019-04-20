@@ -19,9 +19,8 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z x ffmpeg-latest-win64-static.zip -bb3; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo $env:path $env:cd $env:Path $env:Cd $env; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo path "%PATH%" $path PATH; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then env|grep PATH echo pwd cd "%cd%" $cd CD; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then env|grep PATH; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then dir; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then $env:Path += $env:Cd\ffmpeg-latest-win64-static\bin; fi
   - ffmpeg -hwaccels
   - ffmpeg -version
 after_success:
