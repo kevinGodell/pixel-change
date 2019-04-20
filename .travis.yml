@@ -2,18 +2,25 @@ language: node_js
 node_js:
   - "node"
   - "lts/*"
-os:
-  - linux
-  - osx
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+    - os: osx
+      osx_image: xcode10.2
+    - os: windows
 sudo: required
-dist: trusty
 before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo add-apt-repository -y ppa:mc3man/trusty-media; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get update; fi
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y ffmpeg; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ffmpeg; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then curl https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z e ffmpeg-latest-win64-static.zip; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then PATH=%PATH%;%cd%\ffmpeg-latest-win64-static\bin; fi
   - ffmpeg -hwaccels
+  - ffmpeg -version
 after_success:
   - npm run compare
   - npm run regions
