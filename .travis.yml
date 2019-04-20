@@ -18,10 +18,9 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then curl -O -J -L https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z x ffmpeg-latest-win64-static.zip -bb3; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then env|grep PATH; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${path}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${cd}; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${pwd}; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${CD}; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PWD}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then dir; fi
 #  - ffmpeg -hwaccels
 #  - ffmpeg -version
