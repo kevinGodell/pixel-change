@@ -24,7 +24,9 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ls -lR; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then which ffmpeg; fi
-  - cmd ffmpeg
+  - cmd
+  - ffmpeg -version
+  - exit
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ./c/Users/travis/build/kevinGodell/pixel-change/ffmpeg-latest-win64-static/bin/ffmpeg.exe; fi
 #  - C:/Users/travis/build/kevinGodell/pixel-change/ffmpeg-latest-win64-static/bin/ffmpeg.exe
 #  - sudo add-apt-repository ppa:mc3man/trusty-media
