@@ -9,7 +9,7 @@
     "test": "echo test",
     "preversion": "npm test",
     "postversion": "npm run doc",
-    "doc": "jsdoc lib/pixel-change.js -d docs && git commit -m 'update docs' -- docs",
+    "doc": "jsdoc index.js -d docs && git commit -m \"update docs\" -- docs",
     "local": "node test/local && node test/local2 && node test/local3",
     "compare": "node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
     "regions": "node test/gray_regions && node test/rgb_regions && node test/rgba_regions",
@@ -56,6 +56,7 @@
     "node-addon-api": "^1.2.0"
   },
   "devDependencies": {
+    "jsdoc": "github:jsdoc3/jsdoc",
     "pipe2pam": "^0.6.2",
     "polygon-points": "^0.5.1",
     "prebuildify": "^2.11.0",
