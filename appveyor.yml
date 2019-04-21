@@ -22,8 +22,7 @@ test_script:
   - npm test
 
 after_test:
-  - ps: If ($nodejs_version -eq "Current" -AND $APPVEYOR_REPO_TAG -eq "true") { npm run prebuild }
-
+  - ps: If ($env:nodejs_version -eq "Current" -AND $env:APPVEYOR_REPO_TAG -eq "true") { npm run prebuild }
 #artifacts:
 #  - path: prebuilds
 #    name: $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
