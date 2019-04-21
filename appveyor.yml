@@ -29,7 +29,9 @@ after_test:
 #    type: zip
 
 before_deploy:
-  - ps: Push-AppveyorArtifact prebuilds -FileName $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM) -Type zip
+  - ps: echo "$(env:APPVEYOR_REPO_TAG_NAME)-win-$(env:PLATFORM)"
+  - ps: echo "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM)"
+  - ps: Push-AppveyorArtifact prebuilds -FileName "$(env:APPVEYOR_REPO_TAG_NAME)-win-$(env:PLATFORM)" -Type zip
 
 deploy:
   - provider: GitHub
