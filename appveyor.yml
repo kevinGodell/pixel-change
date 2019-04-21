@@ -1,48 +1,41 @@
-image: Visual Studio 2017
+build: false
+
+skip_branch_with_pr: true
 
 environment:
-  ffmpeg_download: https://ffmpeg.zeranoe.com/builds/
   matrix:
-    - platform: x64
-      nodejs_version: LTS
-      ffmpeg_version: 3.4.1
-      ffmpeg_platform: win64
+    - nodejs_version: "Current"
 
-    - platform: x64
-      nodejs_version: Current
-      ffmpeg_version: latest
-      ffmpeg_platform: win64
-
-    - platform: x86
-      nodejs_version: LTS
-      ffmpeg_version: 3.4.1
-      ffmpeg_platform: win32
-
-    - platform: x86
-      nodejs_version: Current
-      ffmpeg_version: latest
-      ffmpeg_platform: win32
-
-cache:
-  - node_modules
+configuration: Release
+platform:
+  - x86
+  - x64
 
 install:
+  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
   - ps: Install-Product node $env:nodejs_version $env:platform
   - npm install
-  - ps: Start-FileDownload $env:ffmpeg_download$env:ffmpeg_platform/static/ffmpeg-$env:ffmpeg_version-$env:ffmpeg_platform-static.zip
-  - 7z x ffmpeg-%ffmpeg_version%-%ffmpeg_platform%-static.zip
-  - PATH=%PATH%;%cd%\ffmpeg-%ffmpeg_version%-%ffmpeg_platform%-static\bin
-  - ps: $env:package_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
-  - ps: Update-AppveyorBuild -Version "$env:package_version-$env:APPVEYOR_REPO_BRANCH-$env:APPVEYOR_BUILD_NUMBER"
 
 test_script:
-  - ffmpeg -version
   - node --version
   - npm --version
   - npm test
 
-on_success:
-  - npm run compare
-  - npm run regions
+after_test:
+  - ps: If ($env:nodejs_version -eq "Current") { npm run prebuild }
 
-build: off
+artifacts:
+  - path: prebuilds
+    name: $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
+    type: zip
+
+deploy:
+  - provider: GitHub
+    artifact: /.*\.zip/
+    draft: false
+    prerelease: true
+    auth_token:
+      secure: ejXP2XT+CAAAlfG73Y+mndyE0DFHOKSJH96hYUd4bVzezujzB8+aTjSt2DUlKqwN
+    on:
+      appveyor_repo_tag: true
+      nodejs_version: "Current"
