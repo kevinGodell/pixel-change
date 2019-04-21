@@ -22,7 +22,7 @@ test_script:
   - npm test
 
 after_test:
-  - ps: If ($Env:nodejs_version -eq "Current" -AND $Env:APPVEYOR_REPO_TAG -eq "true") { npm run prebuild }
+  - ps: If ($nodejs_version -eq "Current" -AND $APPVEYOR_REPO_TAG -eq "true") { npm run prebuild }
 
 #artifacts:
 #  - path: prebuilds
@@ -30,7 +30,7 @@ after_test:
 #    type: zip
 
 before_deploy:
-  - ps: Push-AppveyorArtifact prebuilds -FileName $(Env:APPVEYOR_REPO_TAG_NAME)-win-$(Env:PLATFORM) -Type zip
+  - ps: Push-AppveyorArtifact prebuilds -FileName $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM) -Type zip
 
 deploy:
   - provider: GitHub
