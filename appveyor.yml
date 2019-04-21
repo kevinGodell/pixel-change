@@ -30,7 +30,8 @@ after_test:
 
 before_deploy:
   - ps: echo "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM)"
-  - ps: Push-AppveyorArtifact prebuilds
+  - ls -lR prebuilds
+  - ps: Push-AppveyorArtifact prebuilds/*.node
 
 deploy:
   - provider: GitHub
