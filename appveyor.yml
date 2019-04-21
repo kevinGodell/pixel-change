@@ -7,11 +7,11 @@ environment:
     - nodejs_version: "Current"
 
 configuration: Release
+
 platform:
   - x86
   - x64
-init:
-  - ps: $env:LABEL = If ($env:APPVEYOR_REPO_TAG -eq $true) { "Tag" + $env:APPVEYOR_REPO_TAG_NAME } else { "nontaglabel" }
+
 install:
   - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
   - ps: Install-Product node $env:nodejs_version $env:platform
@@ -22,10 +22,19 @@ test_script:
   - npm --version
   - npm test
 
-after_test:
-  - ps: If ($env:nodejs_version -eq "Current") { npm run prebuild }
+before_deploy:
+  - npm run prebuild
+  - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
+  - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
+  - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
 
-artifacts:
-  - path: prebuilds
-    name: $(LABEL)-win-$(PLATFORM)
-    type: zip
+deploy:
+  - provider: GitHub
+    artifact: /.*\.zip/
+    draft: false
+    prerelease: true
+    auth_token:
+      secure: LmtUDSct7WXwF0+0q8Lm55Wi1A0SLsh+GMOIvu7XondTiBA6Z+TfBHLwhOY681/o
+    on:
+      APPVEYOR_REPO_TAG: true
+      nodejs_version: "Current"

@@ -4,16 +4,10 @@
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
-    "install": "node-gyp rebuild",
-    "pretest": "npm install",
     "test": "echo test",
-    "preversion": "npm test",
-    "__postversion": "npm run doc",
-    "doc": "jsdoc index.js -d docs && git commit -m \"update docs\" -- docs",
-    "local": "node test/local && node test/local2 && node test/local3",
-    "compare": "node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
-    "regions": "node test/gray_regions && node test/rgb_regions && node test/rgba_regions",
-    "prebuild": "prebuildify --napi"
+    "prebuild": "prebuildify --target=node@ --napi=true",
+    "download": "prebuildify-ci download",
+    "install": "node-gyp-build"
   },
   "repository": {
     "type": "git",
@@ -42,23 +36,19 @@
     "url": "https://github.com/kevinGodell/pixel-change/issues"
   },
   "homepage": "https://github.com/kevinGodell/pixel-change#readme",
-  "private": false,
-  "files": [
-    "lib/",
-    "src/",
-    "binding.gyp"
-  ],
+  "private": true,
   "gypfile": true,
-  "engines": {
-    "node": ">=8.5"
-  },
+  "files": [
+    "binding.gyp",
+    "src/*.cc",
+    "src/*.h",
+    "prebuilds"
+  ],
   "dependencies": {
-    "node-addon-api": "^1.2.0"
+    "node-addon-api": "^1.6.3",
+    "node-gyp-build": "^3.8.0"
   },
   "devDependencies": {
-    "jsdoc": "github:jsdoc3/jsdoc",
-    "pipe2pam": "^0.6.2",
-    "polygon-points": "^0.5.1",
     "prebuildify": "^2.11.0",
     "prebuildify-ci": "^1.0.4"
   }
