@@ -15,16 +15,16 @@ before_install:
   - if [ "$TRAVIS_OS_NAME" == "linux" ]; then sudo apt-get install -y ffmpeg; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew update; fi
   - if [ "$TRAVIS_OS_NAME" == "osx" ]; then brew install ffmpeg; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then curl -O -J -L https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-latest-win64-static.zip; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z x ffmpeg-latest-win64-static.zip -bb3; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then curl -O -J -L https://ffmpeg.zeranoe.com/builds/win32/static/ffmpeg-latest-win32-static.zip; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then 7z x ffmpeg-latest-win32-static.zip -bb3; fi
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then env|grep PATH; fi
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PWD}; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then export PATH="${PATH}:${PWD}/ffmpeg-latest-win64-static/bin" && ffmpeg -version; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ls -lR; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then export PATH="${PATH}:${PWD}/ffmpeg-latest-win32-static/bin" && ffmpeg -version; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then echo ${PATH}; fi
   - if [ "$TRAVIS_OS_NAME" == "windows" ]; then which ffmpeg; fi
-  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ffmpeg; fi
+  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ffmpeg -version; fi
 #  - if [ "$TRAVIS_OS_NAME" == "windows" ]; then ./c/Users/travis/build/kevinGodell/pixel-change/ffmpeg-latest-win64-static/bin/ffmpeg.exe; fi
 #  - C:/Users/travis/build/kevinGodell/pixel-change/ffmpeg-latest-win64-static/bin/ffmpeg.exe
 #  - sudo add-apt-repository ppa:mc3man/trusty-media
