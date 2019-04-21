@@ -30,6 +30,10 @@ after_test:
 #    type: zip
 
 before_deploy:
+  - ps: echo $env:APPVEYOR_REPO_TAG
+  - ps: echo $(APPVEYOR_REPO_TAG)
+  - ps: echo $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
+  - ps: If ($env:APPVEYOR_REPO_TAG -eq "false" ) { echo "is false" }
   - ps: If ($env:APPVEYOR_REPO_TAG -eq "true" ) { Push-AppveyorArtifact prebuilds -FileName $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM) -Type zip }
 
 deploy:
