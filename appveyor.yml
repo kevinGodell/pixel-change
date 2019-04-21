@@ -1,4 +1,4 @@
-build: false
+build: off
 
 skip_branch_with_pr: true
 
@@ -26,7 +26,7 @@ after_test:
 
 artifacts:
   - path: prebuilds
-    name: $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
+    name: "$(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)"
     type: zip
 
 deploy:
@@ -37,5 +37,5 @@ deploy:
     auth_token:
       secure: ejXP2XT+CAAAlfG73Y+mndyE0DFHOKSJH96hYUd4bVzezujzB8+aTjSt2DUlKqwN
     on:
-      appveyor_repo_tag: true
+      APPVEYOR_REPO_TAG: true
       nodejs_version: "Current"
