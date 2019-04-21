@@ -1364,19 +1364,19 @@ SetFunctions(const Napi::Object &configObj, ExecuteFunc &executeFunc, CallbackFu
     switch (engineType) {
         case GRAY_ALL_PERCENT: {//0
             const All all = All{"all", difference, percent};
-            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllPercentExecute(config, {all}, buf0, buf1, callbackData); };
+            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllPercentExecute(config, all, buf0, buf1, callbackData); };
             callbackFunc = &PercentCallback;
             break;
         }
         case GRAY_ALL_BOUNDS: {//1
             const All all = All{"all", difference, percent};
-            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllBoundsExecute(config, {all}, buf0, buf1, callbackData); };
+            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllBoundsExecute(config, all, buf0, buf1, callbackData); };
             callbackFunc = &BoundsCallback;
             break;
         }
         case GRAY_ALL_BLOBS: {//2
             const All all = All{"all", difference, percent};
-            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllBlobsExecute(config, {all}, buf0, buf1, callbackData); };
+            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllBlobsExecute(config, all, buf0, buf1, callbackData); };
             callbackFunc = &BlobsCallback;
             break;
         }
@@ -1418,19 +1418,19 @@ SetFunctions(const Napi::Object &configObj, ExecuteFunc &executeFunc, CallbackFu
         }
         case RGB_ALL_PERCENT: {//100
             const All all = All{"all", difference, percent};
-            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllPercentExecute(config, {all}, buf0, buf1, callbackData); };
+            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllPercentExecute(config, all, buf0, buf1, callbackData); };
             callbackFunc = &PercentCallback;
             break;
         }
         case RGB_ALL_BOUNDS: {//101
             const All all = All{"all", difference, percent};
-            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllBoundsExecute(config, {all}, buf0, buf1, callbackData); };
+            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllBoundsExecute(config, all, buf0, buf1, callbackData); };
             callbackFunc = &BoundsCallback;
             break;
         }
         case RGB_ALL_BLOBS: {//102
             const All all = All{"all", difference, percent};
-            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllBlobsExecute(config, {all}, buf0, buf1, callbackData); };
+            executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllBlobsExecute(config, all, buf0, buf1, callbackData); };
             callbackFunc = &BlobsCallback;
             break;
         }
