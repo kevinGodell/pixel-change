@@ -1,7 +1,7 @@
 {
   "targets": [
   {
-    "target_name": "pixel-change",
+    "target_name": "pixel_change",
     "sources": [
       "src/pixel_change.cc",
       "src/ccl.cc",

@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('bindings')('pixel-change');
+module.exports = require('bindings')('pixel_change');
