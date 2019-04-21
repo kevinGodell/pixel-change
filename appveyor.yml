@@ -32,7 +32,7 @@ after_test:
 before_deploy:
   - ps: echo "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM)"
   - ls -lR prebuilds
-  - ps: Push-AppveyorArtifact "prebuilds" -FileName "my-name" -Type zip
+  - ps: Push-AppveyorArtifact "prebuilds/*" -FileName "my-name" -Type zip
 
 deploy:
   - provider: GitHub
