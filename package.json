@@ -8,7 +8,7 @@
     "pretest": "npm install",
     "test": "echo test",
     "preversion": "npm test",
-    "postversion": "npm run doc",
+    "__postversion": "npm run doc",
     "doc": "jsdoc index.js -d docs && git commit -m \"update docs\" -- docs",
     "local": "node test/local && node test/local2 && node test/local3",
     "compare": "node test/js_vs_cpp && node test/js_vs_cpp2 && node test/js_vs_cpp3",
