@@ -1,4 +1,5 @@
 .idea/
-build/
 node_modules/
-
+build/
+pam-diff.iml
+cmake-build-debug/
