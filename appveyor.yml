@@ -10,7 +10,8 @@ configuration: Release
 platform:
   - x86
   - x64
-
+init:
+  - ps: $env:LABEL = If ($env:APPVEYOR_REPO_TAG -eq $true) { "Tag" + $env:APPVEYOR_REPO_TAG_NAME } else { "nontaglabel" }
 install:
   - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
   - ps: Install-Product node $env:nodejs_version $env:platform
@@ -26,16 +27,5 @@ after_test:
 
 artifacts:
   - path: prebuilds
-    name: "$(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)"
+    name: $(LABEL)-win-$(PLATFORM)
     type: zip
-
-deploy:
-  - provider: GitHub
-    artifact: /.*\.zip/
-    draft: false
-    prerelease: true
-    auth_token:
-      secure: ejXP2XT+CAAAlfG73Y+mndyE0DFHOKSJH96hYUd4bVzezujzB8+aTjSt2DUlKqwN
-    on:
-      APPVEYOR_REPO_TAG: true
-      nodejs_version: "Current"
