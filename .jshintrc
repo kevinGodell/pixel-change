@@ -12,6 +12,6 @@
   "noempty":        true,
   "nonew":          true,
   "strict":         true,
-  "unused":         true,
+  "unused":         false,
   "undef":          true
 }

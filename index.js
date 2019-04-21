@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/pixel-change');
+module.exports = require('node-gyp-build')(__dirname);
