@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo test",
-    "prebuild": "prebuildify --napi"
+    "prebuild": "prebuildify --napi true --target node"
   },
   "repository": {
     "type": "git",
