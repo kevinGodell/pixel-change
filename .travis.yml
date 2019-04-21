@@ -25,10 +25,11 @@ deploy:
   provider: releases
   draft: false
   prerelease: true
-  file: "$ARCHIVE_NAME"
   skip_cleanup: true
+  file: "$ARCHIVE_NAME"
+  api_key:
+    secure: ZBX7VfQZrCe0zfyinBzYMvGnkSvLJndf1uNBQviNQqj20lHPgzaVHgiSlKKFoKdgw8EYgx64pnpNQfcOyyDGItEGMuqLwHIJ8r7fGTsO4oAOJMyXpX24vaPJOsGqNfhHIbc3G2J1XUoIJWwKUw88iYV+1ECeNt03XmB8jSZmvIy3I7TijgyRfyxzbNTIxE6whI77X4B5mDXBV5HpEot6w/lnWU8Uh4wvKjj9zxsjiRqzaO0yyLeoDpnsBJFb2KQ6eq9/vFlUVbCdVOzdnN9QO5x4dfI+jJouXuljZPx7nE9urs6k+VMxR5CrVp7Z4UeqJOJBIqZ3OQk0a797SGhuSFcFO9nQUJeH2cS87Ptu5lSldLgKrjiK+RNwSIxzUDMhPoY6akhja8PbS6Mchzrc2phYk04H5Z/G3E1mO1J4b3H/jPptGxkIWrvcGVl/OnhdJfAOOZwXELHn8D8LprhaP0tt2H+Co7nVYi/rkpf/c/iZY5HjTVhl4BBbP3fFpyhav5oKlbaBafJbxRUTgWw8MJXzvenWSBX+UxPniT+NylenAx/RBCcaRw8XNMNGL0d3yiH8ZUdPdGRBeQJBK7SfZlDMVI7EgmDjE5EeI5sKDezNz4VAaAJ2Liepfsqrg/ZZUmSP0BiVSdxN2uEqUamJ/11enCLvlWGa6vgEKPQ+6dA=
   on:
     tags: true
     node: node
-  api_key:
-    secure: 1234567890
+    repo: kevinGodell/pixel-change
