@@ -28,7 +28,12 @@
     "region",
     "regions",
     "motion",
-    "detection"
+    "detection",
+    "n-api",
+    "napi",
+    "c++",
+    "cpp",
+    "c plus plus"
   ],
   "author": "Kevin Godell <kevin.godell@gmail.com>",
   "license": "MIT",
