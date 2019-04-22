@@ -20,6 +20,10 @@ os:
   - osx
   - linux
 
+dist: xenial
+
+osx_image: xcode10.2
+
 before_deploy:
   - npm run prebuild
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ARCH=ia32 npm run prebuild; fi
