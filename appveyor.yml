@@ -26,6 +26,10 @@ test_script:
   - npm --version
   - npm test
 
+after_test:
+  - ps: $env:TEST_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
+  - ps: echo $env:TEST_NAME
+
 before_deploy:
   - npm run prebuild
   - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
