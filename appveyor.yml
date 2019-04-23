@@ -15,7 +15,7 @@ platform:
 image: Visual Studio 2017
 
 install:
-  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
+#  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
   - ps: Install-Product node $env:nodejs_version $env:platform
   - npm install
   - ps: $env:package_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
@@ -27,10 +27,10 @@ test_script:
   - npm test
 
 after_test:
-  - ps: $env:TEST_NAME = "$($env:APPVEYOR_REPO_TAG)-win-$($env:PLATFORM).zip"
-  - ps: echo $env:TEST_NAME
-  - ps: $env:TEST_NAME2 = $(env:APPVEYOR_REPO_TAG)-win-$(env:PLATFORM).zip
-  - ps: echo $env:TEST_NAME2
+  - npm run prebuild
+  - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
+  - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
+  - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
 
 before_deploy:
   - npm run prebuild
