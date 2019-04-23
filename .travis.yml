@@ -2,9 +2,6 @@ sudo: false
 
 language: node_js
 
-node_js:
-  - node
-
 addons:
   apt:
     sources:
@@ -16,13 +13,20 @@ addons:
       - gcc-multilib
       - g++-multilib
 
-os:
-  - osx
-  - linux
-
-dist: xenial
-
-osx_image: xcode10.2
+matrix:
+  include:
+    - os: linux
+      dist: xenial
+      node_js: 7
+    - os: linux
+      dist: xenial
+      node_js: node
+    - os: osx
+      osx_image: xcode10.2
+      node_js: 7
+    - os: osx
+      osx_image: xcode10.2
+      node_js: node
 
 before_deploy:
   - npm run prebuild
