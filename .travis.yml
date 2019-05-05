@@ -15,12 +15,14 @@ matrix:
     - os: linux
       dist: trusty
       node_js: 7
+      compiler: gcc
       env:
         - CC=gcc-8
         - CXX=g++-8
     - os: linux
       dist: xenial
       node_js: node
+      compiler: gcc
       env:
         - CC=gcc-8
         - CXX=g++-8
@@ -32,8 +34,10 @@ matrix:
       node_js: node
 
 before_install:
-  - g++-8 --version
-  - gcc-8 --version
+  - g++ --version
+  - gcc --version
+
+after_script:
   - g++ --version
   - gcc --version
 
