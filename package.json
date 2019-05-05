@@ -4,10 +4,11 @@
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
-    "test": "echo test",
-    "prebuild": "prebuildify --target=node@ --napi=true",
+    "test": "echo test && node ./tests/test.js",
+    "prebuildify": "prebuildify --target=node@ --napi=true",
     "download": "prebuildify-ci download",
-    "install": "node-gyp-build"
+    "install": "node-gyp-build",
+    "build": "npm install --build-from-source"
   },
   "repository": {
     "type": "git",
@@ -51,7 +52,7 @@
   ],
   "dependencies": {
     "node-addon-api": "^1.6.3",
-    "node-gyp-build": "^3.8.0"
+    "node-gyp-build": "^4.1.0"
   },
   "devDependencies": {
     "prebuildify": "^2.11.0",

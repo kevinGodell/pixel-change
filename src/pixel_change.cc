@@ -12,6 +12,7 @@ Napi::Object CreateObject(const Napi::CallbackInfo &info) {
     const Napi::Env env = info.Env();
     const Napi::Object configObj = info[0].As<Napi::Object>();
 #ifdef NAPI_DEBUG
+    cout << "c++ version : " << __cplusplus << endl;
     // show system size values for types being used
     cout << "size of bool : " << sizeof(bool) << endl;
     cout << "size of std::string : " << sizeof(std::string) << endl;

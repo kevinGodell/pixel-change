@@ -27,14 +27,14 @@ test_script:
   - npm test
 
 after_test:
-  - npm run prebuild
+  - npm run prebuildify
   - ps: $env:APPVEYOR_REPO_TAG_NAME = "untagged"
   - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
   - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
   - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
 
 before_deploy:
-  - npm run prebuild
+  - npm run prebuildify
   - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
   - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
   - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
