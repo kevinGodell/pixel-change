@@ -32,6 +32,8 @@ matrix:
       node_js: node
 
 before_install:
+  - g++-8 --version
+  - gcc-8 --version
   - g++ --version
   - gcc --version
 
