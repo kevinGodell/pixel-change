@@ -32,6 +32,8 @@ height = 100;
 
 depth = 1;
 
+console.log('\nAssert = Error: An object was expected\n');
+
 assert.throws(
     () => {
         engine = pixelChange();
@@ -39,12 +41,16 @@ assert.throws(
     /Error: An object was expected/
 );
 
+console.log('\nAssert = Error: Unknown failure\n');
+
 assert.throws(
     () => {
         engine = pixelChange({});
     },
     /Error: Unknown failure/
 );
+
+console.log('\nAssert = Minimum values required to NOT throw\n');
 
 engine = pixelChange({width: width, height: height, depth: depth});
 
