@@ -28,6 +28,9 @@ matrix:
       osx_image: xcode10.2
       node_js: node
 
+before_install:
+  - g++ --version
+
 before_deploy:
   - npm run prebuildify
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ARCH=ia32 npm run prebuildify; fi
