@@ -32,22 +32,40 @@ height = 100;
 
 depth = 1;
 
-console.log('\nAssert = Error: An object was expected\n');
+console.log('\nAssert = Error: A configuration object was expected\n');
 
 assert.throws(
     () => {
         engine = pixelChange();
     },
-    /Error: An object was expected/
+    /Error: A configuration object was expected/
 );
 
-console.log('\nAssert = Error: Unknown failure\n');
+console.log('\nAssert = Error: Width must be greater than 0\n');
 
 assert.throws(
     () => {
         engine = pixelChange({});
     },
-    /Error: Unknown failure/
+    /Error: Width must be greater than 0/
+);
+
+console.log('\nAssert = Error: Height must be greater than 0\n');
+
+assert.throws(
+    () => {
+        engine = pixelChange({width:1});
+    },
+    /Error: Height must be greater than 0/
+);
+
+console.log('\nAssert = Error: Depth must be 1, 3, or 4\n');
+
+assert.throws(
+    () => {
+        engine = pixelChange({width:1, height:1, depth: 5});
+    },
+    /Error: Depth must be 1, 3, or 4/
 );
 
 console.log('\nAssert = Minimum values required to NOT throw\n');
