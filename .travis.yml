@@ -7,8 +7,8 @@ addons:
     sources:
       - ubuntu-toolchain-r-test
     packages:
-      - g++-7
-      - gcc-7
+      - g++-8
+      - gcc-8
 
 matrix:
   include:
@@ -17,26 +17,26 @@ matrix:
       node_js: 7
       compiler: gcc
       env:
-        - CC=gcc-7
-        - CXX=g++-7
+        - CC=gcc-8
+        - CXX=g++-8
     - os: linux
       dist: xenial
       node_js: node
       compiler: gcc
       env:
-        - CC=gcc-7
-        - CXX=g++-7
+        - CC=gcc-8
+        - CXX=g++-8
     - os: osx
       osx_image: xcode9.4
-      node_js: 7
+      node_js: 8
     - os: osx
       osx_image: xcode10.2
       node_js: node
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      export CC=gcc-7;
-      export CXX=g++-7;
+      export CC=gcc-8;
+      export CXX=g++-8;
     fi
   - g++ --version
   - gcc --version
