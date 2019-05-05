@@ -42,6 +42,8 @@ assert(typeof engine.compareSync === 'function' && engine.compareSync.name === '
 
 // gray
 
+console.log('\ngray\n');
+
 pixelsArray = [];
 
 resultArray = [];
@@ -76,6 +78,8 @@ assert.deepStrictEqual(resultArray,[ 1, 4, 6, 7, 7, 7, 6, 6, 6, 7, 7, 7 ]);
 
 // rgb
 
+console.log('\nrgb\n');
+
 pixelsArray = [];
 
 resultArray = [];
@@ -109,6 +113,8 @@ assert.deepStrictEqual(resultArray, [ 1, 4, 6, 8, 7, 8, 6, 4, 7, 8, 7, 8 ]);
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 // rgba
+
+console.log('\nrgba\n');
 
 pixelsArray = [];
 
