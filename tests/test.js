@@ -32,6 +32,20 @@ height = 100;
 
 depth = 1;
 
+assert.throws(
+    () => {
+        engine = pixelChange();
+    },
+    /Error: An object was expected/
+);
+
+assert.throws(
+    () => {
+        engine = pixelChange({});
+    },
+    /Error: Unknown failure/
+);
+
 engine = pixelChange({width: width, height: height, depth: depth});
 
 assert(typeof engine.compare === 'function' && engine.compare.name === 'compare');
