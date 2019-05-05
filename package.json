@@ -4,7 +4,7 @@
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
-    "test": "echo test && node ./tests/test.js",
+    "test": "node ./tests/test.js",
     "prebuildify": "prebuildify --target=node@ --napi=true",
     "download": "prebuildify-ci download",
     "install": "node-gyp-build",
