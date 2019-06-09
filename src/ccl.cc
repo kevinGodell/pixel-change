@@ -59,10 +59,10 @@ uint32_t
 LabelImage(const Config &config, const Bounds &bounds, int32_t *labels) {
 
     // have unique_ptr reserve memory for stack array on heap and manage destruction
-    std::unique_ptr<uint32_t[]> up(new uint32_t[3 * (config.pixelCount + 1)]);
+    std::unique_ptr<uint32_t[]> up = std::make_unique<uint32_t[]>(3 * (config.pixelCount + 1));
 
     // get pointer
-    auto *stack = up.get();
+    uint32_t *stack = up.get();
 
     // label number
     int32_t labelNumber = -1;
