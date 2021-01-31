@@ -1,4 +1,4 @@
-build: false
+build: off
 
 skip_branch_with_pr: true
 
@@ -7,14 +7,19 @@ environment:
     - nodejs_version: "Current"
 
 configuration: Release
+
 platform:
   - x86
   - x64
 
+image: Visual Studio 2017
+
 install:
-  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
+#  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
   - ps: Install-Product node $env:nodejs_version $env:platform
   - npm install
+  - ps: $env:package_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
+  - ps: Update-AppveyorBuild -Version "$env:package_version-$env:APPVEYOR_REPO_BRANCH-$env:APPVEYOR_BUILD_NUMBER"
 
 test_script:
   - node --version
@@ -22,12 +27,17 @@ test_script:
   - npm test
 
 after_test:
-  - ps: If ($env:nodejs_version -eq "Current") { npm run prebuild }
+  - npm run prebuildify
+  - ps: $env:APPVEYOR_REPO_TAG_NAME = "untagged"
+  - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
+  - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
+  - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
 
-artifacts:
-  - path: prebuilds
-    name: $(APPVEYOR_REPO_TAG_NAME)-win-$(PLATFORM)
-    type: zip
+before_deploy:
+  - npm run prebuildify
+  - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
+  - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
+  - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
 
 deploy:
   - provider: GitHub
@@ -37,5 +47,5 @@ deploy:
     auth_token:
       secure: LmtUDSct7WXwF0+0q8Lm55Wi1A0SLsh+GMOIvu7XondTiBA6Z+TfBHLwhOY681/o
     on:
-      appveyor_repo_tag: true
+      APPVEYOR_REPO_TAG: true
       nodejs_version: "Current"
