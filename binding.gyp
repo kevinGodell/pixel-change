@@ -10,7 +10,7 @@
       "src/results.cc",
       "src/worker.cc"
     ],
-    "cflags": [ "-O2", "-Wendif-labels", "-Werror", "-Wpedantic", "-Wunused-parameter" ],# removed for now "-finline-functions", "-funswitch-loops", "-fpredictive-commoning", "-fgcse-after-reload", "-ftree-vectorize", "-fvect-cost-model", "-ftree-partial-pre", "-fipa-cp-clone"
+    "cflags": [ "-O2", "-Wendif-labels", "-Wpedantic", "-Wunused-parameter" ],# removed for now "-Werror", "-finline-functions", "-funswitch-loops", "-fpredictive-commoning", "-fgcse-after-reload", "-ftree-vectorize", "-fvect-cost-model", "-ftree-partial-pre", "-fipa-cp-clone"
     "cflags!": [ "-Wno-unused-parameter", "-O3" ],
     "cflags_cc": [ "-std=c++17" ],
     "cflags_cc!": [ "-fno-exceptions", "-fno-rtti", "-std=gnu++1y", "-std=gnu++0x" ],
