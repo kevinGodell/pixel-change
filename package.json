@@ -8,7 +8,8 @@
     "prebuildify": "prebuildify --target=node@ --napi=true",
     "download": "prebuildify-ci download",
     "install": "node-gyp-build",
-    "build": "npm install --build-from-source"
+    "build": "npm install --build-from-source",
+    "lint": "./node_modules/.bin/eslint --fix --ext js,md ."
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,11 @@
   },
   "devDependencies": {
     "prebuildify": "^4.1.2",
-    "prebuildify-ci": "^1.0.5"
+    "prebuildify-ci": "^1.0.5",
+    "eslint": "^7.18.0",
+    "eslint-config-prettier": "^7.1.0",
+    "eslint-plugin-markdown": "^1.0.2",
+    "eslint-plugin-prettier": "^3.3.1",
+    "prettier": "^2.2.1"
   }
 }
