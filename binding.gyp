@@ -48,7 +48,7 @@
         # remove defaults passed to C++ files
         "OTHER_CPLUSPLUSFLAGS!": [],
         # passed to both C/C++ files
-        "WARNING_CFLAGS": [ "-Werror", "-Wextra", "-Wpedantic", "-Wunused-parameter" ],
+        "WARNING_CFLAGS": [ "-Wextra", "-Wpedantic", "-Wunused-parameter" ],# removed for now "-Werror",
         # remove defaults passed to both C/C++ files
         "WARNING_CFLAGS!": [ "-Wno-unused-parameter", "-W" ]
       }
