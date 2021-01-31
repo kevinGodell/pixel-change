@@ -6,7 +6,7 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      node_js: 7
+      node_js: 8
       compiler: gcc
       addons:
         apt:
@@ -34,7 +34,7 @@ matrix:
         - CXX=g++-8
     - os: osx
       osx_image: xcode9.4
-      node_js: 7
+      node_js: 8
     - os: osx
       osx_image: xcode10.2
       node_js: node
