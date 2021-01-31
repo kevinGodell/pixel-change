@@ -1,185 +1,273 @@
 'use strict';
 
-const fs = require('fs');
+(async () => {
+        try {
 
-const path =  require('path');
+            const fs = require('fs');
 
-const assert = require('assert');
+            const path = require('path');
 
-const pixelChange = require('../index');
+            const assert = require('assert');
 
-let engine;
+            const pixelChange = require('../index');
 
-let width;
+            const {promisify} = require('util');
 
-let height;
+            let errMsg;
 
-let depth;
+            let engine;
 
-let pixelsArray;
+            let compare;
 
-let resultArray;
+            let width;
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+            let height;
 
-// basic test for factory constructor
+            let depth;
 
-assert(typeof pixelChange === 'function' && pixelChange.name === 'CreateObject');
+            let pixelsArray;
 
-width = 100;
+            let resultArray;
 
-height = 100;
+            /*--------------------------------------------------------------------------------------------------------------------*/
 
-depth = 1;
+            // basic test for factory constructor
 
-console.log('\nAssert = Error: A configuration object was expected\n');
+            assert(typeof pixelChange === 'function' && pixelChange.name === 'CreateObject', `❌  typeof pixelChange === 'function' && pixelChange.name === 'CreateObject'`);
 
-assert.throws(
-    () => {
-        engine = pixelChange();
-    },
-    /Error: A configuration object was expected/
-);
+            width = 100;
 
-console.log('\nAssert = Error: Width must be greater than 0\n');
+            height = 100;
 
-assert.throws(
-    () => {
-        engine = pixelChange({});
-    },
-    /Error: Width must be greater than 0/
-);
+            depth = 1;
 
-console.log('\nAssert = Error: Height must be greater than 0\n');
+            errMsg = 'A configuration object was expected';
 
-assert.throws(
-    () => {
-        engine = pixelChange({width:1});
-    },
-    /Error: Height must be greater than 0/
-);
+            assert.throws(
+                () => {
+                    engine = pixelChange();
+                },
+                {
+                    message: errMsg
+                },
+                `❌  ${errMsg}`
+            );
 
-console.log('\nAssert = Error: Depth must be 1, 3, or 4\n');
+            console.log(`✅  Assert = Error: ${errMsg}`);
 
-assert.throws(
-    () => {
-        engine = pixelChange({width:1, height:1, depth: 5});
-    },
-    /Error: Depth must be 1, 3, or 4/
-);
+            errMsg = 'Width must be greater than 0';
 
-console.log('\nAssert = Minimum values required to NOT throw\n');
+            assert.throws(
+                () => {
+                    engine = pixelChange({});
+                },
+                {
+                    message: errMsg
+                },
+                `❌  ${errMsg}`
+            );
 
-engine = pixelChange({width: width, height: height, depth: depth});
+            console.log(`✅  Assert = Error: ${errMsg}`);
 
-assert(typeof engine.compare === 'function' && engine.compare.name === 'compare');
+            errMsg = 'Height must be greater than 0';
 
-assert(typeof engine.compareSync === 'function' && engine.compareSync.name === 'compareSync');
+            assert.throws(
+                () => {
+                    engine = pixelChange({width: 1});
+                },
+                {
+                    message: errMsg
+                },
+                `❌  ${errMsg}`
+            );
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+            console.log(`✅  Assert = Error: ${errMsg}`);
 
-// gray
+            errMsg = 'Depth must be 1, 3, or 4';
 
-console.log('\ngray\n');
+            assert.throws(
+                () => {
+                    engine = pixelChange({width: 1, height: 1, depth: 5});
+                },
+                {
+                    message: errMsg
+                },
+                `❌  ${errMsg}`
+            );
 
-pixelsArray = [];
+            console.log(`✅  Assert = Error: ${errMsg}`);
 
-resultArray = [];
+            engine = pixelChange({width: width, height: height, depth: depth});
 
-for (let i = 1; i <= 14; ++i) {
-    const pixelPath = path.resolve(__dirname, '../pams/gray', `gray-${i}.pixels`);
-    pixelsArray.push(fs.readFileSync(pixelPath));
-}
+            assert(typeof engine.compare === 'function' && engine.compare.name === 'compare', `❌  typeof engine.compare === 'function' && engine.compare.name === 'compare'`);
 
-width = 640;
+            assert(typeof engine.compareSync === 'function' && engine.compareSync.name === 'compareSync', `❌  typeof engine.compareSync === 'function' && engine.compareSync.name === 'compareSync'`);
 
-height = 360;
+            console.log('✅  Assert = Minimum values required to NOT throw');
 
-depth = 1;
+            /*--------------------------------------------------------------------------------------------------------------------*/
 
-engine = pixelChange({width: width, height: height, depth: depth});
+            // gray
 
-for (let i = 0, j = 1; j <= 13; ++i, ++j) {
-    engine.compareSync(pixelsArray[i], pixelsArray[j], (error, results, pixels) => {
-        if (error) {
-            console.error(error);
+            pixelsArray = [];
+
+            resultArray = [];
+
+            for (let i = 1; i <= 14; ++i) {
+                const pixelPath = path.resolve(__dirname, '../pams/gray', `gray-${i}.pixels`);
+                pixelsArray.push(fs.readFileSync(pixelPath));
+            }
+
+            width = 640;
+
+            height = 360;
+
+            depth = 1;
+
+            engine = pixelChange({width: width, height: height, depth: depth});
+
+            compare = promisify(engine.compare.bind(engine));
+
+            for (let i = 0, j = 1; j <= 13; ++i, ++j) {
+                engine.compareSync(pixelsArray[i], pixelsArray[j], (error, results, pixels) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                    if (results.length) {
+                        //console.log(results);
+                        resultArray.push(results[0].percent);
+                    }
+                });
+            }
+
+            assert.deepStrictEqual(resultArray, [1, 4, 6, 7, 7, 7, 6, 6, 6, 7, 7, 7], `❌  gray compareSync`);
+
+            console.log('✅  gray compareSync');
+
+            resultArray = [];
+
+            for (let i = 0, j = 1; j <= 13; ++i, ++j) {
+                const results = await compare(pixelsArray[i], pixelsArray[j]);
+                if (results.length) {
+                    resultArray.push(results[0].percent);
+                }
+            }
+
+            assert.deepStrictEqual(resultArray, [1, 4, 6, 7, 7, 7, 6, 6, 6, 7, 7, 7], `❌  gray compareAsync`);
+
+            console.log('✅  gray compareAsync');
+
+            /*--------------------------------------------------------------------------------------------------------------------*/
+
+            // rgb
+
+            pixelsArray = [];
+
+            resultArray = [];
+
+            for (let i = 1; i <= 14; ++i) {
+                const pixelPath = path.resolve(__dirname, '../pams/rgb', `rgb-${i}.pixels`);
+                pixelsArray.push(fs.readFileSync(pixelPath));
+            }
+
+            width = 640;
+
+            height = 360;
+
+            depth = 3;
+
+            engine = pixelChange({width: width, height: height, depth: depth});
+
+            compare = promisify(engine.compare.bind(engine));
+
+            for (let i = 0, j = 1; j <= 13; ++i, ++j) {
+                engine.compareSync(pixelsArray[i], pixelsArray[j], (error, results, pixels) => {
+                    if (error) {
+                        console.error(error);
+                    }
+                    if (results.length) {
+                        resultArray.push(results[0].percent);
+                    }
+                });
+            }
+
+            assert.deepStrictEqual(resultArray, [1, 4, 6, 8, 7, 8, 6, 4, 7, 8, 7, 8], `❌  rgb compareSync`);
+
+            console.log('✅  rgb compareSync');
+
+            resultArray = [];
+
+            for (let i = 0, j = 1; j <= 13; ++i, ++j) {
+                const results = await compare(pixelsArray[i], pixelsArray[j]);
+                if (results.length) {
+                    resultArray.push(results[0].percent);
+                }
+            }
+
+            assert.deepStrictEqual(resultArray, [1, 4, 6, 8, 7, 8, 6, 4, 7, 8, 7, 8], `❌  rgb compareAsync`);
+
+            console.log('✅  rgb compareAsync');
+
+            /*--------------------------------------------------------------------------------------------------------------------*/
+
+            // rgba
+
+            pixelsArray = [];
+
+            resultArray = [];
+
+            for (let i = 1; i <= 14; ++i) {
+                const pixelPath = path.resolve(__dirname, '../pams/rgba', `rgba-${i}.pixels`);
+                pixelsArray.push(fs.readFileSync(pixelPath));
+            }
+
+            width = 640;
+
+            height = 360;
+
+            depth = 4;
+
+            engine = pixelChange({width: width, height: height, depth: depth});
+
+            compare = promisify(engine.compare.bind(engine));
+
+            for (let i = 0, j = 1; j <= 13; ++i, ++j) {
+
+                engine.compareSync(pixelsArray[i], pixelsArray[j], (error, results, pixels) => {
+                    if (error) {
+                        console.error('my er', error);
+                    }
+                    if (results.length) {
+                        resultArray.push(results[0].percent);
+                    }
+                });
+            }
+
+            assert.deepStrictEqual(resultArray, [1, 4, 6, 8, 7, 8, 6, 4, 6, 8, 7, 8], `❌  rgba compareSync`);
+
+            console.log('✅  rgba compareSync');
+
+            resultArray = [];
+
+            for (let i = 0, j = 1; j <= 13; ++i, ++j) {
+                const results = await compare(pixelsArray[i], pixelsArray[j]);
+                if (results.length) {
+                    resultArray.push(results[0].percent);
+                }
+            }
+
+            assert.deepStrictEqual(resultArray, [1, 4, 6, 8, 7, 8, 6, 4, 6, 8, 7, 8], `❌  rgba compareAsync`);
+
+            console.log('✅  rgba compareAsync');
+
+            console.log('🎉 success');
+
+            process.exit(0);
+
+        } catch (e) {
+            console.error(e)
         }
-        if (results.length) {
-            resultArray.push(results[0].percent);
-        }
-    });
-}
 
-assert.deepStrictEqual(resultArray,[ 1, 4, 6, 7, 7, 7, 6, 6, 6, 7, 7, 7 ]);
+    }
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-// rgb
-
-console.log('\nrgb\n');
-
-pixelsArray = [];
-
-resultArray = [];
-
-for (let i = 1; i <= 14; ++i) {
-    const pixelPath = path.resolve(__dirname, '../pams/rgb', `rgb-${i}.pixels`);
-    pixelsArray.push(fs.readFileSync(pixelPath));
-}
-
-width = 640;
-
-height = 360;
-
-depth = 3;
-
-engine = pixelChange({width: width, height: height, depth: depth});
-
-for (let i = 0, j = 1; j <= 13; ++i, ++j) {
-    engine.compareSync(pixelsArray[i], pixelsArray[j], (error, results, pixels) => {
-        if (error) {
-            console.error(error);
-        }
-        if (results.length) {
-            resultArray.push(results[0].percent);
-        }
-    });
-}
-
-assert.deepStrictEqual(resultArray, [ 1, 4, 6, 8, 7, 8, 6, 4, 7, 8, 7, 8 ]);
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-// rgba
-
-console.log('\nrgba\n');
-
-pixelsArray = [];
-
-resultArray = [];
-
-for (let i = 1; i <= 14; ++i) {
-    const pixelPath = path.resolve(__dirname, '../pams/rgba', `rgba-${i}.pixels`);
-    pixelsArray.push(fs.readFileSync(pixelPath));
-}
-
-width = 640;
-
-height = 360;
-
-depth = 4;
-
-engine = pixelChange({width: width, height: height, depth: depth});
-
-for (let i = 0, j = 1; j <= 13; ++i, ++j) {
-    engine.compareSync(pixelsArray[i], pixelsArray[j], (error, results, pixels) => {
-        if (error) {
-            console.error(error);
-        }
-        if (results.length) {
-            resultArray.push(results[0].percent);
-        }
-    });
-}
-
-assert.deepStrictEqual(resultArray, [ 1, 4, 6, 8, 7, 8, 6, 4, 6, 8, 7, 8 ]);
+)();
