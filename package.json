@@ -1,6 +1,6 @@
 {
   "name": "pixel-change",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
@@ -50,11 +50,11 @@
     "prebuilds"
   ],
   "dependencies": {
-    "node-addon-api": "^1.6.3",
-    "node-gyp-build": "^3.8.0"
+    "node-addon-api": "^4.2.0",
+    "node-gyp-build": "^4.3.0"
   },
   "devDependencies": {
-    "prebuildify": "^2.11.0",
-    "prebuildify-ci": "^1.0.4"
+    "prebuildify": "^4.2.1",
+    "prebuildify-ci": "^1.0.5"
   }
 }
