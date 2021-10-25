@@ -28,6 +28,8 @@ inline void
 SetPercentResult(const Napi::Env &env, const Result &result, Napi::Array &resultsJs, const uint32_t index = 0) {
     Napi::Object obj = Napi::Object::New(env);
     obj.Set("name", result.name);
+    obj.Set("diffs", result.diffs);
+    obj.Set("total", result.total);
     obj.Set("percent", result.percent);
     resultsJs.Set(index, obj);
 }
@@ -39,6 +41,8 @@ inline void
 SetBoundsResult(const Napi::Env &env, const Result &result, Napi::Array &resultsJs, const uint32_t index = 0) {
     Napi::Object obj = Napi::Object::New(env);
     obj.Set("name", result.name);
+    obj.Set("diffs", result.diffs);
+    obj.Set("total", result.total);
     obj.Set("percent", result.percent);
     obj.Set("minX", result.bounds.minX);
     obj.Set("maxX", result.bounds.maxX);
@@ -54,6 +58,8 @@ inline void
 SetBlobsResult(const Napi::Env &env, const Result &result, Napi::Array &resultsJs, const uint32_t index = 0) {
     Napi::Object obj = Napi::Object::New(env);
     obj.Set("name", result.name);
+    obj.Set("diffs", result.diffs);
+    obj.Set("total", result.total);
     obj.Set("percent", result.percent);
     obj.Set("minX", result.bounds.minX);
     obj.Set("maxX", result.bounds.maxX);
@@ -65,6 +71,8 @@ SetBlobsResult(const Napi::Env &env, const Result &result, Napi::Array &resultsJ
         if (!blob.flagged) continue;
         Napi::Object blobJs = Napi::Object::New(env);
         blobJs.Set("label", blob.label);
+        blobJs.Set("diffs", blob.diffs);
+        blobJs.Set("total", blob.total);
         blobJs.Set("percent", blob.percent);
         blobJs.Set("minX", blob.bounds.minX);
         blobJs.Set("maxX", blob.bounds.maxX);
