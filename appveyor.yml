@@ -1,3 +1,5 @@
+version: {branch}-{build}
+
 build: off
 
 skip_branch_with_pr: true
