@@ -49,7 +49,7 @@ struct Config {
 struct All {
     std::string name;
     uint32_t difference;
-    uint32_t percent;
+    float percent;
 };
 
 struct Bounds {
@@ -71,19 +71,21 @@ struct Region {
     std::vector<bool> bitset;// 24
     uint32_t bitsetCount;// 4
     uint32_t difference;// 4
-    uint32_t percent;// 4
+    float percent;// 4
     Bounds bounds;
 };
 
 struct Blob {
     uint32_t label;
     Bounds bounds;
-    uint32_t percent;
+    uint32_t diffs;
+    uint32_t total;
+    float percent;
     bool flagged;
 
     Blob() = default;
 
-    explicit Blob(Bounds _bounds) : label(0), bounds(_bounds), percent(0), flagged(false) {}
+    explicit Blob(Bounds _bounds) : label(0), bounds(_bounds), diffs(0), percent(0), flagged(false) {}
 };
 
 struct Pixels {
@@ -98,16 +100,18 @@ struct Pixels {
 
 struct Result {
     const char *name;
-    uint32_t percent;
+    uint32_t diffs;
+    uint32_t total;
+    float percent;
     Bounds bounds;
     std::vector<Blob> blobs;
     bool flagged;
 
-    Result() : name(nullptr), percent(0), bounds(Bounds{0, 0, 0, 0}), blobs(std::vector<Blob>()), flagged(false) {}
+    Result() : name(nullptr), diffs(0), total(0), percent(0), bounds(Bounds{0, 0, 0, 0}), blobs(std::vector<Blob>()), flagged(false) {}
 
-    explicit Result(const char *_name) : name(_name), percent(0), bounds(Bounds{0, 0, 0, 0}), blobs(std::vector<Blob>()), flagged(false) {}
+    explicit Result(const char *_name) : name(_name), diffs(0), total(0), percent(0), bounds(Bounds{0, 0, 0, 0}), blobs(std::vector<Blob>()), flagged(false) {}
 
-    Result(const char *_name, Bounds _bounds) : name(_name), percent(0), bounds(_bounds), blobs(std::vector<Blob>()), flagged(false) {}
+    Result(const char *_name, Bounds _bounds) : name(_name), diffs(0), total(0), percent(0), bounds(_bounds), blobs(std::vector<Blob>()), flagged(false) {}
 };
 
 // placeholder for CPP results that will be converted to JS values

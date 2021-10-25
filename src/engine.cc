@@ -26,7 +26,7 @@ RegionJsToCpp(const Napi::Object &regionJs) {
     const std::vector<bool> bitset = BitsetJsToCpp(regionJs.Get("bitset").As<Napi::Buffer<bool>>());
     const uint32_t bitsetCount = regionJs.Get("bitsetCount").As<Napi::Number>().Uint32Value();
     const uint32_t difference = regionJs.Get("difference").As<Napi::Number>().Uint32Value();
-    const uint32_t percent = regionJs.Get("percent").As<Napi::Number>().Uint32Value();
+    const float percent = regionJs.Get("percent").As<Napi::Number>().FloatValue();
     const uint32_t minX = regionJs.Get("minX").As<Napi::Number>().Uint32Value();
     const uint32_t maxX = regionJs.Get("maxX").As<Napi::Number>().Uint32Value();
     const uint32_t minY = regionJs.Get("minY").As<Napi::Number>().Uint32Value();
@@ -70,15 +70,17 @@ GrayAllPercentExecute(const Config &config, const All &all, const uint8_t *buf0,
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
         for (uint32_t x = 0; x < config.width; ++x, ++p) {
             if (all.difference > GrayDiff(buf0, buf1, p)) continue;
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / config.pixelCount;
+    result.percent = 100.0f * result.diffs / config.pixelCount;
 
     // if percent threshold is not met, return
     if (all.percent > result.percent) return;
+
+    result.total = config.pixelCount;
 
     //needed for callback
     result.flagged = true;
@@ -106,15 +108,17 @@ GrayRegionPercentExecute(const Config &config, const Region &region, const uint8
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
         for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
             if (region.bitset[p] == 0 || region.difference > GrayDiff(buf0, buf1, p)) continue;
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / region.bitsetCount;
+    result.percent = 100.0f * result.diffs / region.bitsetCount;
 
     // if percent threshold is not met, return
     if (region.percent > result.percent) return;
+
+    result.total = region.bitsetCount;
 
     //needed for callback
     result.flagged = true;
@@ -151,15 +155,17 @@ GrayRegionsPercentExecute(const Config &config, const std::vector<Region> &regio
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
             for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
                 if (region.bitset[p] == 0 || region.difference > GrayDiff(buf0, buf1, p)) continue;
-                ++result.percent;
+                ++result.diffs;
             }
         }
 
         // calculate percent size of changed pixels
-        result.percent = 100 * result.percent / region.bitsetCount;
+        result.percent = 100.0f * result.diffs / region.bitsetCount;
 
         // if percent threshold is not met, continue
         if (region.percent > result.percent) continue;
+
+        result.total = region.bitsetCount;
 
         // set flagged to true
         result.flagged = true;
@@ -189,15 +195,17 @@ GrayAllBoundsExecute(const Config &config, const All &all, const uint8_t *buf0, 
         for (uint32_t x = 0; x < config.width; ++x, ++p) {
             if (all.difference > GrayDiff(buf0, buf1, p)) continue;
             result.bounds.expandTo(x, y);
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / config.pixelCount;
+    result.percent = 100.0f * result.diffs / config.pixelCount;
 
     // if percent threshold is not met, return
     if (all.percent > result.percent) return;
+
+    result.total = config.pixelCount;
 
     //needed for callback
     result.flagged = true;
@@ -243,15 +251,17 @@ GrayRegionBoundsExecute(const Config &config, const Region &region, const uint8_
         for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
             if (region.bitset[p] == 0 || region.difference > GrayDiff(buf0, buf1, p)) continue;
             result.bounds.expandTo(x, y);
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / region.bitsetCount;
+    result.percent = 100.0f * result.diffs / region.bitsetCount;
 
     // if percent threshold is not met, return
     if (region.percent > result.percent) return;
+
+    result.total = region.bitsetCount;
 
     //needed for callback
     result.flagged = true;
@@ -309,15 +319,17 @@ GrayRegionsBoundsExecute(const Config &config, const std::vector<Region> &region
             for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
                 if (region.bitset[p] == 0 || region.difference > GrayDiff(buf0, buf1, p)) continue;
                 result.bounds.expandTo(x, y);
-                ++result.percent;
+                ++result.diffs;
             }
         }
 
         // calculate percent size of changed pixels
-        result.percent = 100 * result.percent / region.bitsetCount;
+        result.percent = 100.0f * result.diffs / region.bitsetCount;
 
         // if percent threshold is not met, continue
         if (region.percent > result.percent) continue;
+
+        result.total = region.bitsetCount;
 
         // set flagged to true
         flagged = result.flagged = true;
@@ -380,16 +392,18 @@ GrayAllBlobsExecute(const Config &config, const All &all, const uint8_t *buf0, c
             } else {
                 labels[p] = -1;// set to -1 to mark as pixel of interest
                 result.bounds.expandTo(x, y);
-                ++result.percent;
+                ++result.diffs;
             }
         }
     }
 
     // calculate percent size of blobbed pixels
-    result.percent = 100 * result.percent / config.pixelCount;
+    result.percent = 100.0f * result.diffs / config.pixelCount;
 
     // if percent threshold is not met, skip blobbing the pixels
     if (all.percent > result.percent) return;
+
+    result.total = config.pixelCount;
 
     // assign label to each pixel and return count of unique labels
     uint32_t blobCount = LabelImage(config, result.bounds, labels);
@@ -415,20 +429,21 @@ GrayAllBlobsExecute(const Config &config, const All &all, const uint8_t *buf0, c
             // get blob and update its data
             Blob &blob = blobs[b];
             blob.bounds.expandTo(x, y);
-            ++blob.percent;
+            ++blob.diffs;
         }
     }
 
     // convert blob size to percent and check against threshold and flag
     for (uint32_t b = 0; b < blobCount; ++b) {
         Blob &blob = blobs[b];
-        blob.percent = 100 * blob.percent / config.pixelCount;
+        blob.percent = 100.0f * blob.diffs / config.pixelCount;
         if (all.percent > blob.percent) continue;
+        blob.total = config.pixelCount;
         blob.label = b;
         result.flagged = blob.flagged = true;
     }
 
-    //must be outside loop since all blobs will be draw to same pixels
+    //must be outside loop since all blobs will be drawn to same pixels
     if (result.flagged && config.draw) {
 
         // get reference to Pixels
@@ -485,16 +500,18 @@ GrayRegionBlobsExecute(const Config &config, const Region &region, const uint8_t
             } else {
                 labels[p] = -1;// set to -1 to mark as pixel of interest
                 result.bounds.expandTo(x, y);
-                ++result.percent;
+                ++result.diffs;
             }
         }
     }
 
     // calculate percent size of blobbed pixels
-    result.percent = 100 * result.percent / region.bitsetCount;
+    result.percent = 100.0f * result.diffs / region.bitsetCount;
 
     // if percent threshold is not met, skip blobbing the pixels
     if (region.percent > result.percent) return;
+
+    result.total = region.bitsetCount;
 
     // assign label to each pixel and return count of unique labels
     uint32_t blobCount = LabelImage(config, result.bounds, labels);
@@ -520,15 +537,16 @@ GrayRegionBlobsExecute(const Config &config, const Region &region, const uint8_t
             // get blob and update its data
             Blob &blob = blobs[b];
             blob.bounds.expandTo(x, y);
-            ++blob.percent;
+            ++blob.diffs;
         }
     }
 
     // convert blob size to percent and check against threshold and flag
     for (uint32_t b = 0; b < blobCount; ++b) {
         Blob &blob = blobs[b];
-        blob.percent = 100 * blob.percent / region.bitsetCount;
+        blob.percent = 100.0f * blob.diffs / region.bitsetCount;
         if (region.percent > blob.percent) continue;
+        blob.total = region.bitsetCount;
         blob.label = b;
         result.flagged = blob.flagged = true;
     }
@@ -602,16 +620,18 @@ GrayRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions
                 } else {
                     labels[p] = -1;// set to -1 to mark as pixel of interest
                     result.bounds.expandTo(x, y);
-                    ++result.percent;
+                    ++result.diffs;
                 }
             }
         }
 
         // calculate percent size of blobbed pixels
-        result.percent = 100 * result.percent / region.bitsetCount;
+        result.percent = 100.0f * result.diffs / region.bitsetCount;
 
         // if percent threshold is not met, skip blobbing the pixels
         if (region.percent > result.percent) continue;
+
+        result.total = region.bitsetCount;
 
         // assign label to each pixel and return count of unique labels
         uint32_t blobCount = LabelImage(config, result.bounds, labels);
@@ -637,15 +657,16 @@ GrayRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions
                 // get blob and update its data
                 Blob &blob = blobs[b];
                 blob.bounds.expandTo(x, y);
-                ++blob.percent;
+                ++blob.diffs;
             }
         }
 
         // convert blob size to percent and check against threshold and flag
         for (uint32_t b = 0; b < blobCount; ++b) {
             Blob &blob = blobs[b];
-            blob.percent = 100 * blob.percent / region.bitsetCount;
+            blob.percent = 100.0f * blob.diffs / region.bitsetCount;
             if (region.percent > blob.percent) continue;
+            blob.total = region.bitsetCount;
             blob.label = b;
             flagged = result.flagged = blob.flagged = true;
         }
@@ -705,15 +726,17 @@ RgbAllPercentExecute(const Config &config, const All &all, const uint8_t *buf0, 
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
         for (uint32_t x = 0; x < config.width; ++x, ++p) {
             if (all.difference > RgbDiff(buf0, buf1, p * config.depth)) continue;
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / config.pixelCount;
+    result.percent = 100.0f * result.diffs / config.pixelCount;
 
     // if percent threshold is not met, return
     if (all.percent > result.percent) return;
+
+    result.total = config.pixelCount;
 
     //needed for callback
     result.flagged = true;
@@ -741,15 +764,17 @@ RgbRegionPercentExecute(const Config &config, const Region &region, const uint8_
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
         for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
             if (region.bitset[p] == 0 || region.difference > RgbDiff(buf0, buf1, p * config.depth)) continue;
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / region.bitsetCount;
+    result.percent = 100.0f * result.diffs / region.bitsetCount;
 
     // if percent threshold is not met, return
     if (region.percent > result.percent) return;
+
+    result.total = region.bitsetCount;
 
     //needed for callback
     result.flagged = true;
@@ -786,15 +811,17 @@ RgbRegionsPercentExecute(const Config &config, const std::vector<Region> &region
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
             for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
                 if (region.bitset[p] == 0 || region.difference > RgbDiff(buf0, buf1, p * config.depth)) continue;
-                ++result.percent;
+                ++result.diffs;
             }
         }
 
         // calculate percent size of changed pixels
-        result.percent = 100 * result.percent / region.bitsetCount;
+        result.percent = 100.0f * result.diffs / region.bitsetCount;
 
         // if percent threshold is not met, continue
         if (region.percent > result.percent) continue;
+
+        result.total = region.bitsetCount;
 
         // set flagged to true
         result.flagged = true;
@@ -824,22 +851,23 @@ RgbAllBoundsExecute(const Config &config, const All &all, const uint8_t *buf0, c
         for (uint32_t x = 0; x < config.width; ++x, ++p) {
             if (all.difference > RgbDiff(buf0, buf1, p * config.depth)) continue;
             result.bounds.expandTo(x, y);
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / config.pixelCount;
+    result.percent = 100.0f * result.diffs / config.pixelCount;
 
     // if percent threshold is not met, return
     if (all.percent > result.percent) return;
+
+    result.total = config.pixelCount;
 
     //needed for callback
     result.flagged = true;
 
     // draw bounds into pixels
     if (config.draw) {
-
 
         // get reference to Pixels
         Pixels &pixels = callbackData.pixels;
@@ -879,15 +907,17 @@ RgbRegionBoundsExecute(const Config &config, const Region &region, const uint8_t
         for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
             if (region.bitset[p] == 0 || region.difference > RgbDiff(buf0, buf1, p * config.depth)) continue;
             result.bounds.expandTo(x, y);
-            ++result.percent;
+            ++result.diffs;
         }
     }
 
     // calculate percent size of changed pixels
-    result.percent = 100 * result.percent / region.bitsetCount;
+    result.percent = 100.0f * result.diffs / region.bitsetCount;
 
     // if percent threshold is not met, return
     if (region.percent > result.percent) return;
+
+    result.total = region.bitsetCount;
 
     //needed for callback
     result.flagged = true;
@@ -945,15 +975,17 @@ RgbRegionsBoundsExecute(const Config &config, const std::vector<Region> &regions
             for (uint32_t x = region.bounds.minX, p = y * config.width + x; x <= region.bounds.maxX; ++x, ++p) {
                 if (region.bitset[p] == 0 || region.difference > RgbDiff(buf0, buf1, p * config.depth)) continue;
                 result.bounds.expandTo(x, y);
-                ++result.percent;
+                ++result.diffs;
             }
         }
 
         // calculate percent size of changed pixels
-        result.percent = 100 * result.percent / region.bitsetCount;
+        result.percent = 100.0f * result.diffs / region.bitsetCount;
 
         // if percent threshold is not met, continue
         if (region.percent > result.percent) continue;
+
+        result.total = region.bitsetCount;
 
         // set flagged to true
         flagged = result.flagged = true;
@@ -1016,16 +1048,18 @@ RgbAllBlobsExecute(const Config &config, const All &all, const uint8_t *buf0, co
             } else {
                 labels[p] = -1;// set to -1 to mark as pixel of interest
                 result.bounds.expandTo(x, y);
-                ++result.percent;
+                ++result.diffs;
             }
         }
     }
 
     // calculate percent size of blobbed pixels
-    result.percent = 100 * result.percent / config.pixelCount;
+    result.percent = 100.0f * result.diffs / config.pixelCount;
 
     // if percent threshold is not met, skip blobbing the pixels
     if (all.percent > result.percent) return;
+
+    result.total = config.pixelCount;
 
     // assign label to each pixel and return count of unique labels
     uint32_t blobCount = LabelImage(config, result.bounds, labels);
@@ -1051,15 +1085,16 @@ RgbAllBlobsExecute(const Config &config, const All &all, const uint8_t *buf0, co
             // get blob and update its data
             Blob &blob = blobs[b];
             blob.bounds.expandTo(x, y);
-            ++blob.percent;
+            ++blob.diffs;
         }
     }
 
     // convert blob size to percent and check against threshold and flag
     for (uint32_t b = 0; b < blobCount; ++b) {
         Blob &blob = blobs[b];
-        blob.percent = 100 * blob.percent / config.pixelCount;
+        blob.percent = 100.0f * blob.diffs / config.pixelCount;
         if (all.percent > blob.percent) continue;
+        blob.total = config.pixelCount;
         blob.label = b;
         result.flagged = blob.flagged = true;
     }
@@ -1121,16 +1156,18 @@ RgbRegionBlobsExecute(const Config &config, const Region &region, const uint8_t 
             } else {
                 labels[p] = -1;// set to -1 to mark as pixel of interest
                 result.bounds.expandTo(x, y);
-                ++result.percent;
+                ++result.diffs;
             }
         }
     }
 
     // calculate percent size of blobbed pixels
-    result.percent = 100 * result.percent / region.bitsetCount;
+    result.percent = 100.0f * result.diffs / region.bitsetCount;
 
     // if percent threshold is not met, skip blobbing the pixels
     if (region.percent > result.percent) return;
+
+    result.total = region.bitsetCount;
 
     // assign label to each pixel and return count of unique labels
     uint32_t blobCount = LabelImage(config, result.bounds, labels);
@@ -1156,15 +1193,16 @@ RgbRegionBlobsExecute(const Config &config, const Region &region, const uint8_t 
             // get blob and update its data
             Blob &blob = blobs[b];
             blob.bounds.expandTo(x, y);
-            ++blob.percent;
+            ++blob.diffs;
         }
     }
 
     // convert blob size to percent and check against threshold and flag
     for (uint32_t b = 0; b < blobCount; ++b) {
         Blob &blob = blobs[b];
-        blob.percent = 100 * blob.percent / region.bitsetCount;
+        blob.percent = 100.0f * blob.diffs / region.bitsetCount;
         if (region.percent > blob.percent) continue;
+        blob.total = region.bitsetCount;
         blob.label = b;
         result.flagged = blob.flagged = true;
     }
@@ -1238,16 +1276,18 @@ RgbRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions,
                 } else {
                     labels[p] = -1;// set to -1 to mark as pixel of interest
                     result.bounds.expandTo(x, y);
-                    ++result.percent;
+                    ++result.diffs;
                 }
             }
         }
 
         // calculate percent size of blobbed pixels
-        result.percent = 100 * result.percent / region.bitsetCount;
+        result.percent = 100.0f * result.diffs / region.bitsetCount;
 
         // if percent threshold is not met, skip blobbing the pixels
         if (region.percent > result.percent) continue;
+
+        result.total = region.bitsetCount;
 
         // assign label to each pixel and return count of unique labels
         uint32_t blobCount = LabelImage(config, result.bounds, labels);
@@ -1273,15 +1313,16 @@ RgbRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions,
                 // get blob and update its data
                 Blob &blob = blobs[b];
                 blob.bounds.expandTo(x, y);
-                ++blob.percent;
+                ++blob.diffs;
             }
         }
 
         // convert blob size to percent and check against threshold and flag
         for (uint32_t b = 0; b < blobCount; ++b) {
             Blob &blob = blobs[b];
-            blob.percent = 100 * blob.percent / region.bitsetCount;
+            blob.percent = 100.0f * blob.diffs / region.bitsetCount;
             if (region.percent > blob.percent) continue;
+            blob.total = region.bitsetCount;
             blob.label = b;
             flagged = result.flagged = blob.flagged = true;
         }
@@ -1345,8 +1386,8 @@ SetFunctions(const Napi::Object &configObj, ExecuteFunc &executeFunc, CallbackFu
     // difference 1-255. optional. default 1.
     const uint32_t difference = configObj.HasOwnProperty("difference") ? configObj.Get("difference").As<Napi::Number>().Uint32Value() : 1;
 
-    // percent 1 - 100. optional. default 1.
-    const uint32_t percent = configObj.HasOwnProperty("percent") ? configObj.Get("percent").As<Napi::Number>().Uint32Value() : 1;
+    // percent 0.01 - 1. optional. default 0.01 (1 percent).
+    const float percent = configObj.HasOwnProperty("percent") ? configObj.Get("percent").As<Napi::Number>().FloatValue() : 0.01;
 
     // draw pixels. optional. default false.
     const bool draw = configObj.HasOwnProperty("draw") && configObj.Get("draw").As<Napi::Boolean>().Value();

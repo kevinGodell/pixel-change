@@ -17,6 +17,7 @@ Napi::Object CreateObject(const Napi::CallbackInfo &info) {
     cout << "size of std::string : " << sizeof(std::string) << endl;
     cout << "size of int32_t : " << sizeof(int32_t) << endl;
     cout << "size of uint32_t : " << sizeof(uint32_t) << endl;
+    cout << "size of float : " << sizeof(float) << endl;
     cout << "size of std::vector<bool> : " << sizeof(std::vector<bool>) << endl;
     cout << "size of std::vector<uint8_t> : " << sizeof(std::vector<uint8_t>) << endl;
     cout << "size of std::vector<Result> : " << sizeof(std::vector<Result>) << endl;
@@ -35,7 +36,7 @@ Napi::Object CreateObject(const Napi::CallbackInfo &info) {
     if (configObj.HasOwnProperty("response")) std::cout << "response : " << configObj.Get("response").As<Napi::String>().Utf8Value() << std::endl;
     if (configObj.HasOwnProperty("draw")) std::cout << "draw : " << configObj.Get("draw").As<Napi::Boolean>().Value() << std::endl;
     if (configObj.HasOwnProperty("difference")) std::cout << "difference : " << configObj.Get("difference").As<Napi::Number>().Uint32Value() << std::endl;
-    if (configObj.HasOwnProperty("percent")) std::cout << "percent : " << configObj.Get("percent").As<Napi::Number>().Uint32Value() << std::endl;
+    if (configObj.HasOwnProperty("percent")) std::cout << "percent : " << configObj.Get("percent").As<Napi::Number>().FloatValue() << std::endl;
     if (configObj.HasOwnProperty("regions")) {
         const Napi::Array regionsJs = configObj.Get("regions").As<Napi::Array>();
         //uint32_t regionsLength = regionsJs.Length();
@@ -44,7 +45,7 @@ Napi::Object CreateObject(const Napi::CallbackInfo &info) {
             Napi::Object obj = regionsJs.Get(r).As<Napi::Object>();
             const std::string name = obj.HasOwnProperty("name") ? obj.Get("name").As<Napi::String>() : std::string();
             const uint32_t difference = obj.HasOwnProperty("difference") ? obj.Get("difference").As<Napi::Number>().Uint32Value() : 0;
-            const uint32_t percent = obj.HasOwnProperty("percent") ? obj.Get("percent").As<Napi::Number>().Uint32Value() : 0;
+            const float percent = obj.HasOwnProperty("percent") ? obj.Get("percent").As<Napi::Number>().FloatValue() : 0;
             const uint32_t bitsetCount = obj.HasOwnProperty("bitsetCount") ? obj.Get("bitsetCount").As<Napi::Number>().Uint32Value() : 0;
             const uint32_t bitsetLength = obj.HasOwnProperty("bitset") ? static_cast<uint32_t>(obj.Get("bitset").As<Napi::Buffer<bool>>().Length()) : 0;
             const uint32_t minX = obj.HasOwnProperty("minX") ? obj.Get("minX").As<Napi::Number>().Uint32Value() : 0;
