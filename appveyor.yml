@@ -58,7 +58,7 @@ for:
       - npm run prebuild
     after_build:
 #     - ls -lAR ./prebuilds
-      - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-`uname -s`-`uname -m`.tar"
+      - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
 #     - echo $ARCHIVE_NAME
       - tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds/" linux-x64
       - appveyor PushArtifact $ARCHIVE_NAME
@@ -84,7 +84,7 @@ for:
       - npm run prebuild
     after_build:
 #     - ls -lAR ./prebuilds
-      - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-`uname -s`-`uname -m`.tar"
+      - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
 #     - echo $ARCHIVE_NAME
       - tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds" darwin-x64
       - appveyor PushArtifact $ARCHIVE_NAME
