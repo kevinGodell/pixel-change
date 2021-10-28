@@ -262,7 +262,7 @@
 
         console.log('✅  rgba compareAsync');
 
-        console.log('🎉 success');
+        console.log('🎉🎉🎉 success 🎉🎉🎉');
 
         process.exit(0);
     } catch (e) {
