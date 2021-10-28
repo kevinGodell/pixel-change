@@ -13,6 +13,9 @@ platform:
 # - x86
   - x64
 
+cache:
+  - pixel-change-test
+
 for:
   -
     matrix:
@@ -25,6 +28,7 @@ for:
       - ps: Install-Product node Current
       - npm install
     before_build:
+      - npm test
       - ps: if ($env:APPVEYOR_REPO_TAG -eq "false") { Exit-AppveyorBuild }
     build_script:
       - npm run prebuild
@@ -39,9 +43,8 @@ for:
     before_test:
       - node --version
       - npm --version
-    test_script:
-      - npm test
       - ps: Remove-Item -Recurse -Path ./build
+    test_script:
       - npm test
   -
     matrix:
@@ -55,6 +58,7 @@ for:
       - nvm install --lts
       - npm install
     before_build:
+      - npm test
       - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
     build_script:
       - npm run prebuild
@@ -67,9 +71,8 @@ for:
     before_test:
       - node --version
       - npm --version
-    test_script:
-      - npm test
       - rm -rf ./build
+    test_script:
       - npm test
   -
     matrix:
@@ -83,6 +86,7 @@ for:
       - nvm install --lts
       - npm install
     before_build:
+      - npm test
       - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
     build_script:
       - npm run prebuild
@@ -95,9 +99,8 @@ for:
     before_test:
       - node --version
       - npm --version
-    test_script:
-      - npm test
       - rm -rf ./build
+    test_script:
       - npm test
 
 deploy:
