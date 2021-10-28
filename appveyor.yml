@@ -52,7 +52,7 @@ for:
 #     - nvm ls-remote
 #     - uname -s
     install:
-      - nvm install node
+      - nvm install --lts
       - npm install
     before_build:
       - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
@@ -80,7 +80,7 @@ for:
 #     - nvm ls-remote
 #     - uname -s
     install:
-      - nvm install node
+      - nvm install --lts
       - npm install
     before_build:
       - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
