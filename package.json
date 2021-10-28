@@ -4,7 +4,7 @@
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
-    "test": "echo test",
+    "test": "(git clone https://github.com/kevinGodell/pixel-change-test.git || echo \"'pixel-change-test' already exists\") && node ./tests/test.js",
     "prebuild": "prebuildify --target=node@ --napi=true --strip",
     "prebuild:ia32": "prebuildify --target=node@ --napi=true --strip --arch=ia32",
     "download": "prebuildify-ci download",
