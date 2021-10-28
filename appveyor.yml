@@ -41,6 +41,8 @@ for:
       - npm --version
     test_script:
       - npm test
+      - ps: Remove-Item -Recurse -Path ./build
+      - npm test
   -
     matrix:
       only:
@@ -67,6 +69,8 @@ for:
       - npm --version
     test_script:
       - npm test
+      - rm -rf ./build
+      - npm test
   -
     matrix:
       only:
@@ -92,6 +96,8 @@ for:
       - node --version
       - npm --version
     test_script:
+      - npm test
+      - rm -rf ./build
       - npm test
 
 deploy:
