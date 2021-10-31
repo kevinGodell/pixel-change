@@ -1,5 +1,5 @@
-#ifndef SRC_WORKER_H_
-#define SRC_WORKER_H_
+#ifndef SRC_CALLBACK_H_
+#define SRC_CALLBACK_H_
 
 #include "engine.h"
 #include "napi.h"
@@ -7,9 +7,9 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-class PixelChangeWorker : public Napi::AsyncWorker {
+class AsyncWorkerCallback : public Napi::AsyncWorker {
 public:
-    PixelChangeWorker(const ExecuteFunc &execute, const CallbackFunc &callback, const Napi::Buffer<uint8_t> &napiBuf0, const Napi::Buffer<uint8_t> &napiBuf1, const Napi::Function &cb);
+    AsyncWorkerCallback(const Napi::Function &cb, const ExecuteFunc &execute, const ConvertFunc &convert, const Napi::Buffer<uint8_t> &napiBuf0, const Napi::Buffer<uint8_t> &napiBuf1);
 
     void Execute() override;
 
@@ -18,7 +18,7 @@ public:
 private:
     // in
     const ExecuteFunc execute_;
-    const CallbackFunc callback_;
+    const ConvertFunc convert_;
     const uint8_t *buf0_;
     const uint8_t *buf1_;
     const Napi::Reference<Napi::Buffer<uint8_t>> buf0ref_;
