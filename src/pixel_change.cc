@@ -11,7 +11,7 @@ using std::endl;
 Napi::Value CreateObject(const Napi::CallbackInfo &info) {
     const Napi::Env env = info.Env();
     if (info.Length() < 1 || info[0].IsEmpty() || !info[0].IsObject()) {
-        throw Napi::Error::New(env, "A configuration object was expected");
+        throw Napi::Error::New(env, "A configuration object was expected { width, height, depth }");
     }
     const Napi::Object configObj = info[0].As<Napi::Object>();
     if (!configObj.HasOwnProperty("width") || !configObj.Get("width").IsNumber() || configObj.Get("width").As<Napi::Number>().Int32Value() < 1) {
@@ -20,9 +20,16 @@ Napi::Value CreateObject(const Napi::CallbackInfo &info) {
     if (!configObj.HasOwnProperty("height") || !configObj.Get("height").IsNumber() || configObj.Get("height").As<Napi::Number>().Int32Value() < 1) {
         throw Napi::Error::New(configObj.Env(), "Height must be an integer greater than 0");
     }
-    if (!configObj.HasOwnProperty("depth") || !configObj.Get("width").IsNumber() || (configObj.Get("depth").As<Napi::Number>().Int32Value() != 1 && configObj.Get("depth").As<Napi::Number>().Int32Value() != 3 && configObj.Get("depth").As<Napi::Number>().Int32Value() != 4)) {
+    if (!configObj.HasOwnProperty("depth") || !configObj.Get("depth").IsNumber() || (configObj.Get("depth").As<Napi::Number>().Int32Value() != 1 && configObj.Get("depth").As<Napi::Number>().Int32Value() != 3 && configObj.Get("depth").As<Napi::Number>().Int32Value() != 4)) {
         throw Napi::Error::New(configObj.Env(), "Depth must be an integer set to 1, 3, or 4");
     }
+    if (configObj.HasOwnProperty("draw") && !configObj.Get("draw").IsBoolean()) {
+        throw Napi::Error::New(configObj.Env(), "Draw must be a boolean");
+    }
+    if (configObj.HasOwnProperty("response") && !configObj.Get("response").IsString()) {
+        throw Napi::Error::New(configObj.Env(), "Response must be a string set to percent, bounds, or blobs");
+    }
+
 #ifdef NAPI_DEBUG
     cout << "c++ version : " << __cplusplus << endl;
     // show system size values for types being used
