@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "(git clone https://github.com/kevinGodell/pixel-change-test.git 2>null || echo \"'pixel-change-test' already exists\") && node ./pixel-change-test/test.js",
-    "prebuild": "prebuildify --target=node@ --napi=true --strip",
-    "prebuild:ia32": "prebuildify --target=node@ --napi=true --strip --arch=ia32",
+    "prebuildify": "prebuildify --target=node@ --napi=true --strip",
+    "prebuildify:ia32": "prebuildify --target=node@ --napi=true --strip --arch=ia32",
     "download": "prebuildify-ci download",
     "install": "node-gyp-build",
     "build": "npm install --build-from-source",
-    "pack": "npm --verbose pack"
+    "pack": "npm --verbose pack",
+    "clean": "node-gyp clean"
   },
   "repository": {
     "type": "git",
