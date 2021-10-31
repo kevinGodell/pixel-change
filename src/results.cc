@@ -7,9 +7,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // create js object and push to js array
-void
-PercentCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData) {
-    const Napi::HandleScope scope(env);
+Napi::Array
+PercentCallback(const Napi::Env &env, CallbackData &callbackData) {
+    //const Napi::HandleScope scope(env);
     Napi::Array resultsJs = Napi::Array::New(env);
     const std::vector<Result> &results = callbackData.results;
     if (!results.empty()) {
@@ -27,15 +27,16 @@ PercentCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &ca
             return;
         }*/
     }
-    cb.Call({env.Null(), resultsJs});
+    //cb.Call({env.Null(), resultsJs});
+    return resultsJs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // create js object and push to js array
-void
-BoundsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData) {
-    const Napi::HandleScope scope(env);
+Napi::Array
+BoundsCallback(const Napi::Env &env, CallbackData &callbackData) {
+    //const Napi::HandleScope scope(env);
     Napi::Array resultsJs = Napi::Array::New(env);
     const std::vector<Result> &results = callbackData.results;
     if (!results.empty()) {
@@ -48,19 +49,21 @@ BoundsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &cal
         if (pixels.ptr) {
             uint8_t *ptr = pixels.ptr.release();
             const Napi::Buffer<uint8_t> pixelsJs = Napi::Buffer<uint8_t>::New(env, ptr, pixels.size, DeleteExternalData);
-            cb.Call({env.Null(), resultsJs, pixelsJs});
-            return;
+            //cb.Call({env.Null(), resultsJs, pixelsJs});
+            //return;
+            resultsJs.Set("pixels", pixelsJs);
         }
     }
-    cb.Call({env.Null(), resultsJs});
+    //cb.Call({env.Null(), resultsJs});
+    return resultsJs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // create js object and push to js array
-void
-BlobsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData) {
-    const Napi::HandleScope scope(env);
+Napi::Array
+BlobsCallback(const Napi::Env &env, CallbackData &callbackData) {
+    //const Napi::HandleScope scope(env);
     Napi::Array resultsJs = Napi::Array::New(env);
     const std::vector<Result> &results = callbackData.results;
     if (!results.empty()) {
@@ -73,11 +76,13 @@ BlobsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &call
         if (pixels.ptr) {
             uint8_t *ptr = pixels.ptr.release();
             const Napi::Buffer<uint8_t> pixelsJs = Napi::Buffer<uint8_t>::New(env, ptr, pixels.size, DeleteExternalData);
-            cb.Call({env.Null(), resultsJs, pixelsJs});
-            return;
+            //cb.Call({env.Null(), resultsJs, pixelsJs});
+            //return;
+            resultsJs.Set("pixels", pixelsJs);
         }
     }
-    cb.Call({env.Null(), resultsJs});
+    //cb.Call({env.Null(), resultsJs});
+    return resultsJs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
