@@ -1386,8 +1386,8 @@ SetFunctions(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFun
     // difference 1-255. optional. default 1.
     const uint32_t difference = configObj.HasOwnProperty("difference") ? configObj.Get("difference").As<Napi::Number>().Uint32Value() : 1;
 
-    // percent 0.01 - 1. optional. default 0.01 (1 percent).
-    const float percent = configObj.HasOwnProperty("percent") ? configObj.Get("percent").As<Napi::Number>().FloatValue() : 0.01;
+    // percent 0.0 - 100.0. optional. default 0.0.
+    const float percent = configObj.HasOwnProperty("percent") ? configObj.Get("percent").As<Napi::Number>().FloatValue() : 0.0;
 
     // draw pixels. optional. default false.
     const bool draw = configObj.HasOwnProperty("draw") && configObj.Get("draw").As<Napi::Boolean>().Value();
