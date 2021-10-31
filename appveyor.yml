@@ -13,8 +13,8 @@ platform:
 # - x86
   - x64
 
-cache:
-  - pixel-change-test
+#cache:
+#  - pixel-change-test
 
 for:
   -
@@ -29,10 +29,11 @@ for:
       - npm install
     before_build:
       - npm test
+      - npm run clean
       - ps: if ($env:APPVEYOR_REPO_TAG -eq "false") { Exit-AppveyorBuild }
     build_script:
-      - npm run prebuild
-#     - npm run prebuild:ia32
+      - npm run prebuildify
+#     - npm run prebuildify:ia32
     after_build:
 #     - ps: Get-ChildItem -Force -Recurse .\prebuilds
       - ps: $env:ARCHIVE_NAME="$env:APPVEYOR_REPO_TAG_NAME-$env:OS-$env:PLATFORM.zip"
@@ -59,9 +60,10 @@ for:
       - npm install
     before_build:
       - npm test
+      - npm run clean
       - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
     build_script:
-      - npm run prebuild
+      - npm run prebuildify
     after_build:
 #     - ls -lAR ./prebuilds
       - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
@@ -71,7 +73,7 @@ for:
     before_test:
       - node --version
       - npm --version
-      - rm -rf ./build
+#      - rm -rf ./build
     test_script:
       - npm test
   -
@@ -87,9 +89,10 @@ for:
       - npm install
     before_build:
       - npm test
+      - npm run clean
       - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
     build_script:
-      - npm run prebuild
+      - npm run prebuildify
     after_build:
 #     - ls -lAR ./prebuilds
       - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
@@ -99,7 +102,7 @@ for:
     before_test:
       - node --version
       - npm --version
-      - rm -rf ./build
+#      - rm -rf ./build
     test_script:
       - npm test
 
