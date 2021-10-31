@@ -122,7 +122,7 @@ struct CallbackData {
 
 typedef std::function<void(const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData)> ExecuteFunc;
 
-typedef std::function<void(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData)> CallbackFunc;
+typedef std::function<Napi::Array(const Napi::Env &env, CallbackData &callbackData)> ConvertFunc;
 
 // absolute value
 inline uint32_t
@@ -234,6 +234,6 @@ EngineType(uint32_t depth, uint32_t regionsLength, const std::string &response);
 
 // set execute and callback functions
 void
-SetFunctions(const Napi::Object &config, ExecuteFunc &executeFunc, CallbackFunc &callbackFunc);
+SetFunctions(const Napi::Object &configObj, std::function<void(const uint8_t *, const uint8_t *, CallbackData &)> &executeFunc, ConvertFunc &convertFunc);
 
 #endif
