@@ -1,5 +1,6 @@
 #include "object.h"
-#include "worker.h"
+#include "callback.h"
+#include "promise.h"
 #include "engine.h"
 #include "results.h"
 #include "napi.h"
@@ -12,7 +13,7 @@ PixelChange::PixelChange(const Napi::CallbackInfo &info)
     const Napi::Env env = info.Env();
     const Napi::HandleScope scope(env);
     const Napi::Object configObj = info[0].As<Napi::Object>();
-    SetFunctions(configObj, this->execute_, this->callback_);
+    SetFunctions(configObj, this->execute_, this->convert_);
 }
 
 Napi::FunctionReference PixelChange::constructor;
@@ -37,25 +38,25 @@ Napi::Value PixelChange::Compare(const Napi::CallbackInfo &info) {
     const Napi::Env &env = info.Env();
     const Napi::Buffer<uint8_t> &napiBuf0 = info[0].As<Napi::Buffer<uint8_t>>();
     const Napi::Buffer<uint8_t> &napiBuf1 = info[1].As<Napi::Buffer<uint8_t>>();
-    const Napi::Function &cb = info[2].As<Napi::Function>();
-
-    auto *pixelChangeWorker = new PixelChangeWorker(this->execute_, this->callback_, napiBuf0, napiBuf1, cb);
-    pixelChangeWorker->Queue();
-
-    return env.Undefined();
+    if (info[2].IsFunction()) {
+        const Napi::Function &cb = info[2].As<Napi::Function>();
+        auto *asyncWorkerCallback = new AsyncWorkerCallback(cb, this->execute_, this->convert_, napiBuf0, napiBuf1);
+        asyncWorkerCallback->Queue();
+        return env.Undefined();
+    } else {
+        auto *asyncWorkerPromise = new AsyncWorkerPromise(env, this->execute_, this->convert_, napiBuf0, napiBuf1);
+        asyncWorkerPromise->Queue();
+        return asyncWorkerPromise->getPromise();
+    }
 }
 
 Napi::Value PixelChange::CompareSync(const Napi::CallbackInfo &info) {
     const Napi::Env &env = info.Env();
     const uint8_t *buf0 = info[0].As<Napi::Buffer<uint8_t>>().Data();
     const uint8_t *buf1 = info[1].As<Napi::Buffer<uint8_t>>().Data();
-    const Napi::Function &cb = info[2].As<Napi::Function>();
-
     CallbackData callbackData;
     this->execute_(buf0, buf1, callbackData);
-    this->callback_(env, cb, callbackData);
-
-    return env.Undefined();
+    return this->convert_(env, callbackData);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
