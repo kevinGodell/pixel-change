@@ -8,7 +8,8 @@
       "src/engine.cc",
       "src/object.cc",
       "src/results.cc",
-      "src/worker.cc"
+      "src/callback.cc",
+      "src/promise.cc"
     ],
     "cflags": [ "-O2", "-Wendif-labels", "-Werror", "-Wpedantic", "-Wunused-parameter" ],# removed for now "-finline-functions", "-funswitch-loops", "-fpredictive-commoning", "-fgcse-after-reload", "-ftree-vectorize", "-fvect-cost-model", "-ftree-partial-pre", "-fipa-cp-clone"
     "cflags!": [ "-Wno-unused-parameter", "-O3" ],

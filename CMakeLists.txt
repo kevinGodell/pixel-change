@@ -18,6 +18,6 @@ include_directories(node_modules/node-addon-api/external-napi)
 #file(GLOB SOURCES "src/*.cc" "src/*.c")
 
 # use specific list of files
-set(SOURCES src/pixel_change.cc src/ccl.cc src/engine.cc src/object.cc src/results.cc src/worker.cc)
+set(SOURCES src/pixel_change.cc src/ccl.cc src/engine.cc src/object.cc src/results.cc src/callback.cc src/promise.cc)
 
 add_executable(pixel-change ${SOURCES})
