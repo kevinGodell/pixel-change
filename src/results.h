@@ -89,17 +89,19 @@ SetBlobsResult(const Napi::Env &env, const Result &result, Napi::Array &resultsJ
 // draw bounding box in gray pixels
 inline void
 SetGrayPixels(const Bounds &bounds, const Config &config, uint8_t *pixels) {
-    uint32_t i = bounds.minY * config.width + bounds.minX;
-    uint32_t j = bounds.maxY * config.width + bounds.minX;
-    for (uint32_t x = bounds.minX; x <= bounds.maxX; ++x, ++i, ++j) {
-        pixels[i] = GRAY;// top
-        pixels[j] = GRAY;// bottom
-    }
-    i = (bounds.minY + 1) * config.width + bounds.minX;
-    j = (bounds.minY + 1) * config.width + bounds.maxX;
-    for (uint32_t y = bounds.minY, yLimit = bounds.maxY - 1; y < yLimit; ++y, i += config.width, j += config.width) {
-        pixels[i] = GRAY;// left
-        pixels[j] = GRAY;// right
+    if (bounds.maxX > bounds.minX && bounds.maxY > bounds.minY) {
+        uint32_t i = bounds.minY * config.width + bounds.minX;
+        uint32_t j = bounds.maxY * config.width + bounds.minX;
+        for (uint32_t x = bounds.minX; x <= bounds.maxX; ++x, ++i, ++j) {
+            pixels[i] = GRAY;// top
+            pixels[j] = GRAY;// bottom
+        }
+        i = (bounds.minY + 1) * config.width + bounds.minX;
+        j = (bounds.minY + 1) * config.width + bounds.maxX;
+        for (uint32_t y = bounds.minY, yLimit = bounds.maxY - 1; y < yLimit; ++y, i += config.width, j += config.width) {
+            pixels[i] = GRAY;// left
+            pixels[j] = GRAY;// right
+        }
     }
 }
 
@@ -108,27 +110,30 @@ SetGrayPixels(const Bounds &bounds, const Config &config, uint8_t *pixels) {
 // draw bounding box in rgb(a) pixels
 inline void
 SetRgbPixels(const Bounds &bounds, const Config &config, uint8_t *pixels) {
-    uint32_t inc = config.depth;
-    uint32_t i = bounds.minY * config.width * config.depth + bounds.minX * config.depth;
-    uint32_t j = bounds.maxY * config.width * config.depth + bounds.minX * config.depth;
-    for (uint32_t x = bounds.minX; x <= bounds.maxX; ++x, i += inc, j += inc) {
-        pixels[i] = RED;// top
-        pixels[i + 1] = GREEN;
-        pixels[i + 2] = BLUE;
-        pixels[j] = RED;// bottom
-        pixels[j + 1] = GREEN;
-        pixels[j + 2] = BLUE;
-    }
-    inc = config.width * config.depth;
-    i = (bounds.minY + 1) * config.width * config.depth + bounds.minX * config.depth;
-    j = (bounds.minY + 1) * config.width * config.depth + bounds.maxX * config.depth;
-    for (uint32_t y = bounds.minY, yLimit = bounds.maxY - 1; y < yLimit; ++y, i += inc, j += inc) {
-        pixels[i] = RED;// left
-        pixels[i + 1] = GREEN;
-        pixels[i + 2] = BLUE;
-        pixels[j] = RED;// right
-        pixels[j + 1] = GREEN;
-        pixels[j + 2] = BLUE;
+    if (bounds.maxX > bounds.minX && bounds.maxY > bounds.minY) {
+        uint32_t inc = config.depth;
+        uint32_t i = bounds.minY * config.width * config.depth + bounds.minX * config.depth;
+        uint32_t j = bounds.maxY * config.width * config.depth + bounds.minX * config.depth;
+        for (uint32_t x = bounds.minX; x <= bounds.maxX; ++x, i += inc, j += inc) {
+            pixels[i] = RED;// top
+            pixels[i + 1] = GREEN;
+            pixels[i + 2] = BLUE;
+            pixels[j] = RED;// bottom
+            pixels[j + 1] = GREEN;
+            pixels[j + 2] = BLUE;
+        }
+        inc = config.width * config.depth;
+        i = (bounds.minY + 1) * config.width * config.depth + bounds.minX * config.depth;
+        j = (bounds.minY + 1) * config.width * config.depth + bounds.maxX * config.depth;
+        //for (uint32_t y = bounds.minY, yLimit = bounds.maxY; y < yLimit; ++y, i += inc, j += inc) {
+        for (uint32_t y = bounds.minY, yLimit = bounds.maxY - 1; y < yLimit; ++y, i += inc, j += inc) {
+            pixels[i] = RED;// left
+            pixels[i + 1] = GREEN;
+            pixels[i + 2] = BLUE;
+            pixels[j] = RED;// right
+            pixels[j + 1] = GREEN;
+            pixels[j + 2] = BLUE;
+        }
     }
 }
 
