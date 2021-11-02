@@ -1376,12 +1376,14 @@ EngineType(const uint32_t depth, const uint32_t regionsLength, const std::string
 
 // set execute and callback functions
 void
-SetFunctions(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFunc &convertFunc) {
+Configure(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFunc &convertFunc, uint32_t &bufLength) {
 
     // width, height, depth. required.
     const uint32_t width = configObj.Get("width").As<Napi::Number>().Uint32Value();
     const uint32_t height = configObj.Get("height").As<Napi::Number>().Uint32Value();
     const uint32_t depth = configObj.Get("depth").As<Napi::Number>().Uint32Value();
+
+    bufLength = width * height * depth;
 
     // difference 1-255. optional. default 1.
     const uint32_t difference = configObj.HasOwnProperty("difference") ? configObj.Get("difference").As<Napi::Number>().Uint32Value() : 1;

@@ -234,6 +234,6 @@ EngineType(uint32_t depth, uint32_t regionsLength, const std::string &response);
 
 // set execute and callback functions
 void
-SetFunctions(const Napi::Object &configObj, std::function<void(const uint8_t *, const uint8_t *, CallbackData &)> &executeFunc, ConvertFunc &convertFunc);
+Configure(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFunc &convertFunc, uint32_t &bufLength);
 
 #endif

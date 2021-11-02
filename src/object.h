@@ -20,8 +20,12 @@ private:
     Napi::Value CompareSync(const Napi::CallbackInfo &info);
 
     static Napi::FunctionReference constructor;
+
     ExecuteFunc execute_;
+
     ConvertFunc convert_;
+
+    uint32_t bufLength_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
