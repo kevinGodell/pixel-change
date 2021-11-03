@@ -1,3 +1,7 @@
 'use strict';
 
-module.exports = require('node-gyp-build')(__dirname);
+const nodeGypBuild = require('node-gyp-build');
+
+module.exports = nodeGypBuild(__dirname);
+
+module.exports.path = nodeGypBuild.path();
