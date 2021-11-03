@@ -27,7 +27,6 @@ PercentCallback(const Napi::Env &env, CallbackData &callbackData) {
             return;
         }*/
     }
-    //cb.Call({env.Null(), resultsJs});
     return resultsJs;
 }
 
@@ -49,12 +48,9 @@ BoundsCallback(const Napi::Env &env, CallbackData &callbackData) {
         if (pixels.ptr) {
             uint8_t *ptr = pixels.ptr.release();
             const Napi::Buffer<uint8_t> pixelsJs = Napi::Buffer<uint8_t>::New(env, ptr, pixels.size, DeleteExternalData);
-            //cb.Call({env.Null(), resultsJs, pixelsJs});
-            //return;
             resultsJs.Set("pixels", pixelsJs);
         }
     }
-    //cb.Call({env.Null(), resultsJs});
     return resultsJs;
 }
 
@@ -76,12 +72,9 @@ BlobsCallback(const Napi::Env &env, CallbackData &callbackData) {
         if (pixels.ptr) {
             uint8_t *ptr = pixels.ptr.release();
             const Napi::Buffer<uint8_t> pixelsJs = Napi::Buffer<uint8_t>::New(env, ptr, pixels.size, DeleteExternalData);
-            //cb.Call({env.Null(), resultsJs, pixelsJs});
-            //return;
             resultsJs.Set("pixels", pixelsJs);
         }
     }
-    //cb.Call({env.Null(), resultsJs});
     return resultsJs;
 }
 
