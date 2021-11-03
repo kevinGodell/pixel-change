@@ -44,7 +44,7 @@ Napi::Value PixelChange::Compare(const Napi::CallbackInfo &info) {
         const Napi::Function &cb = info[2].As<Napi::Function>();
 
         if (napiBuf0.Length() != this->bufLength_ || napiBuf1.Length() != this->bufLength_) {
-            return cb.Call({Napi::String::New(env, std::string("Both buffers must have a length of ") += std::to_string(this->bufLength_))});
+            return cb.Call({Napi::Error::New(env, std::string("Both buffers must have a length of ") += std::to_string(this->bufLength_)).Value()});
         }
 
         auto *asyncWorkerCallback = new AsyncWorkerCallback(cb, this->execute_, this->convert_, napiBuf0, napiBuf1);
@@ -54,7 +54,7 @@ Napi::Value PixelChange::Compare(const Napi::CallbackInfo &info) {
 
         if (napiBuf0.Length() != this->bufLength_ || napiBuf1.Length() != this->bufLength_) {
             Napi::Promise::Deferred deferred = Napi::Promise::Deferred::New(env);
-            deferred.Reject(Napi::String::New(env, std::string("Both buffers must have a length of ") += std::to_string(this->bufLength_)));
+            deferred.Reject(Napi::Error::New(env, std::string("Both buffers must have a length of ") += std::to_string(this->bufLength_)).Value());
             return deferred.Promise();
         }
 
