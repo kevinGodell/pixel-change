@@ -1,0 +1,72 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.7
+  gh: circleci/github-cli@1.0.4
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-2004:202104-01
+    resource_class: arm.medium
+    steps:
+      - checkout
+      - node/install:
+          lts: true
+      - run: node --version
+      - run: npm --version
+      - node/install-packages:
+          override-ci-command: npm ci --build-from-source
+          cache-path: ~/project/node_modules
+      - run: npm test
+      - run: npm run prebuildify
+      - run: ls -lA ~/project
+      - run: npm run clean
+      - run: npm test
+      - run: ls -lAR ./prebuilds
+      - persist_to_workspace:
+          root: ~/project
+          paths:
+            - prebuilds
+  deploy:
+    machine:
+      image: ubuntu-2004:202104-01
+    resource_class: arm.medium
+    steps:
+      - checkout
+      - gh/setup
+      - attach_workspace:
+          at: ~/project
+      - run: ls -lAR
+      - run: mkdir artifacts
+      - run: echo 'export ARCHIVE_NAME="artifacts/$CIRCLE_TAG-$(uname -s)-$(uname -m).tar"' >> $BASH_ENV
+      - run: echo $ARCHIVE_NAME
+      - run: tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds/" linux-arm64
+      - run: ls -lAR artifacts
+      - store_artifacts:
+          path: artifacts
+      - run: gh release upload "$CIRCLE_TAG" "$ARCHIVE_NAME" || gh release create "$CIRCLE_TAG" --prerelease --target "$CIRCLE_SHA1" --notes "$CIRCLE_TAG" "$ARCHIVE_NAME"
+
+workflows:
+  version: 2
+  untagged: # only runs on untagged pushes
+    jobs:
+      - build
+  tagged: # only runs on tagged pushes
+    jobs:
+      - build:
+          filters:
+            tags:
+              only: /v(\d)+.(\d)+.(\d)+$/
+            branches:
+              ignore: /.*/
+      - deploy:
+          context:
+            - GITHUB_CREDS
+          filters:
+            tags:
+              only: /v(\d)+.(\d)+.(\d)+$/
+            branches:
+              ignore: /.*/
+          requires:
+            - build
