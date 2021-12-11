@@ -57,7 +57,7 @@ workflows:
       - build:
           filters:
             tags:
-              only: /v(\d)+.(\d)+.(\d)+/
+              only: /v\d+.\d+.\d+.*/
             branches:
               ignore: /.*/
       - deploy:
@@ -65,7 +65,7 @@ workflows:
             - GITHUB_CREDS
           filters:
             tags:
-              only: /v(\d)+.(\d)+.(\d)+/
+              only: /v\d+.\d+.\d+.*/
             branches:
               ignore: /.*/
           requires:
