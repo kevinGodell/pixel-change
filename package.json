@@ -7,6 +7,7 @@
     "test": "(node -e \"if (!require('fs').existsSync('./pixel-change-test')) { process.exit(1) }\" || git clone https://github.com/kevinGodell/pixel-change-test.git) && node ./pixel-change-test/test.js",
     "prebuildify": "prebuildify --target=node@ --napi=true --strip",
     "prebuildify:ia32": "prebuildify --target=node@ --napi=true --strip --arch=ia32",
+    "linux-arm-upload": "./scripts/linux-arm-upload.sh",
     "download": "prebuildify-ci download",
     "install": "node-gyp-build",
     "build": "npm install --build-from-source",
