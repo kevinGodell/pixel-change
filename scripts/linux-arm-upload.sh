@@ -2,7 +2,7 @@
 
 mkdir artifacts
 
-VERSION=$(node -p "require('./package.json').version")
+VERSION="v$(node -p "require('./package.json').version")"
 
 ARCHIVE_NAME="artifacts/$VERSION-$(uname -s)-$(uname -m).tar"
 
