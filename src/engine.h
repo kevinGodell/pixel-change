@@ -122,7 +122,7 @@ struct CallbackData {
 
 typedef std::function<void(const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData)> ExecuteFunc;
 
-typedef std::function<Napi::Array(const Napi::Env &env, CallbackData &callbackData)> ConvertFunc;
+typedef std::function<Napi::Object(const Napi::Env &env, CallbackData &callbackData)> ConvertFunc;
 
 // absolute value
 inline uint32_t
