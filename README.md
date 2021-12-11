@@ -12,4 +12,4 @@ npm install pixel-change
 ```
 ## usage
 
-see [pam-diff](https://github.com/kevinGodell/pam-diff)
+see [pam-diff](https://github.com/kevinGodell/pam-diff) and [pixel-change-test](https://github.com/kevinGodell/pixel-change-test)
