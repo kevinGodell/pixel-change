@@ -4,10 +4,14 @@
   "description": "Measure differences between 2 identically sized buffer arrays of gray, rgb, or rgba pixels.",
   "main": "index.js",
   "scripts": {
-    "test": "echo test",
-    "prebuild": "prebuildify --target=node@ --napi=true",
+    "test": "(git clone https://github.com/kevinGodell/pixel-change-test.git 2>null || echo \"'pixel-change-test' already exists\") && node ./pixel-change-test/test.js",
+    "prebuildify": "prebuildify --target=node@ --napi=true --strip",
+    "prebuildify:ia32": "prebuildify --target=node@ --napi=true --strip --arch=ia32",
     "download": "prebuildify-ci download",
-    "install": "node-gyp-build"
+    "install": "node-gyp-build",
+    "build": "npm install --build-from-source",
+    "pack": "npm --verbose pack",
+    "clean": "node-gyp clean"
   },
   "repository": {
     "type": "git",
@@ -50,11 +54,14 @@
     "prebuilds"
   ],
   "dependencies": {
-    "node-addon-api": "^1.6.3",
-    "node-gyp-build": "^3.8.0"
+    "node-addon-api": "^4.2.0",
+    "node-gyp-build": "^4.3.0"
   },
   "devDependencies": {
-    "prebuildify": "^2.11.0",
-    "prebuildify-ci": "^1.0.4"
+    "prebuildify": "^4.2.1",
+    "prebuildify-ci": "^1.0.5"
+  },
+  "engines": {
+    "node": ">=10"
   }
 }

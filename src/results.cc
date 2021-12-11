@@ -7,10 +7,12 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // create js object and push to js array
-void
-PercentCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData) {
-    const Napi::HandleScope scope(env);
+Napi::Object
+PercentCallback(const Napi::Env &env, CallbackData &callbackData) {
+    //const Napi::HandleScope scope(env);
+    Napi::Object obj = Napi::Object::New(env);
     Napi::Array resultsJs = Napi::Array::New(env);
+    obj.Set("results", resultsJs);
     const std::vector<Result> &results = callbackData.results;
     if (!results.empty()) {
         uint32_t j = 0;
@@ -27,16 +29,20 @@ PercentCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &ca
             return;
         }*/
     }
-    cb.Call({env.Null(), resultsJs});
+    return obj;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// todo return object as { trigger: [], pixels: <Buffer> }
+
 // create js object and push to js array
-void
-BoundsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData) {
-    const Napi::HandleScope scope(env);
+Napi::Object
+BoundsCallback(const Napi::Env &env, CallbackData &callbackData) {
+    //const Napi::HandleScope scope(env);
+    Napi::Object obj = Napi::Object::New(env);
     Napi::Array resultsJs = Napi::Array::New(env);
+    obj.Set("results", resultsJs);
     const std::vector<Result> &results = callbackData.results;
     if (!results.empty()) {
         uint32_t j = 0;
@@ -48,20 +54,21 @@ BoundsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &cal
         if (pixels.ptr) {
             uint8_t *ptr = pixels.ptr.release();
             const Napi::Buffer<uint8_t> pixelsJs = Napi::Buffer<uint8_t>::New(env, ptr, pixels.size, DeleteExternalData);
-            cb.Call({env.Null(), resultsJs, pixelsJs});
-            return;
+            obj.Set("pixels", pixelsJs);
         }
     }
-    cb.Call({env.Null(), resultsJs});
+    return obj;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // create js object and push to js array
-void
-BlobsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &callbackData) {
-    const Napi::HandleScope scope(env);
+Napi::Object
+BlobsCallback(const Napi::Env &env, CallbackData &callbackData) {
+    //const Napi::HandleScope scope(env);
+    Napi::Object obj = Napi::Object::New(env);
     Napi::Array resultsJs = Napi::Array::New(env);
+    obj.Set("results", resultsJs);
     const std::vector<Result> &results = callbackData.results;
     if (!results.empty()) {
         uint32_t j = 0;
@@ -73,11 +80,10 @@ BlobsCallback(const Napi::Env &env, const Napi::Function &cb, CallbackData &call
         if (pixels.ptr) {
             uint8_t *ptr = pixels.ptr.release();
             const Napi::Buffer<uint8_t> pixelsJs = Napi::Buffer<uint8_t>::New(env, ptr, pixels.size, DeleteExternalData);
-            cb.Call({env.Null(), resultsJs, pixelsJs});
-            return;
+            obj.Set("pixels", pixelsJs);
         }
     }
-    cb.Call({env.Null(), resultsJs});
+    return obj;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -1,4 +1,4 @@
-#include "worker.h"
+#include "callback.h"
 #include "engine.h"
 #include "results.h"
 #include "napi.h"
@@ -6,22 +6,22 @@
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-PixelChangeWorker::PixelChangeWorker(const ExecuteFunc &execute, const CallbackFunc &callback, const Napi::Buffer<uint8_t> &napiBuf0, const Napi::Buffer<uint8_t> &napiBuf1, const Napi::Function &cb)
+AsyncWorkerCallback::AsyncWorkerCallback(const Napi::Function &cb, const ExecuteFunc &execute, const ConvertFunc &convert, const Napi::Buffer<uint8_t> &napiBuf0, const Napi::Buffer<uint8_t> &napiBuf1)
         : Napi::AsyncWorker(cb),
           execute_(execute),
-          callback_(callback),
+          convert_(convert),
           buf0_(napiBuf0.Data()),
           buf1_(napiBuf1.Data()),
           buf0ref_(Napi::Reference<Napi::Buffer<uint8_t>>::New(napiBuf0, 1)),
           buf1ref_(Napi::Reference<Napi::Buffer<uint8_t>>::New(napiBuf1, 1)) {
 }
 
-void PixelChangeWorker::Execute() {
+void AsyncWorkerCallback::Execute() {
     this->execute_(this->buf0_, this->buf1_, this->callbackData_);
 }
 
-void PixelChangeWorker::OnOK() {
-    this->callback_(Env(), Callback().Value(), this->callbackData_);
+void AsyncWorkerCallback::OnOK() {
+    Callback().Call({Env().Null(), this->convert_(Env(), this->callbackData_)});
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

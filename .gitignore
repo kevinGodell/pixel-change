@@ -3,4 +3,5 @@ node_modules/
 build/
 pam-diff.iml
 cmake-build-debug/
+pixel-change-test/
 prebuilds/

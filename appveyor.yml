@@ -1,44 +1,117 @@
+version: '{branch}-{build}'
+
 build: off
 
 skip_branch_with_pr: true
 
-environment:
-  matrix:
-    - nodejs_version: "Current"
-
-configuration: Release
+image:
+  - Ubuntu2004
+  - Visual Studio 2019
+  - macOS-BigSur
 
 platform:
-  - x86
+# - x86
   - x64
 
-image: Visual Studio 2017
+#cache:
+#  - pixel-change-test
 
-install:
-  - SET PATH=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin;%PATH%
-  - ps: Install-Product node $env:nodejs_version $env:platform
-  - npm install
-  - ps: $env:package_version = (Get-Content -Raw -Path package.json | ConvertFrom-Json).version
-  - ps: Update-AppveyorBuild -Version "$env:package_version-$env:APPVEYOR_REPO_BRANCH-$env:APPVEYOR_BUILD_NUMBER"
-
-test_script:
-  - node --version
-  - npm --version
-  - npm test
-
-before_deploy:
-  - npm run prebuild
-  - ps: $env:ARCHIVE_NAME = "$($env:APPVEYOR_REPO_TAG_NAME)-win-$($env:PLATFORM).zip"
-  - ps: 7z a $env:ARCHIVE_NAME .\prebuilds\*
-  - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
+for:
+  -
+    matrix:
+      only:
+        - image: Visual Studio 2019
+#   init:
+#     - ps: Get-Childitem -Path Env:* | Sort-Object Name
+#     - ps: $env:OS
+    install:
+      - ps: Install-Product node Current
+      - npm install
+    before_build:
+      - npm test
+      - npm run clean
+      - ps: if ($env:APPVEYOR_REPO_TAG -eq "false") { Exit-AppveyorBuild }
+    build_script:
+      - npm run prebuildify
+#     - npm run prebuildify:ia32
+    after_build:
+#     - ps: Get-ChildItem -Force -Recurse .\prebuilds
+      - ps: $env:ARCHIVE_NAME="$env:APPVEYOR_REPO_TAG_NAME-$env:OS-$env:PLATFORM.zip"
+#     - ps: $env:ARCHIVE_NAME
+      - ps: 7z a $env:ARCHIVE_NAME ./prebuilds/win32-x64
+#     - ps: 7z a $env:ARCHIVE_NAME ./prebuilds/win32-x64 ./prebuilds/win32-ia32
+      - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
+    before_test:
+      - node --version
+      - npm --version
+      - ps: Remove-Item -Recurse -Path ./build
+    test_script:
+      - npm test
+  -
+    matrix:
+      only:
+        - image: Ubuntu2004
+#   init:
+#     - env
+#     - nvm ls-remote
+#     - uname -s
+    install:
+      - nvm install --lts
+      - npm install
+    before_build:
+      - npm test
+      - npm run clean
+      - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
+    build_script:
+      - npm run prebuildify
+    after_build:
+#     - ls -lAR ./prebuilds
+      - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
+#     - echo $ARCHIVE_NAME
+      - tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds/" linux-x64
+      - appveyor PushArtifact $ARCHIVE_NAME
+    before_test:
+      - node --version
+      - npm --version
+#      - rm -rf ./build
+    test_script:
+      - npm test
+  -
+    matrix:
+      only:
+        - image: macOS-BigSur
+#   init:
+#     - env
+#     - nvm ls-remote
+#     - uname -s
+    install:
+      - nvm install --lts
+      - npm install
+    before_build:
+      - npm test
+      - npm run clean
+      - if [[ "$APPVEYOR_REPO_TAG" == "false" ]]; then appveyor exit; fi
+    build_script:
+      - npm run prebuildify
+    after_build:
+#     - ls -lAR ./prebuilds
+      - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
+#     - echo $ARCHIVE_NAME
+      - tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds" darwin-x64
+      - appveyor PushArtifact $ARCHIVE_NAME
+    before_test:
+      - node --version
+      - npm --version
+#      - rm -rf ./build
+    test_script:
+      - npm test
 
 deploy:
   - provider: GitHub
-    artifact: /.*\.zip/
     draft: false
     prerelease: true
-    auth_token:
-      secure: LmtUDSct7WXwF0+0q8Lm55Wi1A0SLsh+GMOIvu7XondTiBA6Z+TfBHLwhOY681/o
+    force_update: true
     on:
       APPVEYOR_REPO_TAG: true
-      nodejs_version: "Current"
+    auth_token:
+      secure: qwSAMLblPDtsLCl21LFbXc9E4sIaORaYHD9Hqog2ADWGecKVCrJAqnNjyVuubUOJ
