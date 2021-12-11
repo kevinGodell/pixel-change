@@ -10,6 +10,12 @@ Measure differences between 2 identically sized buffer arrays of gray, rgb, or r
 ```
 npm install pixel-change
 ```
+## testing
+```
+git clone https://github.com/kevinGodell/pixel-change.git
+cd pixel-change
+npm install
+npm test
+```
 ## usage
-
 see [pam-diff](https://github.com/kevinGodell/pam-diff) and [pixel-change-test](https://github.com/kevinGodell/pixel-change-test)
