@@ -15,11 +15,14 @@
     "cflags!": [ "-Wno-unused-parameter", "-O3" ],
     "cflags_cc": [ "-std=gnu++11" ],
     "cflags_cc!": [ "-fno-exceptions", "-fno-rtti", "-std=gnu++1y", "-std=gnu++0x" ],
-    "include_dirs": [ "<!@(node -p \"require('node-addon-api').include\")" ],
+    "include_dirs": [ "<!(node -p \"require('node-addon-api').include_dir\")" ],
     "dependencies": [ "<!(node -p \"require('node-addon-api').gyp\")" ],
     "defines": [ "NAPI_CPP_EXCEPTIONS", "NODE_ADDON_API_DISABLE_DEPRECATED", "__NAPI_DEBUG", "GRAY=0xF0", "RED=0xFF", "GREEN=0xFF", "BLUE=0x00" ],
     "conditions": [
     ["OS==\"win\"", {
+      "defines": [
+          "_HAS_EXCEPTIONS=1"
+      ],
       "msvs_settings": {
         "VCCLCompilerTool": {
           "ExceptionHandling": 1
