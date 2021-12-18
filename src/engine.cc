@@ -1,7 +1,7 @@
 #include "engine.h"
 #include "ccl.h"
 #include "results.h"
-#include "napi.h"
+#include <napi.h>
 #include <cstdint>
 #include <string>
 #include <vector>
@@ -130,20 +130,14 @@ GrayRegionPercentExecute(const Config &config, const Region &region, const uint8
 void
 GrayRegionsPercentExecute(const Config &config, const std::vector<Region> &regions, const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) {
 
-    // use size of regions to determine loop
-    const size_t regionsLength = regions.size();
-
     // get reference to results
     std::vector<Result> &results = callbackData.results;
 
     // reserve memory
-    results.reserve(regionsLength);
+    results.reserve(regions.size());
 
     // start looping regions and filling results
-    for (uint32_t r = 0; r < regionsLength; ++r) {
-
-        // get reference to region
-        const Region &region = regions[r];
+    for (const auto &region : regions) {
 
         // create Result in vector
         results.emplace_back(Result{region.name.data()});
@@ -293,20 +287,14 @@ GrayRegionsBoundsExecute(const Config &config, const std::vector<Region> &region
     // will be used after main loop if config.draw == true
     bool flagged = false;
 
-    // use size of regions to determine loop
-    const size_t regionsLength = regions.size();
-
     // get reference to results
     std::vector<Result> &results = callbackData.results;
 
     // reserve memory
-    results.reserve(regionsLength);
+    results.reserve(regions.size());
 
     // start looping regions and filling results
-    for (uint32_t r = 0; r < regionsLength; ++r) {
-
-        // get reference to region
-        const Region &region = regions[r];
+    for (const auto &region : regions) {
 
         // create Result in vector
         results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
@@ -591,20 +579,14 @@ GrayRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions
     // get pointer
     int32_t *labels = up.get();
 
-    // use size of regions to determine loop
-    const size_t regionsLength = regions.size();
-
     // get reference to results
     std::vector<Result> &results = callbackData.results;
 
     // reserve memory
-    results.reserve(regionsLength);
+    results.reserve(regions.size());
 
     // start looping regions and filling results
-    for (uint32_t r = 0; r < regionsLength; ++r) {
-
-        // get reference to region
-        const Region &region = regions[r];
+    for (const auto &region : regions) {
 
         // create Result in vector
         results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
@@ -786,20 +768,14 @@ RgbRegionPercentExecute(const Config &config, const Region &region, const uint8_
 void
 RgbRegionsPercentExecute(const Config &config, const std::vector<Region> &regions, const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) {
 
-    // use size of regions to determine loop
-    const size_t regionsLength = regions.size();
-
     // get reference to results
     std::vector<Result> &results = callbackData.results;
 
     // reserve memory
-    results.reserve(regionsLength);
+    results.reserve(regions.size());
 
     // start looping regions and filling results
-    for (uint32_t r = 0; r < regionsLength; ++r) {
-
-        // get reference to region
-        const Region &region = regions[r];
+    for (const auto &region : regions) {
 
         // create Result in vector
         results.emplace_back(Result{region.name.data()});
@@ -949,20 +925,14 @@ RgbRegionsBoundsExecute(const Config &config, const std::vector<Region> &regions
     // will be used after main loop if config.draw == true
     bool flagged = false;
 
-    // use size of regions to determine loop
-    const size_t regionsLength = regions.size();
-
     // get reference to results
     std::vector<Result> &results = callbackData.results;
 
     // reserve memory
-    results.reserve(regionsLength);
+    results.reserve(regions.size());
 
     // start looping regions and filling results
-    for (uint32_t r = 0; r < regionsLength; ++r) {
-
-        // get reference to region
-        const Region &region = regions[r];
+    for (const auto &region : regions) {
 
         // create Result in vector
         results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
@@ -1247,20 +1217,14 @@ RgbRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions,
     // get pointer
     int32_t *labels = up.get();
 
-    // use size of regions to determine loop
-    const size_t regionsLength = regions.size();
-
     // get reference to results
     std::vector<Result> &results = callbackData.results;
 
     // reserve memory
-    results.reserve(regionsLength);
+    results.reserve(regions.size());
 
     // start looping regions and filling results
-    for (uint32_t r = 0; r < regionsLength; ++r) {
-
-        // get reference to region
-        const Region &region = regions[r];
+    for (const auto &region : regions) {
 
         // create Result in vector
         results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
