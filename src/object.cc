@@ -3,7 +3,7 @@
 #include "promise.h"
 #include "engine.h"
 #include "results.h"
-#include "napi.h"
+#include <napi.h>
 #include <cstdint>
 #include <string>
 

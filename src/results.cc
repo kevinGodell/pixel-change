@@ -1,6 +1,6 @@
 #include "results.h"
 #include "engine.h"
-#include "napi.h"
+#include <napi.h>
 #include <cstdint>
 #include <vector>
 
