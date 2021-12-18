@@ -9,8 +9,6 @@ set(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Wendif-labels -W -Werror -Wextra -Wpedant
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 
 include_directories(node_modules/node-addon-api)
-include_directories(node_modules/node-addon-api/src)
-include_directories(node_modules/node-addon-api/external-napi)
 
 #file(GLOB SOURCES "src/*.cc")
 
