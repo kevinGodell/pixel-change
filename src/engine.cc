@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <algorithm>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -60,11 +61,11 @@ GrayAllPercentExecute(const Config &config, const All &all, const uint8_t *buf0,
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{all.name.data()});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{all.name.data()});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking percent
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
