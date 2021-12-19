@@ -2,7 +2,8 @@
 #include "engine.h"
 #include <napi.h>
 
-#ifdef NAPI_DEBUG
+
+#if defined NAPI_DEBUG && NAPI_DEBUG == 1
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -30,7 +31,7 @@ Napi::Value CreateObject(const Napi::CallbackInfo &info) {
         throw Napi::Error::New(configObj.Env(), "Response must be a string set to percent, bounds, or blobs");
     }
 
-#ifdef NAPI_DEBUG
+#if defined NAPI_DEBUG && NAPI_DEBUG == 1
     cout << "c++ version : " << __cplusplus << endl;
     // show system size values for types being used
     cout << "size of bool : " << sizeof(bool) << endl;
