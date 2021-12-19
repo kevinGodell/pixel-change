@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 
 project(pixel-change)
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 17)
 
 set(GCC_COVERAGE_COMPILE_FLAGS "-Wall -Wendif-labels -W -Werror -Wextra -Wpedantic -Wunused-parameter")
 
