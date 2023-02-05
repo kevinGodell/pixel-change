@@ -17,7 +17,7 @@
     "cflags_cc!": [ "-fno-exceptions", "-fno-rtti", "-std=gnu++1y", "-std=gnu++0x" ],
     "include_dirs": [ "<!(node -p \"require('node-addon-api').include_dir\")" ],
     "dependencies": [ "<!(node -p \"require('node-addon-api').gyp\")" ],
-    "defines": [ "NAPI_CPP_EXCEPTIONS", "NODE_ADDON_API_DISABLE_DEPRECATED", "NAPI_DEBUG=1", "GRAY=0xF0", "RED=0xFF", "GREEN=0xFF", "BLUE=0x00" ],
+    "defines": [ "NAPI_CPP_EXCEPTIONS", "NODE_ADDON_API_DISABLE_DEPRECATED", "NAPI_DEBUG=1", "GRAY=0xF0", "RED=0xFF", "GREEN=0xFF", "BLUE=0x00", "PACKAGE_NAME=\"<!(node -p \"require('./package.json').name\")\"", "PACKAGE_VERSION=\"<!(node -p \"require('./package.json').version\")\"", "NODE_VERSION=\"<!(node -p process.versions.node)\"" ],
     "conditions": [
     ["OS==\"win\"", {
       "defines": [
