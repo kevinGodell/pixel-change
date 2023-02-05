@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <algorithm>
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -99,11 +98,11 @@ GrayRegionPercentExecute(const Config &config, const Region &region, const uint8
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{region.name.data()});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{region.name.data()});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking percent
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -140,11 +139,11 @@ GrayRegionsPercentExecute(const Config &config, const std::vector<Region> &regio
     // start looping regions and filling results
     for (const auto &region : regions) {
 
-        // create Result in vector
-        results.emplace_back(Result{region.name.data()});
+        // create Result in vector and get reference to it
+        Result &result = results.emplace_back(Result{region.name.data()});
 
         // get reference to last Result in vector
-        Result &result = results.back();
+        // Result &result = results.back();
 
         // loop pixels while tracking percent
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -179,11 +178,11 @@ GrayAllBoundsExecute(const Config &config, const All &all, const uint8_t *buf0, 
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking bounds and percent
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
@@ -235,11 +234,11 @@ GrayRegionBoundsExecute(const Config &config, const Region &region, const uint8_
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking percent and bounds
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -297,11 +296,11 @@ GrayRegionsBoundsExecute(const Config &config, const std::vector<Region> &region
     // start looping regions and filling results
     for (const auto &region : regions) {
 
-        // create Result in vector
-        results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+        // create Result in vector and get reference to it
+        Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
         // get reference to last Result in vector
-        Result &result = results.back();
+        // Result &result = results.back();
 
         // loop pixels while tracking pixels and bounds
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -367,11 +366,11 @@ GrayAllBlobsExecute(const Config &config, const All &all, const uint8_t *buf0, c
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // all pixels set to -1 will those set to -2 will be ignored
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
@@ -475,11 +474,11 @@ GrayRegionBlobsExecute(const Config &config, const Region &region, const uint8_t
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // all pixels set to -1 will those set to -2 will be ignored
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -589,11 +588,11 @@ GrayRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions
     // start looping regions and filling results
     for (const auto &region : regions) {
 
-        // create Result in vector
-        results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+        // create Result in vector and get reference to it
+        Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
         // get reference to last Result in vector
-        Result &result = results.back();
+        // Result &result = results.back();
 
         // all pixels set to -1 will those set to -2 will be ignored
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -699,11 +698,11 @@ RgbAllPercentExecute(const Config &config, const All &all, const uint8_t *buf0, 
     // reserve memory
     results.reserve(1);
 
-    // create Result inside vector
-    results.emplace_back(Result{all.name.data()});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{all.name.data()});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking percent
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
@@ -737,11 +736,11 @@ RgbRegionPercentExecute(const Config &config, const Region &region, const uint8_
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{region.name.data()});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{region.name.data()});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking percent
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -778,11 +777,11 @@ RgbRegionsPercentExecute(const Config &config, const std::vector<Region> &region
     // start looping regions and filling results
     for (const auto &region : regions) {
 
-        // create Result in vector
-        results.emplace_back(Result{region.name.data()});
+        // create Result in vector and get reference to it
+        Result &result = results.emplace_back(Result{region.name.data()});
 
         // get reference to last Result in vector
-        Result &result = results.back();
+        // Result &result = results.back();
 
         // loop pixels while tracking percent
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -817,11 +816,11 @@ RgbAllBoundsExecute(const Config &config, const All &all, const uint8_t *buf0, c
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking bounds and percent
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
@@ -873,11 +872,11 @@ RgbRegionBoundsExecute(const Config &config, const Region &region, const uint8_t
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // loop pixels while tracking percent and bounds
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -935,11 +934,11 @@ RgbRegionsBoundsExecute(const Config &config, const std::vector<Region> &regions
     // start looping regions and filling results
     for (const auto &region : regions) {
 
-        // create Result in vector
-        results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+        // create Result in vector and get reference to it
+        Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
         // get reference to last Result in vector
-        Result &result = results.back();
+        // Result &result = results.back();
 
         // loop pixels while tracking pixels and bounds
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -1005,11 +1004,11 @@ RgbAllBlobsExecute(const Config &config, const All &all, const uint8_t *buf0, co
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{all.name.data(), Bounds{config.width - 1, 0, config.height - 1, 0}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // all pixels set to -1 will those set to -2 will be ignored
     for (uint32_t y = 0, p = 0; y < config.height; ++y) {
@@ -1113,11 +1112,11 @@ RgbRegionBlobsExecute(const Config &config, const Region &region, const uint8_t 
     // reserve memory
     results.reserve(1);
 
-    // create Result in vector
-    results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+    // create Result in vector and get reference to it
+    Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
     // get reference to last Result in vector
-    Result &result = results.back();
+    // Result &result = results.back();
 
     // all pixels set to -1 will those set to -2 will be ignored
     for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -1227,11 +1226,11 @@ RgbRegionsBlobsExecute(const Config &config, const std::vector<Region> &regions,
     // start looping regions and filling results
     for (const auto &region : regions) {
 
-        // create Result in vector
-        results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
+        // create Result in vector and get reference to it
+        Result &result = results.emplace_back(Result{region.name.data(), Bounds{region.bounds.maxX, region.bounds.minX, region.bounds.maxY, region.bounds.minY}});
 
         // get reference to last Result in vector
-        Result &result = results.back();
+        // Result &result = results.back();
 
         // all pixels set to -1 will those set to -2 will be ignored
         for (uint32_t y = region.bounds.minY; y <= region.bounds.maxY; ++y) {
@@ -1341,7 +1340,7 @@ EngineType(const uint32_t depth, const uint32_t regionsLength, const std::string
 
 // set execute and callback functions
 void
-Configure(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFunc &convertFunc, uint32_t &bufLength) {
+Configure(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFunc &convertFunc, uint32_t &bufLength, std::string &engineName) {
 
     // width, height, depth. required.
     const uint32_t width = configObj.Get("width").As<Napi::Number>().Uint32Value();
@@ -1374,108 +1373,126 @@ Configure(const Napi::Object &configObj, ExecuteFunc &executeFunc, ConvertFunc &
             const All all = All{"all", difference, percent};
             executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllPercentExecute(config, all, buf0, buf1, callbackData); };
             convertFunc = &PercentCallback;
+            engineName = "gray_all_percent";
             break;
         }
         case GRAY_ALL_BOUNDS: {//1
             const All all = All{"all", difference, percent};
             executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllBoundsExecute(config, all, buf0, buf1, callbackData); };
             convertFunc = &BoundsCallback;
+            engineName = "gray_all_bounds";
             break;
         }
         case GRAY_ALL_BLOBS: {//2
             const All all = All{"all", difference, percent};
             executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayAllBlobsExecute(config, all, buf0, buf1, callbackData); };
             convertFunc = &BlobsCallback;
+            engineName = "gray_all_blobs";
             break;
         }
         case GRAY_REGION_PERCENT: {//10
             const Region region = RegionJsToCpp(configObj.Get("regions").As<Napi::Array>().Get(0u).As<Napi::Object>());
             executeFunc = [config, region](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayRegionPercentExecute(config, region, buf0, buf1, callbackData); };
             convertFunc = &PercentCallback;
+            engineName = "gray_region_percent";
             break;
         }
         case GRAY_REGION_BOUNDS: {//11
             const Region region = RegionJsToCpp(configObj.Get("regions").As<Napi::Array>().Get(0u).As<Napi::Object>());
             executeFunc = [config, region](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayRegionBoundsExecute(config, region, buf0, buf1, callbackData); };
             convertFunc = &BoundsCallback;
+            engineName = "gray_region_bounds";
             break;
         }
         case GRAY_REGION_BLOBS: {//12
             const Region region = RegionJsToCpp(configObj.Get("regions").As<Napi::Array>().Get(0u).As<Napi::Object>());
             executeFunc = [config, region](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayRegionBlobsExecute(config, region, buf0, buf1, callbackData); };
             convertFunc = &BlobsCallback;
+            engineName = "gray_region_blobs";
             break;
         }
         case GRAY_REGIONS_PERCENT: {//20
             const std::vector<Region> regions = RegionsJsToCpp(configObj.Get("regions").As<Napi::Array>());
             executeFunc = [config, regions](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayRegionsPercentExecute(config, regions, buf0, buf1, callbackData); };
             convertFunc = &PercentCallback;
+            engineName = "gray_regions_percent";
             break;
         }
         case GRAY_REGIONS_BOUNDS: {//21
             const std::vector<Region> regions = RegionsJsToCpp(configObj.Get("regions").As<Napi::Array>());
             executeFunc = [config, regions](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayRegionsBoundsExecute(config, regions, buf0, buf1, callbackData); };
             convertFunc = &BoundsCallback;
+            engineName = "gray_regions_bounds";
             break;
         }
         case GRAY_REGIONS_BLOBS: {//22
             const std::vector<Region> regions = RegionsJsToCpp(configObj.Get("regions").As<Napi::Array>());
             executeFunc = [config, regions](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { GrayRegionsBlobsExecute(config, regions, buf0, buf1, callbackData); };
             convertFunc = &BlobsCallback;
+            engineName = "gray_regions_blobs";
             break;
         }
         case RGB_ALL_PERCENT: {//100
             const All all = All{"all", difference, percent};
             executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllPercentExecute(config, all, buf0, buf1, callbackData); };
             convertFunc = &PercentCallback;
+            engineName = "rgb_all_percent";
             break;
         }
         case RGB_ALL_BOUNDS: {//101
             const All all = All{"all", difference, percent};
             executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllBoundsExecute(config, all, buf0, buf1, callbackData); };
             convertFunc = &BoundsCallback;
+            engineName = "rgb_all_bounds";
             break;
         }
         case RGB_ALL_BLOBS: {//102
             const All all = All{"all", difference, percent};
             executeFunc = [config, all](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbAllBlobsExecute(config, all, buf0, buf1, callbackData); };
             convertFunc = &BlobsCallback;
+            engineName = "rgb_all_blobs";
             break;
         }
         case RGB_REGION_PERCENT: {//110
             const Region region = RegionJsToCpp(configObj.Get("regions").As<Napi::Array>().Get(0u).As<Napi::Object>());
             executeFunc = [config, region](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbRegionPercentExecute(config, region, buf0, buf1, callbackData); };
             convertFunc = &PercentCallback;
+            engineName = "rgb_region_percent";
             break;
         }
         case RGB_REGION_BOUNDS: {//111
             const Region region = RegionJsToCpp(configObj.Get("regions").As<Napi::Array>().Get(0u).As<Napi::Object>());
             executeFunc = [config, region](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbRegionBoundsExecute(config, region, buf0, buf1, callbackData); };
             convertFunc = &BoundsCallback;
+            engineName = "rgb_region_bounds";
             break;
         }
         case RGB_REGION_BLOBS: {//112
             const Region region = RegionJsToCpp(configObj.Get("regions").As<Napi::Array>().Get(0u).As<Napi::Object>());
             executeFunc = [config, region](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbRegionBlobsExecute(config, region, buf0, buf1, callbackData); };
             convertFunc = &BlobsCallback;
+            engineName = "rgb_region_blobs";
             break;
         }
         case RGB_REGIONS_PERCENT: {//120
             const std::vector<Region> regions = RegionsJsToCpp(configObj.Get("regions").As<Napi::Array>());
             executeFunc = [config, regions](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbRegionsPercentExecute(config, regions, buf0, buf1, callbackData); };
             convertFunc = &PercentCallback;
+            engineName = "rgb_regions_percent";
             break;
         }
         case RGB_REGIONS_BOUNDS: {//121
             const std::vector<Region> regions = RegionsJsToCpp(configObj.Get("regions").As<Napi::Array>());
             executeFunc = [config, regions](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbRegionsBoundsExecute(config, regions, buf0, buf1, callbackData); };
             convertFunc = &BoundsCallback;
+            engineName = "rgb_regions_bounds";
             break;
         }
         case RGB_REGIONS_BLOBS: {//122
             const std::vector<Region> regions = RegionsJsToCpp(configObj.Get("regions").As<Napi::Array>());
             executeFunc = [config, regions](const uint8_t *buf0, const uint8_t *buf1, CallbackData &callbackData) -> void { RgbRegionsBlobsExecute(config, regions, buf0, buf1, callbackData); };
             convertFunc = &BlobsCallback;
+            engineName = "rgb_regions_blobs";
             break;
         }
         default:
