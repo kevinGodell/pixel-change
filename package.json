@@ -6,6 +6,10 @@
   "scripts": {
     "test": "(node -e \"if (!require('fs').existsSync('./pixel-change-test')) { process.exit(1) }\" || git clone https://github.com/kevinGodell/pixel-change-test.git) && node ./pixel-change-test/test.js",
     "prebuildify": "prebuildify --target=node@ --napi=true --strip",
+    "prebuildify:10": "prebuildify --target=node@10.16.0 --napi=true --strip",
+    "prebuildify:12": "prebuildify --target=node@12.22.0 --napi=true --strip",
+    "prebuildify:14": "prebuildify --target=node@14.17.0 --napi=true --strip",
+    "prebuildify:16": "prebuildify --target=node@16.0.0 --napi=true --strip",
     "prebuildify:ia32": "prebuildify --target=node@ --napi=true --strip --arch=ia32",
     "linux-arm-upload": "./scripts/linux-arm-upload.sh",
     "download": "prebuildify-ci download",
@@ -55,11 +59,11 @@
     "prebuilds"
   ],
   "dependencies": {
-    "node-addon-api": "^4.2.0",
-    "node-gyp-build": "^4.3.0"
+    "node-addon-api": "^5.1.0",
+    "node-gyp-build": "^4.6.0"
   },
   "devDependencies": {
-    "prebuildify": "^4.2.1",
+    "prebuildify": "^5.0.1",
     "prebuildify-ci": "^1.0.5"
   },
   "engines": {
