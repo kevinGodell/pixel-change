@@ -7,6 +7,9 @@
 #include <iostream>
 using std::cout;
 using std::endl;
+#define DEBUG_BUILD true
+#else
+#define DEBUG_BUILD false
 #endif
 
 Napi::Value CreateObject(const Napi::CallbackInfo &info) {
@@ -31,7 +34,8 @@ Napi::Value CreateObject(const Napi::CallbackInfo &info) {
         throw Napi::Error::New(configObj.Env(), "Response must be a string set to percent, bounds, or blobs");
     }
 
-#if defined NAPI_DEBUG && NAPI_DEBUG == 1
+//#if defined NAPI_DEBUG && NAPI_DEBUG == 1
+#if DEBUG_BUILD == true
     cout << "c++ version : " << __cplusplus << endl;
     // show system size values for types being used
     cout << "size of bool : " << sizeof(bool) << endl;
@@ -96,12 +100,12 @@ Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports.Set("current", current);
 
     Napi::Object build = Napi::Object::New(env);
-    //build.Set(NAME, VERSION);
-    build.Set("cplusplus", __cplusplus);
     build.Set("napi", NAPI_VERSION);
     build.Set("node", NODE_VERSION);
+    build.Set("cplusplus", __cplusplus);
     build.Set("date", __DATE__);
     build.Set("time", __TIME__);
+    build.Set("debug", DEBUG_BUILD);
     exports.Set("build", build);
 
     PixelChange::Init(env);
