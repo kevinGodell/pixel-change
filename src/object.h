@@ -19,6 +19,10 @@ private:
 
     Napi::Value CompareSync(const Napi::CallbackInfo &info);
 
+    Napi::Value GetBufLen(const Napi::CallbackInfo &info);
+
+    Napi::Value GetEngineName(const Napi::CallbackInfo &info);
+
     static Napi::FunctionReference constructor;
 
     ExecuteFunc execute_;
@@ -26,6 +30,8 @@ private:
     ConvertFunc convert_;
 
     uint32_t bufLength_;
+
+    std::string engineName_;
 };
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

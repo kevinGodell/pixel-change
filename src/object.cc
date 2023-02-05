@@ -14,7 +14,7 @@ PixelChange::PixelChange(const Napi::CallbackInfo &info)
     const Napi::Env env = info.Env();
     const Napi::HandleScope scope(env);
     const Napi::Object configObj = info[0].As<Napi::Object>();
-    Configure(configObj, this->execute_, this->convert_, this->bufLength_);
+    Configure(configObj, this->execute_, this->convert_, this->bufLength_, this->engineName_);
 }
 
 Napi::FunctionReference PixelChange::constructor;
@@ -22,16 +22,28 @@ Napi::FunctionReference PixelChange::constructor;
 void PixelChange::Init(const Napi::Env &env) {
     const Napi::HandleScope scope(env);
     const Napi::Function func = DefineClass(env, "PixelChange", {
-            InstanceMethod("compare", &PixelChange::Compare),
-            InstanceMethod("compareSync", &PixelChange::CompareSync)
+        InstanceMethod<&PixelChange::Compare>("compare", static_cast<napi_property_attributes>(napi_enumerable)),
+        InstanceMethod<&PixelChange::CompareSync>("compareSync", static_cast<napi_property_attributes>(napi_enumerable)),
+        InstanceAccessor<&PixelChange::GetBufLen>("bufLen", static_cast<napi_property_attributes>(napi_enumerable)),
+        InstanceAccessor<&PixelChange::GetEngineName>("engineName", static_cast<napi_property_attributes>(napi_enumerable)),
     });
     PixelChange::constructor = Napi::Persistent(func);
     PixelChange::constructor.SuppressDestruct();
 }
 
+Napi::Value PixelChange::GetEngineName(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    return Napi::String::New(env, this->engineName_);
+}
+
+Napi::Value PixelChange::GetBufLen(const Napi::CallbackInfo &info) {
+    Napi::Env env = info.Env();
+    return Napi::Number::New(env, this->bufLength_);
+}
+
 Napi::Object PixelChange::NewInstance(const Napi::Env &env, const Napi::Object &config) {
     Napi::EscapableHandleScope scope(env);
-    const Napi::Object object = PixelChange::constructor.New({config});
+    Napi::Object object = PixelChange::constructor.New({config});
     return scope.Escape(napi_value(object)).ToObject();
 }
 
