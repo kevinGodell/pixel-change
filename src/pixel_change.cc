@@ -1,7 +1,7 @@
 #include "object.h"
 #include "engine.h"
 #include <napi.h>
-
+#include <string>
 
 #if defined NAPI_DEBUG && NAPI_DEBUG == 1
 #include <iostream>
@@ -82,7 +82,30 @@ Napi::Value CreateObject(const Napi::CallbackInfo &info) {
 
 Napi::Object Init(Napi::Env env, Napi::Object exports) {
     exports = Napi::Function::New(env, CreateObject, "CreateObject");
+    exports.Set("CreateObject", Napi::Function::New(env, CreateObject));
+
+    Napi::Object package = Napi::Object::New(env);
+    package.Set("name", PACKAGE_NAME);
+    package.Set("version", PACKAGE_VERSION);
+    exports.Set("package", package);
+
+    Napi::Object current = Napi::Object::New(env);
+    current.Set("napi", Napi::VersionManagement::GetNapiVersion(env));
+    auto node = Napi::VersionManagement::GetNodeVersion(env);
+    current.Set("node", std::to_string(node->major) + "." + std::to_string(node->minor) + "." + std::to_string(node->patch));
+    exports.Set("current", current);
+
+    Napi::Object build = Napi::Object::New(env);
+    //build.Set(NAME, VERSION);
+    build.Set("cplusplus", __cplusplus);
+    build.Set("napi", NAPI_VERSION);
+    build.Set("node", NODE_VERSION);
+    build.Set("date", __DATE__);
+    build.Set("time", __TIME__);
+    exports.Set("build", build);
+
     PixelChange::Init(env);
+
     return exports;
 }
 
