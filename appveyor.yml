@@ -114,4 +114,4 @@ deploy:
     on:
       APPVEYOR_REPO_TAG: true
     auth_token:
-      secure: qwSAMLblPDtsLCl21LFbXc9E4sIaORaYHD9Hqog2ADWGecKVCrJAqnNjyVuubUOJ
+      secure: AceIXxoZshw6mTg16yFH8IDPsUc1CtybbGfBC6e1AmBtwzIWvlI2asGj2uGVVz8K
