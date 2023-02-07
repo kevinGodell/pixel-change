@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  node: circleci/node@5.1.0
-  gh: circleci/github-cli@2.2.0
+  node: circleci/node@4.7
+  gh: circleci/github-cli@1.0.4
 
 jobs:
   build:
