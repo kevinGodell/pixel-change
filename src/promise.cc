@@ -18,7 +18,7 @@ AsyncWorkerPromise::AsyncWorkerPromise(const Napi::Env &env, const ExecuteFunc &
 }
 
 Napi::Promise AsyncWorkerPromise::getPromise() const {
-    return deferred_.Promise();
+    return this->deferred_.Promise();
 }
 
 void AsyncWorkerPromise::Execute() {
@@ -26,7 +26,7 @@ void AsyncWorkerPromise::Execute() {
 }
 
 void AsyncWorkerPromise::OnOK() {
-    deferred_.Resolve(this->convert_(Env(), this->callbackData_));
+    this->deferred_.Resolve(this->convert_(Env(), this->callbackData_));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
