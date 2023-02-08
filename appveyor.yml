@@ -21,6 +21,7 @@ for:
     matrix:
       only:
         - image: Visual Studio 2022
+          platform: x64
 #   init:
 #     - ps: Get-Childitem -Path Env:* | Sort-Object Name
 #     - ps: $env:OS
@@ -51,6 +52,7 @@ for:
     matrix:
       only:
         - image: Ubuntu2004
+          platform: x64
 #   init:
 #     - env
 #     - nvm ls-remote
@@ -80,6 +82,7 @@ for:
     matrix:
       only:
         - image: macos-monterey
+          platform: x64
 #   init:
 #     - env
 #     - nvm ls-remote
