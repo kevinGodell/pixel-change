@@ -6,7 +6,7 @@ skip_branch_with_pr: true
 
 image:
   - Ubuntu2004
-  - Visual Studio 2019
+  - Visual Studio 2022
   - macOS-BigSur
 
 platform:
@@ -20,7 +20,7 @@ for:
   -
     matrix:
       only:
-        - image: Visual Studio 2019
+        - image: Visual Studio 2022
 #   init:
 #     - ps: Get-Childitem -Path Env:* | Sort-Object Name
 #     - ps: $env:OS
