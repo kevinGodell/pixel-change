@@ -21,8 +21,7 @@ for:
     matrix:
       only:
         - image: Visual Studio 2022
-      except:
-         - platform: x86
+          platform: x64
 #   init:
 #     - ps: Get-Childitem -Path Env:* | Sort-Object Name
 #     - ps: $env:OS
