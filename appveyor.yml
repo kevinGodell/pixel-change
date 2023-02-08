@@ -10,7 +10,7 @@ image:
   - macos-monterey
 
 platform:
-  - x86
+#  - x86
   - x64
 
 #cache:
@@ -21,7 +21,6 @@ for:
     matrix:
       only:
         - image: Visual Studio 2022
-#         platform: x64
 #   init:
 #     - ps: Get-Childitem -Path Env:* | Sort-Object Name
 #     - ps: $env:OS
@@ -39,7 +38,7 @@ for:
 #     - ps: Get-ChildItem -Force -Recurse .\prebuilds
       - ps: $env:ARCHIVE_NAME="$env:APPVEYOR_REPO_TAG_NAME-$env:OS-$env:PLATFORM.zip"
 #     - ps: $env:ARCHIVE_NAME
-      - ps: 7z a $env:ARCHIVE_NAME ./prebuilds/win32-*
+      - ps: 7z a $env:ARCHIVE_NAME ./prebuilds/win32-x64
 #     - ps: 7z a $env:ARCHIVE_NAME ./prebuilds/win32-x64 ./prebuilds/win32-ia32
       - ps: Push-AppveyorArtifact $env:ARCHIVE_NAME
     before_test:
@@ -52,7 +51,6 @@ for:
     matrix:
       only:
         - image: Ubuntu2004
-#         platform: x64
 #   init:
 #     - env
 #     - nvm ls-remote
@@ -70,7 +68,7 @@ for:
 #     - ls -lAR ./prebuilds
       - ARCHIVE_NAME="$APPVEYOR_REPO_TAG_NAME-$(uname -s)-$(uname -m).tar"
 #     - echo $ARCHIVE_NAME
-      - tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds/" linux-*
+      - tar --create --verbose --file="$ARCHIVE_NAME" --directory "./prebuilds/" linux-x64
       - appveyor PushArtifact $ARCHIVE_NAME
     before_test:
       - node --version
@@ -82,7 +80,6 @@ for:
     matrix:
       only:
         - image: macos-monterey
-          platform: x64
 #   init:
 #     - env
 #     - nvm ls-remote
