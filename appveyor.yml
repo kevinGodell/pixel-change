@@ -6,8 +6,8 @@ skip_branch_with_pr: true
 
 image:
   - Ubuntu2004
-  - Visual Studio 2022
-  - macos-monterey
+  - Visual Studio 2019
+  - macOS-BigSur
 
 platform:
 # - x86
