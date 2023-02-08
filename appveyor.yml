@@ -25,7 +25,7 @@ for:
 #     - ps: Get-Childitem -Path Env:* | Sort-Object Name
 #     - ps: $env:OS
     install:
-      - ps: Install-Product node Current
+      - ps: Install-Product node lts
       - npm install
     before_build:
       - npm test
