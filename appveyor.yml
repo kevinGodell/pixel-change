@@ -7,7 +7,7 @@ skip_branch_with_pr: true
 image:
   - Ubuntu2004
   - Visual Studio 2022
-  - macOS-BigSur
+  - macos-monterey
 
 platform:
 # - x86
@@ -79,7 +79,7 @@ for:
   -
     matrix:
       only:
-        - image: macOS-BigSur
+        - image: macos-monterey
 #   init:
 #     - env
 #     - nvm ls-remote
